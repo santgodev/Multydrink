@@ -1,0 +1,7 @@
+Transcripciones aportadas por el usuario a ChatGPT el 23-10-2026.
+NO son transcripciones verificadas ni subtítulos listos para publicar.
+
+Copiar estos tres .txt a: assets/multydrink/testimonios/
+Codex debe contrastarlos con los MP4, corregir errores de reconocimiento, crear subtítulos VTT con tiempos reales y miniaturas a partir del video (no generar tiempos a partir de estimaciones).
+NO publicar videos, nombres, citas ni subtítulos hasta comprobar autorización de uso comercial y revisar afirmaciones de salud/eficacia.
+Preservar el texto original en estos TXT como referencia sin cambiar su contenido silenciosamente.

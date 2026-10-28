@@ -1,0 +1,294 @@
+[
+  {
+    "key": "individual",
+    "original": "assets/multydrink/producto/caja-principal.png",
+    "originalBytes": 1507207,
+    "sha256": "91824c72356c3674dff885715d5c3d1a5af50740865f4b58d67e09722acde318",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/caja-principal-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 8888
+      },
+      {
+        "src": "assets/multydrink/optimized/caja-principal-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 46528
+      },
+      {
+        "src": "assets/multydrink/optimized/caja-principal-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 137110
+      },
+      {
+        "src": "assets/multydrink/optimized/caja-principal-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 200910
+      }
+    ]
+  },
+  {
+    "key": "alternateBox",
+    "original": "assets/multydrink/producto/caja-alternativa.png",
+    "originalBytes": 2040629,
+    "sha256": "16b66839209f61abe9e7dbd69bd467b6fd2938e0bcce314116581b79c16d5224",
+    "originalWidth": 1536,
+    "originalHeight": 1024,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/caja-alternativa-160.webp",
+        "width": 160,
+        "height": 107,
+        "bytes": 6994
+      },
+      {
+        "src": "assets/multydrink/optimized/caja-alternativa-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 27928
+      },
+      {
+        "src": "assets/multydrink/optimized/caja-alternativa-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 74686
+      },
+      {
+        "src": "assets/multydrink/optimized/caja-alternativa-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 123896
+      }
+    ]
+  },
+  {
+    "key": "nutritionLabel",
+    "original": "assets/multydrink/nutricion/tabla-nutricional.png",
+    "originalBytes": 2058061,
+    "sha256": "266548a899280155d60dcbbf117dc9f7d86e948a4184a2c8f875cc8b10e52950",
+    "originalWidth": 975,
+    "originalHeight": 1613,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/tabla-nutricional-975.webp",
+        "width": 975,
+        "height": 1613,
+        "bytes": 1270164
+      }
+    ]
+  },
+  {
+    "key": "enfoque",
+    "original": "assets/multydrink/lifestyle/trabajo.png",
+    "originalBytes": 1998439,
+    "sha256": "4a3bd05fc731b59039dfb2ac09ab2952a0bc494329323db2a026742da251e56f",
+    "originalWidth": 941,
+    "originalHeight": 1672,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/trabajo-160.webp",
+        "width": 160,
+        "height": 284,
+        "bytes": 14356
+      },
+      {
+        "src": "assets/multydrink/optimized/trabajo-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 67198
+      },
+      {
+        "src": "assets/multydrink/optimized/trabajo-941.webp",
+        "width": 941,
+        "height": 1672,
+        "bytes": 159158
+      }
+    ]
+  },
+  {
+    "key": "energia",
+    "original": "assets/multydrink/lifestyle/actividad-fisica.png",
+    "originalBytes": 2512820,
+    "sha256": "eb1b5a7070aea1b453c6def5dfc1ea74017e253f1a1525ef8b5cea66fc08f0f8",
+    "originalWidth": 941,
+    "originalHeight": 1672,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/actividad-fisica-160.webp",
+        "width": 160,
+        "height": 284,
+        "bytes": 21038
+      },
+      {
+        "src": "assets/multydrink/optimized/actividad-fisica-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 126486
+      },
+      {
+        "src": "assets/multydrink/optimized/actividad-fisica-941.webp",
+        "width": 941,
+        "height": 1672,
+        "bytes": 313046
+      }
+    ]
+  },
+  {
+    "key": "memoria",
+    "original": "assets/multydrink/lifestyle/estudio.png",
+    "originalBytes": 1940517,
+    "sha256": "f21560f5dfd2edb885758f0bfb6f15efce5f3bfab8767f9ad998509147ab3eba",
+    "originalWidth": 941,
+    "originalHeight": 1672,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/estudio-160.webp",
+        "width": 160,
+        "height": 284,
+        "bytes": 15342
+      },
+      {
+        "src": "assets/multydrink/optimized/estudio-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 71256
+      },
+      {
+        "src": "assets/multydrink/optimized/estudio-941.webp",
+        "width": 941,
+        "height": 1672,
+        "bytes": 164934
+      }
+    ]
+  },
+  {
+    "key": "bienestar",
+    "original": "assets/multydrink/lifestyle/bienestar.png",
+    "originalBytes": 2367418,
+    "sha256": "6cd691ace68eea2c3b99fe028da7c9e18872fedfdae9c79e700048d083f0a561",
+    "originalWidth": 941,
+    "originalHeight": 1672,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/bienestar-160.webp",
+        "width": 160,
+        "height": 284,
+        "bytes": 20234
+      },
+      {
+        "src": "assets/multydrink/optimized/bienestar-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 106532
+      },
+      {
+        "src": "assets/multydrink/optimized/bienestar-941.webp",
+        "width": 941,
+        "height": 1672,
+        "bytes": 263346
+      }
+    ]
+  },
+  {
+    "key": "comparisonFirst",
+    "original": "assets/multydrink/lifestyle/antes-cansancio.png",
+    "originalBytes": 2081949,
+    "sha256": "f890419f516810624dcaabd1375c79bcd78352c78180baed48124a3ae110b8eb",
+    "originalWidth": 1448,
+    "originalHeight": 1086,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/antes-cansancio-160.webp",
+        "width": 160,
+        "height": 120,
+        "bytes": 7496
+      },
+      {
+        "src": "assets/multydrink/optimized/antes-cansancio-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 37174
+      },
+      {
+        "src": "assets/multydrink/optimized/antes-cansancio-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 96330
+      },
+      {
+        "src": "assets/multydrink/optimized/antes-cansancio-1280.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 136162
+      }
+    ]
+  },
+  {
+    "key": "comparisonSecond",
+    "original": "assets/multydrink/lifestyle/despues-energia.png",
+    "originalBytes": 2132900,
+    "sha256": "e3fc725b82dc6f1b686d1283e1d578388c68dffbe009a9af5081c4ce7272d1e1",
+    "originalWidth": 1448,
+    "originalHeight": 1086,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/despues-energia-160.webp",
+        "width": 160,
+        "height": 120,
+        "bytes": 8426
+      },
+      {
+        "src": "assets/multydrink/optimized/despues-energia-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 45014
+      },
+      {
+        "src": "assets/multydrink/optimized/despues-energia-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 116736
+      },
+      {
+        "src": "assets/multydrink/optimized/despues-energia-1280.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 169704
+      }
+    ]
+  },
+  {
+    "key": "composition",
+    "original": "assets/multydrink/ingredientes/composiciones.png",
+    "originalBytes": 2791748,
+    "sha256": "4d806dd833f0bcf84b2b50f6d69d4c9f991911e4bcdb0bcc82cfd93795928a9e",
+    "originalWidth": 941,
+    "originalHeight": 1672,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/composiciones-160.webp",
+        "width": 160,
+        "height": 284,
+        "bytes": 21768
+      },
+      {
+        "src": "assets/multydrink/optimized/composiciones-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 141600
+      },
+      {
+        "src": "assets/multydrink/optimized/composiciones-941.webp",
+        "width": 941,
+        "height": 1672,
+        "bytes": 399158
+      }
+    ]
+  }
+]

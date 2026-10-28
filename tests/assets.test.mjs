@@ -6,10 +6,12 @@ import sharp from 'sharp';
 import { Window } from 'happy-dom';
 import { initApp } from '../src/app.js';
 import { productMedia, comparisonMedia, videoTestimonials } from '../src/media.js';
+import { gallery } from '../src/config.js';
 import { imageSrcset } from '../src/images.js';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const inventory = JSON.parse(await readFile(new URL('../docs/asset-inventory.json', import.meta.url), 'utf8'));
+const storefrontInventory = JSON.parse(await readFile(new URL('../docs/storefront-image-inventory.json', import.meta.url), 'utf8'));
 function setup() {
   const win = new Window({ url: 'http://localhost:4173', settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
   win.document.write(html);
@@ -58,11 +60,13 @@ test('Real media is mapped to gallery, final offers, nutrition, tabs and selecte
     }
     app.selectPackage('individual');
     assert.ok($('.sticky-inner > img').src.endsWith(productMedia.individual.thumbnail));
+    assert.equal($('.sticky-inner > img').dataset.package, 'individual');
     assert.ok($('.order-preview img').src.endsWith(productMedia.individual.src));
     app.selectPackage('familiar');
-    assert.match($('.sticky-inner > img').src, /family.webp$/);
-    assert.equal($('.order-preview img').hasAttribute('srcset'), false);
-    assert.equal($('[data-presentation="sobres"]').disabled, true);
+    assert.ok($('.sticky-inner > img').src.endsWith(productMedia.family.thumbnail));
+    assert.equal($('.sticky-inner > img').dataset.package, 'familiar');
+    assert.equal($('.order-preview img').srcset, imageSrcset(productMedia.family));
+    assert.equal($('[data-presentation="sobres"]'), null, 'Unavailable standalone sachet photography is not offered as a gallery choice');
     assert.equal(productMedia.sachet, null);
     assert.equal(productMedia.preparedDrink, null);
     assert.equal(videoTestimonials.length, 0);
@@ -77,15 +81,42 @@ test('Responsive candidates are replaced on gallery changes and every rendered i
     assert.equal(preload.getAttribute('imagesrcset'), $('#hero-image').srcset);
     assert.equal(preload.getAttribute('imagesizes'), $('#hero-image').sizes);
     app.displayGallery(1);
-    assert.match($('#hero-image').src, /family.webp$/);
-    assert.equal($('#hero-image').hasAttribute('srcset'), false);
-    app.displayGallery(3);
-    assert.ok($('#hero-image').src.endsWith(productMedia.alternateBox.src));
-    assert.equal($('#hero-image').srcset, imageSrcset(productMedia.alternateBox));
+    assert.ok($('#hero-image').src.endsWith(gallery[1].src));
+    assert.equal($('#hero-image').srcset, imageSrcset(gallery[1]));
+    app.displayGallery(2);
+    assert.ok($('#hero-image').src.endsWith(gallery[2].src));
+    assert.equal($('#hero-image').srcset, imageSrcset(gallery[2]));
     for (const img of win.document.querySelectorAll('img')) {
       await stat(img.getAttribute('src'));
       for (const candidate of (img.getAttribute('srcset') || '').split(',').filter(Boolean)) await stat(candidate.trim().split(' ')[0]);
       assert.ok(img.width > 0 && img.height > 0);
+    }
+  } finally { await win.happyDOM.abort(); }
+});
+
+test('Approved gallery order, full-size links and optimized sources remain complete and independent of checkout', async () => {
+  assert.deepEqual(gallery.map(item => item.sourceName), ['01-caja-principal', '02-descanso-oficina', '03-coworking', '04-como-prepararlo', '05-brindis-oficina', '06-cinco-extractos', '07-mujer-sachet-caja', '08-preparacion-en-pareja', '09-tabla-nutricional', '10-bebida-caja-sobres']);
+  for (const entry of storefrontInventory) {
+    const original = await readFile(entry.original);
+    assert.equal(createHash('sha256').update(original).digest('hex'), entry.sha256);
+    for (const variant of entry.image.variants) {
+      const meta = await sharp(variant.src).metadata();
+      assert.equal(meta.width, variant.width);
+      assert.ok(Math.abs(meta.height - meta.width * entry.image.height / entry.image.width) <= 1);
+    }
+    if (entry.original.includes('04-como-prepararlo') || entry.original.includes('06-cinco-extractos') || entry.original.includes('09-tabla-nutricional')) {
+      assert.ok((await sharp(original).ensureAlpha().raw().toBuffer()).equals(await sharp(entry.image.src).ensureAlpha().raw().toBuffer()), 'Written information retains original pixels at full resolution');
+    }
+  }
+  const { win, $, app } = setup();
+  try {
+    const selected = app.getState().selected;
+    for (const [index, item] of gallery.entries()) {
+      $(`[data-gallery="${index}"]`).click();
+      assert.ok($('#hero-image').src.endsWith(item.src));
+      assert.equal($('#gallery-full').getAttribute('href'), item.src);
+      assert.equal($('#gallery-count').textContent, `${String(index + 1).padStart(2, '0')} / 10`);
+      assert.equal(app.getState().selected, selected);
     }
   } finally { await win.happyDOM.abort(); }
 });

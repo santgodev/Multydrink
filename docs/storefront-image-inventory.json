@@ -1,0 +1,756 @@
+[
+  {
+    "original": "assets/multydrink/lifestyle-copia/01-caja-principal.png",
+    "sha256": "91824c72356c3674dff885715d5c3d1a5af50740865f4b58d67e09722acde318",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "reused": true,
+    "image": {
+      "src": "assets/multydrink/optimized/caja-principal-1254.webp",
+      "alt": "Caja individual MultyDrink",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/caja-principal-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/caja-principal-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/caja-principal-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/caja-principal-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/caja-principal-160.webp"
+    }
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/02-descanso-oficina.png",
+    "sha256": "1088cbf9115f03207411858a20cff2c29cf4d7ab2bda0a6b57235e90630d17dd",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-1254.webp",
+      "alt": "Mujer disfrutando una bebida en su oficina, junto a la caja MultyDrink",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-02-descanso-oficina-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 11008
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 56274
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 147244
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 210614
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/03-coworking.png",
+    "sha256": "b10ade4ccf82900abf4ac1feca2174a15afc46fe7be469e37cb1537eedc039de",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-03-coworking-1254.webp",
+      "alt": "Mujer con una bebida y MultyDrink en un espacio de coworking",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-03-coworking-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-03-coworking-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-03-coworking-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-03-coworking-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-03-coworking-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-03-coworking-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 11024
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-03-coworking-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 60570
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-03-coworking-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 158978
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-03-coworking-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 228514
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/04-como-prepararlo.png",
+    "sha256": "f4b7338387240c41bfb9146526883196a15b860ea5228146752c6b09baa51c98",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-1254.webp",
+      "alt": "Preparación de MultyDrink: un sobre de 10 g en 250 mL de agua",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-04-como-prepararlo-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 29784
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 229504
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 858276
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-04-como-prepararlo-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1318022
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/05-brindis-oficina.png",
+    "sha256": "66a7b0d46a40a0a0e2afde70c5756fc483919b8084acb554cb32aa742718d41c",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-1254.webp",
+      "alt": "Hombre con una bebida, caja y sobres MultyDrink en una oficina",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-05-brindis-oficina-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 9624
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 45006
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 121128
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-05-brindis-oficina-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 174448
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/06-cinco-extractos.png",
+    "sha256": "56f8435f8a08f7ae9936ac4840d52dce345f6ffadfc33b40860e0f2d8e6b41fe",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-1254.webp",
+      "alt": "Imagen de la fórmula botánica de MultyDrink con caja y sobres",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-06-cinco-extractos-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 36436
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 264140
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 978020
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-06-cinco-extractos-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1501818
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/07-mujer-sachet-caja.png",
+    "sha256": "d6e4d75a6550ee0b6c140c21d3be673869d0bec56aa49a960068a6dec54bef64",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-1254.webp",
+      "alt": "Mujer presentando un sobre y una caja MultyDrink",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 10598
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 50406
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 133250
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-07-mujer-sachet-caja-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 193594
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/08-preparacion-en-pareja.png",
+    "sha256": "f90e70d8e774cb2054fb56286747f270312130c392ec9945caf205f1793a09eb",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-1254.webp",
+      "alt": "Pareja preparando MultyDrink en la cocina",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 9618
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 48404
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 135688
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-08-preparacion-en-pareja-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 193946
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/09-tabla-nutricional.png",
+    "sha256": "266548a899280155d60dcbbf117dc9f7d86e948a4184a2c8f875cc8b10e52950",
+    "originalWidth": 975,
+    "originalHeight": 1613,
+    "reused": true,
+    "image": {
+      "src": "assets/multydrink/optimized/tabla-nutricional-975.webp",
+      "alt": "Etiqueta nutricional completa de MultyDrink",
+      "width": 975,
+      "height": 1613,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/tabla-nutricional-975.webp",
+          "width": 975
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/tabla-nutricional-975.webp"
+    }
+  },
+  {
+    "original": "assets/multydrink/lifestyle-copia/10-bebida-caja-sobres.png",
+    "sha256": "0164b6bb402c329c0312ae87e7bc032a7d3b3b5fe85631bd279a852279bbc1fd",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-1254.webp",
+      "alt": "Bebida preparada, caja y sobres MultyDrink",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 7608
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 39912
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 107024
+      },
+      {
+        "src": "assets/multydrink/optimized/gallery-10-bebida-caja-sobres-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 159314
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/beneficios/enfoque.png",
+    "sha256": "1088cbf9115f03207411858a20cff2c29cf4d7ab2bda0a6b57235e90630d17dd",
+    "originalWidth": 1254,
+    "originalHeight": 1254,
+    "reused": true,
+    "image": {
+      "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-1254.webp",
+      "alt": "Mujer disfrutando una bebida en su oficina, junto a la caja MultyDrink",
+      "width": 1254,
+      "height": 1254,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/gallery-02-descanso-oficina-1254.webp",
+          "width": 1254
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/gallery-02-descanso-oficina-160.webp"
+    }
+  },
+  {
+    "original": "assets/multydrink/beneficios/energia.png",
+    "sha256": "a5d37ab8c3e193aa7308f742a0b9173ea7c4086cd0eb157ba69b9e9c6704871e",
+    "originalWidth": 800,
+    "originalHeight": 600,
+    "image": {
+      "src": "assets/multydrink/optimized/benefit-energia-800.webp",
+      "alt": "Dos ciclistas durante una pausa, con bebidas y MultyDrink",
+      "width": 800,
+      "height": 600,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/benefit-energia-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-energia-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-energia-800.webp",
+          "width": 800
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/benefit-energia-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/benefit-energia-160.webp",
+        "width": 160,
+        "height": 120,
+        "bytes": 10976
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-energia-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 62210
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-energia-800.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 127070
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/beneficios/memoria.png",
+    "sha256": "6dfa9e0d031de7d32f24170eff1ca479dd8bee53405981e3d271b5187df2e772",
+    "originalWidth": 1299,
+    "originalHeight": 1211,
+    "image": {
+      "src": "assets/multydrink/optimized/benefit-memoria-1299.webp",
+      "alt": "Mujer con una bebida, libreta y caja MultyDrink",
+      "width": 1299,
+      "height": 1211,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/benefit-memoria-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-memoria-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-memoria-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-memoria-1299.webp",
+          "width": 1299
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/benefit-memoria-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/benefit-memoria-160.webp",
+        "width": 160,
+        "height": 149,
+        "bytes": 9858
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-memoria-480.webp",
+        "width": 480,
+        "height": 447,
+        "bytes": 49384
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-memoria-960.webp",
+        "width": 960,
+        "height": 895,
+        "bytes": 137274
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-memoria-1299.webp",
+        "width": 1299,
+        "height": 1211,
+        "bytes": 210828
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/beneficios/bienestar.png",
+    "sha256": "e965fe6faec1fa1a0725c77958972b8822b6c47d9b277c528e6e04aa51b0d20a",
+    "originalWidth": 1448,
+    "originalHeight": 1086,
+    "image": {
+      "src": "assets/multydrink/optimized/benefit-bienestar-1448.webp",
+      "alt": "Pareja con bebidas y una caja MultyDrink en la cocina",
+      "width": 1448,
+      "height": 1086,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/benefit-bienestar-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-bienestar-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-bienestar-960.webp",
+          "width": 960
+        },
+        {
+          "src": "assets/multydrink/optimized/benefit-bienestar-1448.webp",
+          "width": 1448
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/benefit-bienestar-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/benefit-bienestar-160.webp",
+        "width": 160,
+        "height": 120,
+        "bytes": 7534
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-bienestar-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 36896
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-bienestar-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 101718
+      },
+      {
+        "src": "assets/multydrink/optimized/benefit-bienestar-1448.webp",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 164816
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/pack-familiar-6-cajas.png",
+    "sha256": "ff53aa8db9b3adbcde46299cfc5b9d5e4544bbf7c98d35e08774792f20673c74",
+    "originalWidth": 1536,
+    "originalHeight": 1024,
+    "transparentBounds": {
+      "left": 262,
+      "top": 16,
+      "width": 1013,
+      "height": 984
+    },
+    "image": {
+      "src": "assets/multydrink/optimized/pack-familiar-aprobado-840.webp",
+      "alt": "Pack familiar de seis cajas MultyDrink",
+      "width": 840,
+      "height": 880,
+      "variants": [
+        {
+          "src": "assets/multydrink/optimized/pack-familiar-aprobado-160.webp",
+          "width": 160
+        },
+        {
+          "src": "assets/multydrink/optimized/pack-familiar-aprobado-480.webp",
+          "width": 480
+        },
+        {
+          "src": "assets/multydrink/optimized/pack-familiar-aprobado-840.webp",
+          "width": 840
+        }
+      ],
+      "thumbnail": "assets/multydrink/optimized/pack-familiar-aprobado-160.webp"
+    },
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/pack-familiar-aprobado-160.webp",
+        "width": 160,
+        "height": 168,
+        "bytes": 14316
+      },
+      {
+        "src": "assets/multydrink/optimized/pack-familiar-aprobado-480.webp",
+        "width": 480,
+        "height": 503,
+        "bytes": 69566
+      },
+      {
+        "src": "assets/multydrink/optimized/pack-familiar-aprobado-840.webp",
+        "width": 840,
+        "height": 880,
+        "bytes": 152498
+      }
+    ]
+  }
+]

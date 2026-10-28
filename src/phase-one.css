@@ -10,142 +10,6 @@ existing controls and forms stay intact. */
 .header {
   background:#090a09
 }
-.product-grid {
-  align-items:start
-}
-.product-visual {
-  position:static
-}
-.gallery-thumbs {
-  flex-wrap:wrap;
-  gap:8px;
-}
-.gallery-thumb {
-  flex:0 0 78px;
-}
-.gallery-controls button,.presentation-switch button {
-  min-width:44px;
-  min-height:44px;
-}
-.visual-heading h2 {
-  font-size:clamp(32px,3.2vw,47px);
-  line-height:1.15;
-  letter-spacing:-1.3px
-}
-.visual-heading>p {
-  font-size:9px;
-  letter-spacing:1.3px;
-  margin-top:13px
-}
-.gallery-stage {
-  background:#141713;
-  border:0;
-  border-radius:4px;
-  aspect-ratio:1.1
-}
-.gallery-stage:after {
-  display:none
-}
-.gallery-stage>img {
-  width:72%;
-  height:75%;
-  filter:none
-}
-.gallery-stage.is-botanical>img {
-  width:94%
-}
-.product-info h1 {
-  font-size:32px
-}
-.product-headline {
-  font-size:25px;
-  line-height:1.4;
-  letter-spacing:-.5px
-}
-.product-visual .product-accordions {
-  margin-top:30px
-}
-.product-accordions summary {
-  padding-block:19px;
-  font-size:11px
-}
-.product-accordions p {
-  font-size:12px
-}
-.product-kicker {
-  font-size:9px
-}
-.science-note {
-  background:#1b2518;
-  border-color:#435836
-}
-.registration {
-  font-size:10px;
-  line-height:1.7;
-  margin-top:-8px;
-  color:#c9d4bc
-}
-.presentation-switch {
-  display:flex;
-  align-items:center;
-  gap:7px;
-  margin:24px 0
-}
-.presentation-switch>span {
-  font-size:11px;
-  margin-right:8px
-}
-.presentation-switch button {
-  min-height:36px;
-  padding:7px 15px;
-  border:1px solid #4b5644;
-  background:transparent;
-  border-radius:5px;
-  font-size:11px
-}
-.presentation-switch button[aria-pressed=true] {
-  background:#26351f;
-  border-color:var(--accent)
-}
-.presentation-switch button:disabled {
-  opacity:.45
-}
-.package-content {
-  min-height:180px
-}
-.package-unit {
-  display:block;
-  font-size:10px;
-  color:#bdc8ac;
-  margin-top:6px
-}
-.selection-summary {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  padding-top:19px
-}
-.selection-summary>span:first-child {
-  font-size:10px;
-  color:var(--muted)
-}
-.selection-summary>span:first-child strong {
-  display:block;
-  font-size:12px;
-  color:white
-}
-.selection-summary>span:last-child {
-  text-align:right
-}
-.selection-summary>span:last-child strong {
-  font:600 24px/1.4 var(--heading)
-}
-.selection-summary small {
-  display:block;
-  font-size:9px;
-  color:var(--muted)
-}
 .centered-heading {
   text-align:center;
   max-width:850px;
@@ -158,98 +22,102 @@ existing controls and forms stay intact. */
 .centered-heading>p:not(.eyebrow) {
   margin-top:15px
 }
-.story {
-  padding-top:80px
+/* Editorial situations: quiet introduction, tactile left edge, narrative conclusion. */
+.story { max-width:1120px; padding-block:48px 24px; text-align:center; }
+.story > h2 { font-size:13px; font-weight:600; line-height:1.5; letter-spacing:1.6px; color:#b0b6a8; margin:0 0 22px; }
+.story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; text-align:left; }
+.story-card { min-width:0; padding:22px 22px 24px; border:0; border-left:2px solid #91ad5d; border-radius:8px; background:#141912; }
+.story-icon { display:flex; width:24px; height:24px; color:#b2ca8e; margin:0 0 14px; }
+.story-icon .icon { width:24px; height:24px; }
+.story-card h3 { max-width:26ch; font-size:16px; font-weight:600; line-height:1.5; letter-spacing:-.15px; margin:0 0 10px; text-wrap:balance; }
+.story-card p { font-size:13px; line-height:1.7; color:#bec5b4; margin:0; text-wrap:pretty; }
+.story-transition { padding-top:56px; max-width:640px; margin:auto; }
+.story-transition .eyebrow { color:#b0b6a8; font-size:9.5px; line-height:1.6; letter-spacing:1.1px; margin:0; }
+.story-transition h3 { font-size:22px; font-weight:500; line-height:1.45; letter-spacing:-.3px; margin:8px 0; text-wrap:balance; }
+.story-transition h3 > span { color:var(--accent); }
+.story-transition p:not(.eyebrow) { font-size:12px; line-height:1.7; margin:auto; text-wrap:pretty; }
+@media(max-width:800px) {
+  .story { max-width:680px; }
+  .story-grid { grid-template-columns:minmax(0,1fr); gap:14px; }
+  .story-card { display:grid; grid-template-columns:24px minmax(0,1fr); gap:16px; padding:20px 22px; }
+  .story-icon { margin:2px 0 0; }
+  .story-card h3 { max-width:none; margin-bottom:7px; text-wrap:pretty; }
 }
-.story>h2 {
-  font-size:29px;
-  letter-spacing:.8px
-}
-.story-card {
-  background:#171c15;
-  border:1px solid #475b37;
-  border-radius:15px;
-  min-height:280px
-}
-.story-card .story-icon {
-  color:#d4e9ba
-}
-.story-card h3 {
-  font-size:20px;
-  line-height:1.45
-}
-.story-card p {
-  font-size:13px
-}
-.story-transition {
-  max-width:900px
-}
-.story-transition h3 {
-  font-size:clamp(31px,3.5vw,49px);
-  line-height:1.25;
-  letter-spacing:-1px;
-  margin:17px 0
-}
-.story-transition p {
-  font-size:13px
-}
-.story-transition h3>span {
-  color:var(--accent)
+@media(max-width:560px) {
+  .story { padding-block:36px 16px; }
+  .story > h2 { font-size:12px; letter-spacing:1.15px; margin-bottom:18px; }
+  .story-card { padding:18px 16px; gap:12px; }
+  .story-transition { padding-top:48px; }
+  .story-transition .eyebrow { font-size:9px; letter-spacing:.7px; }
+  .story-transition h3 { font-size:20px; }
 }
 .comparison-section {
+  position:relative;
+  max-width:1120px;
   padding-block:20px 55px
 }
 .comparison-stage {
   --position:50%;
   position:relative;
-  aspect-ratio:4/3;
+  aspect-ratio:2/1;
   overflow:hidden;
   border-radius:12px;
   touch-action:pan-y;
   background:#161916
 }
 .comparison-stage img {
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover
-}
-.comparison-base {
+  /* Equal, stable image scale. Pan each scene within its revealed region;
+     full reveals keep the native photograph rather than zooming or cropping it. */
   position:absolute;
-  inset:0
+  top:0;
+  left:calc(50% + var(--position) * .35);
+  display:block;
+  width:auto;
+  height:100%;
+  max-width:none;
+  transform:translateX(-50%)
+}
+.comparison-overlay img {
+  left:calc(var(--position) / 2)
 }
 .comparison-overlay {
   position:absolute;
   inset:0;
+  background:#161916;
   clip-path:inset(0 calc(100% - var(--position)) 0 0);
   pointer-events:none
 }
 .comparison-divider {
   position:absolute;
+  inset:0;
+  pointer-events:none
+}
+.comparison-divider::before {
+  content:"";
+  position:absolute;
   left:var(--position);
   top:0;
   bottom:0;
-  width:2px;
-  background:white;
+  width:1px;
+  background:#ffffffe6;
   transform:translateX(-50%);
-  pointer-events:none;
-  box-shadow:0 0 8px #0005
+  box-shadow:0 0 3px #0003
 }
 .comparison-divider>span {
   position:absolute;
   top:50%;
-  left:50%;
+  left:clamp(22px,var(--position),calc(100% - 22px));
   transform:translate(-50%,-50%);
-  width:46px;
-  height:46px;
+  width:44px;
+  height:44px;
   display:grid;
   place-items:center;
   background:white;
   color:#111;
   border-radius:50%;
-  font-size:22px;
+  font-size:20px;
   letter-spacing:4px;
-  box-shadow:0 2px 15px #0005
+  box-shadow:0 2px 8px #0003
 }
 .comparison-stage input {
   position:absolute;
@@ -265,8 +133,9 @@ existing controls and forms stay intact. */
   outline-offset:5px
 }
 .comparison-labels {
+  z-index:1;
   position:absolute;
-  inset:20px 20px auto;
+  inset:40px 20px auto;
   display:flex;
   justify-content:space-between;
   gap:20px;
@@ -279,11 +148,6 @@ existing controls and forms stay intact. */
   border-radius:3px;
   font-size:11px
 }
-.comparison-help {
-  text-align:center;
-  font-size:11px;
-  margin-top:14px
-}
 .ingredient-story {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -294,12 +158,13 @@ existing controls and forms stay intact. */
   text-align:center
 }
 .monumental-number strong {
-  font:600 clamp(180px,21vw,310px)/.9 var(--heading);
+  font:600 clamp(160px,18.5vw,272px)/.9 var(--heading);
+  font-variant-numeric:tabular-nums;
   letter-spacing:-18px;
   color:var(--accent);
   display:block
 }
-.monumental-number span {
+.monumental-number .ingredient-count-label {
   display:block;
   margin-top:25px;
   font-size:12px;
@@ -309,7 +174,7 @@ existing controls and forms stay intact. */
 .ingredient-story h2 {
   margin-top:15px;
   line-height:1.4;
-  font-size:36px
+  font-size:30px
 }
 .ingredient-story p:not(.eyebrow) {
   font-size:13px;
@@ -318,6 +183,10 @@ existing controls and forms stay intact. */
 }
 .ingredient-story .text-link {
   margin-top:24px
+}
+.ingredient-story .ingredient-closing {
+  font-weight:600;
+  color:var(--text)
 }
 .moments-section {
   background:#111410
@@ -351,7 +220,8 @@ existing controls and forms stay intact. */
 }
 .moments-visual.has-lifestyle img {
   width:100%;
-  height:620px;
+  height:auto;
+  aspect-ratio:1;
   object-fit:contain
 }
 .moments-visual>p {
@@ -360,54 +230,60 @@ existing controls and forms stay intact. */
   margin-top:15px
 }
 .moment-tabs {
-  display:flex;
-  gap:5px;
-  border-bottom:1px solid #46543a;
-  margin-bottom:30px
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-bottom:24px
 }
 .moment-tabs button {
-  flex:1;
   display:flex;
-  flex-direction:column;
-  gap:7px;
   align-items:center;
   justify-content:center;
-  padding:12px 5px 15px;
+  padding:9px 12px;
   background:transparent;
-  border:0;
-  border-bottom:2px solid transparent;
-  min-height:70px;
-  color:#adb69e;
-  font-size:11px;
+  border:1px solid #414a38;
+  border-radius:999px;
+  min-height:44px;
+  color:#d4d9cb;
+  font-size:12px;
+  line-height:1.4;
   font-weight:600
 }
-.moment-tabs .icon {
-  width:21px;
-  height:21px
-}
-.moment-tabs button[aria-selected=true] {
-  border-bottom-color:var(--accent);
+.moment-tabs button:hover {
+  border-color:var(--accent);
   color:var(--accent)
 }
+.moment-tabs button[aria-selected=true] {
+  border-color:var(--accent);
+  background:var(--accent);
+  color:var(--bg)
+}
 .moments-content [role=tabpanel] h3 {
-  font-size:28px;
-  line-height:1.3;
-  letter-spacing:-.8px;
-  margin-bottom:18px
+  font-size:24px;
+  line-height:1.35;
+  letter-spacing:-.5px;
+  margin-bottom:14px
 }
 .moments-content [role=tabpanel]>p {
   font-size:13px;
-  line-height:1.9;
-  margin-bottom:24px
+  line-height:1.75;
+  margin-bottom:22px
 }
 .moments-content .benefits {
-  gap:14px
+  gap:11px
 }
 .moments-content .benefits li {
-  font-size:12px
+  gap:10px;
+  font-size:13px;
+  line-height:1.6
+}
+.moments-content .benefits .icon {
+  width:16px;
+  height:16px;
+  margin-top:2px
 }
 .moments-content .button {
-  margin-top:26px;
+  margin-top:24px;
   font-size:10px
 }
 .editorial-white {
@@ -458,7 +334,8 @@ existing controls and forms stay intact. */
   width:calc(50% - 2.5px)
 }
 .editorial-index {
-  font-size:10px;
+  font-size:13px;
+  font-weight:600;
   letter-spacing:.6px;
   color:#607149;
   display:block;
@@ -466,7 +343,7 @@ existing controls and forms stay intact. */
   min-height:35px
 }
 .editorial-ingredient h3 {
-  font-size:21px;
+  font-size:17px;
   letter-spacing:-.5px;
   line-height:1.4;
   margin-bottom:17px
@@ -474,16 +351,6 @@ existing controls and forms stay intact. */
 .editorial-ingredient p {
   font-size:12px;
   line-height:1.9
-}
-.editorial-source {
-  border-top:1px solid #d6d9d1;
-  margin-top:43px;
-  padding-top:20px;
-  font-size:10px
-}
-.editorial-source a {
-  text-decoration:underline;
-  text-underline-offset:4px
 }
 .science-section {
   background:#0a0d09
@@ -662,6 +529,32 @@ existing controls and forms stay intact. */
 .nutrition-transcript summary { cursor:pointer; padding-block:14px; }
 .nutrition-transcript>p { margin-top:15px; }
 .nutrition-transcript .nutrition-sheet { margin-top:12px; }
+/* Nutrition: compact, aligned content and original packaging label. */
+.nutrition-section .nutrition-layout { width:min(calc(100% - 80px),1040px); grid-template-columns:minmax(0,1fr) minmax(0,.9fr); gap:clamp(36px,5vw,72px); align-items:center; }
+.nutrition-content { width:min(100%,420px); margin-inline:auto; text-align:left; }
+.nutrition-content .eyebrow { display:block; font-size:11px; line-height:1.6; letter-spacing:1.7px; text-align:left; margin:0 0 13px; }
+.nutrition-content h2 { display:block; font-size:clamp(30px,3vw,40px); line-height:1.16; letter-spacing:-.8px; text-align:left; margin:0 0 27px; }
+.nutrition-content .nutrition-tabs { justify-content:flex-start; margin:0 0 28px; }
+.nutrition-content [role="tabpanel"] { width:100%; margin:0; }
+.nutrition-content .benefits { gap:18px; }
+.nutrition-content .benefits li { display:flex; align-items:flex-start; gap:14px; font-size:15px; line-height:1.6; }
+.nutrition-content .benefits .icon { flex-shrink:0; width:22px; height:22px; margin-top:1px; }
+.nutrition-content .nutrition-registration { text-align:left; margin:28px 0 22px; }
+.nutrition-content > .button { display:inline-flex; width:max-content; max-width:100%; margin:0; }
+.nutrition-section .nutrition-composition { max-width:365px; width:100%; min-width:0; justify-self:center; }
+.nutrition-label-figure { width:100%; margin:0; text-align:center; }
+.nutrition-label-figure > a { display:block; width:100%; }
+.nutrition-label-figure .real-nutrition-label { display:block; width:100%; height:auto; object-fit:contain; }
+.nutrition-label-figure figcaption { margin-top:10px; font-size:11px; line-height:1.6; }
+@media (max-width:800px) {
+  .nutrition-section .nutrition-layout { width:calc(100% - 36px); grid-template-columns:1fr; gap:32px; }
+  .nutrition-content { max-width:420px; }
+  .nutrition-section .nutrition-composition { max-width:340px; }
+}
+@media (max-width:390px) {
+  .nutrition-section .nutrition-layout { width:calc(100% - 28px); }
+  .nutrition-content .benefits li { font-size:13px; }
+}
 .preparation-section {
   text-align:center;
   background:#0b0e09
@@ -709,6 +602,67 @@ existing controls and forms stay intact. */
   line-height:1.9;
   max-width:300px;
   margin-inline:auto
+}
+/* Ritual: filled brand-green number discs mask the connecting line. */
+.preparation-steps li { z-index:1; }
+.preparation-steps li > span {
+  z-index:2;
+  background:#86A94C;
+  border:2px solid #B0CF79;
+  color:#FFFFFF;
+  box-shadow:0 0 0 9px #17220F;
+}
+.preparation-steps::before { background:#34462C; }
+/* Ritual: sequential reveal — first step, connector, second step, connector, third step. */
+.preparation-steps.ritual-animate-ready::before { opacity:.45; }
+.preparation-steps.ritual-animate-ready::after {
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:28px;
+  left:16%;
+  right:16%;
+  height:2px;
+  background:var(--accent);
+  transform:scaleX(0);
+  transform-origin:left center;
+}
+.preparation-steps.ritual-animate-ready li { opacity:0; transform:translateY(12px); }
+.preparation-steps.ritual-is-visible li { animation:ritual-step-arrive .5s ease-out forwards; }
+.preparation-steps.ritual-is-visible li:nth-child(1) { animation-delay:0s; }
+.preparation-steps.ritual-is-visible li:nth-child(2) { animation-delay:1.25s; }
+.preparation-steps.ritual-is-visible li:nth-child(3) { animation-delay:2.5s; }
+.preparation-steps.ritual-is-visible::after { animation:ritual-connector 3.1s linear forwards; }
+@keyframes ritual-step-arrive {
+  from { opacity:0; transform:translateY(12px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes ritual-connector {
+  0%, 16% { transform:scaleX(0); }
+  39%, 51% { transform:scaleX(.5); }
+  83%, 100% { transform:scaleX(1); }
+}
+@media (max-width:700px) {
+  .preparation-steps.ritual-animate-ready::after {
+    top:0;
+    bottom:0;
+    left:23px;
+    right:auto;
+    width:2px;
+    height:auto;
+    transform:scaleY(0);
+    transform-origin:center top;
+  }
+  .preparation-steps.ritual-is-visible::after { animation-name:ritual-connector-vertical; }
+  @keyframes ritual-connector-vertical {
+    0%, 16% { transform:scaleY(0); }
+    39%, 51% { transform:scaleY(.5); }
+    83%, 100% { transform:scaleY(1); }
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .preparation-steps.ritual-animate-ready li { opacity:1; transform:none; animation:none; }
+  .preparation-steps.ritual-animate-ready::after { display:none; }
 }
 .carousel-heading {
   display:flex;
@@ -879,6 +833,32 @@ existing controls and forms stay intact. */
   margin-top:15px;
   min-height:53px
 }
+/* Final offer cards: clear pricing hierarchy on the approved white section. */
+.final-offers { align-items:stretch; gap:clamp(24px,4vw,54px); }
+.final-offer { display:flex; flex-direction:column; border:1px solid #e5e9de; border-radius:18px; background:#fff; overflow:hidden; }
+.final-offer-family { border-color:#b3cd8a; box-shadow:0 10px 34px #203a1510; }
+.final-offer .offer-photo { flex-shrink:0; height:320px; margin:0; background:#f7f8f4; }
+.final-offer .offer-photo img { max-width:100%; max-height:100%; object-fit:contain; }
+.final-offer .offer-copy { display:flex; flex-direction:column; flex:1; min-width:0; padding:25px 27px 27px; }
+.final-offer .offer-copy h3 { margin:0; font-size:clamp(23px,2.1vw,29px); line-height:1.2; color:#192016; }
+.final-offer .offer-copy .offer-meta { margin:9px 0 0; color:#596453; font-size:13px; line-height:1.5; }
+.final-offer .offer-pricing { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:111px; padding:13px 0 16px; margin-top:12px; border-top:1px solid #e9eee3; }
+.final-offer .offer-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 13px; margin:0; color:#172018; }
+.final-offer .offer-price strong { display:block; color:#172018; font:700 clamp(32px,3vw,43px)/1.12 var(--heading); letter-spacing:-1.1px; opacity:1; }
+.final-offer .offer-price del { color:#7a8075; font-size:14px; opacity:1; }
+.final-offer .offer-copy .offer-saving { display:inline-flex; align-items:center; margin:11px 0 0; border-radius:6px; background:#eaf3db; color:#34531c; font-size:12px; font-weight:700; letter-spacing:.2px; padding:6px 11px; }
+.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:#151a13; color:#fff; border-radius:32px; }
+.final-offer-family .offer-copy .button { background:#34452d; color:#fff; }
+@media (max-width:800px) {
+  .final-offers { gap:22px; }
+  .final-offer .offer-photo { height:260px; }
+  .final-offer .offer-copy { padding:22px 18px; }
+}
+@media (max-width:640px) {
+  .final-offers { gap:28px; }
+  .final-offer .offer-photo { height:290px; }
+  .final-offer .offer-copy { padding:22px; }
+}
 .faq-section {
   background:#10130e
 }
@@ -920,6 +900,35 @@ existing controls and forms stay intact. */
 }
 .faq-grid .accordion p {
   font-size:12px
+}
+/* FAQ layout: align active questions with category navigation, not with the title. */
+.faq-section .faq-grid {
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  grid-template-areas:"intro ." "categories answers";
+  column-gap:clamp(40px,6vw,95px);
+  row-gap:32px;
+  align-items:start;
+}
+.faq-intro { grid-area:intro; }
+.faq-section .faq-categories { grid-area:categories; margin-top:0; width:100%; max-width:350px; }
+.faq-section #faq-list { grid-area:answers; min-width:0; }
+.faq-active-category {
+  margin:0 0 14px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  line-height:1.5;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+@media (max-width:800px) {
+  .faq-section .faq-grid {
+    grid-template-columns:1fr;
+    grid-template-areas:"intro" "categories" "answers";
+    gap:24px;
+  }
+  .faq-section .faq-categories { max-width:none; }
 }
 .order-section {
   border-bottom:1px solid var(--line)
@@ -1010,37 +1019,64 @@ existing controls and forms stay intact. */
 .footer .footer-bottom p,.footer .footer-bottom>span {
   color:#626c58
 }
-.sticky-inner>.button {
-  background:#fff;
-  color:#111
+/* Purchase summary: one responsive definition, independent of the main purchase panel. */
+.sticky-purchase { position:fixed; z-index:20; inset:auto 0 0; padding:8px 0 calc(8px + env(safe-area-inset-bottom)); background:#10160ef5; border-top:1px solid #344027; backdrop-filter:blur(8px); transition:opacity .2s,transform .2s; }
+.sticky-purchase.is-hidden { opacity:0; transform:translateY(110%); pointer-events:none; }
+.sticky-inner { position:relative; display:grid; grid-template-columns:88px minmax(0,1fr) auto auto; align-items:center; gap:16px; max-width:960px; }
+/* Reserve the image column; the transparent asset rises without increasing the bar height. */
+.sticky-inner > img { position:absolute; grid-column:1; grid-row:1; left:4px; bottom:8px; width:80px; height:auto; max-width:none; object-fit:contain; pointer-events:none; }
+.sticky-inner > img[data-package=individual] { width:96px; left:-4px; bottom:0; }
+.sticky-product { grid-column:2; min-width:0; }
+.sticky-product > strong { display:block; font-size:10px; line-height:1.5; letter-spacing:.8px; }
+.sticky-product > span { display:block; color:#c0c8b7; font-size:11px; line-height:1.5; }
+.sticky-price { grid-column:3; display:flex; flex-wrap:wrap; align-items:baseline; justify-content:end; column-gap:8px; max-width:180px; }
+.sticky-price > del { font-size:11px; color:#aab49f; }
+.sticky-price > strong { font-family:var(--heading); font-size:20px; line-height:1.3; letter-spacing:-.3px; }
+.sticky-price > small { width:100%; text-align:right; font-size:9px; line-height:1.4; color:#b8c5a4; }
+.sticky-inner > .button { grid-column:4; min-height:44px; margin:0 0 0 8px; padding:10px 20px; font-size:10px; line-height:1.4; gap:12px; background:var(--accent); color:#11170c; }
+.sticky-inner > .button .icon { width:17px; height:17px; }
+.sticky-label-mobile { display:none; }
+@media(min-width:641px) and (max-width:767px) {
+  .sticky-inner { grid-template-columns:40px minmax(0,1fr) auto auto; }
+  .sticky-inner > img { width:40px; left:0; bottom:24px; }
+  .sticky-inner > img[data-package=individual] { width:48px; bottom:24px; }
 }
-.sticky-purchase {
-  background:#182311fa;
-  border-top:1px solid #69874b
+@media(max-width:640px) {
+  .sticky-purchase { padding:6px 0 calc(6px + env(safe-area-inset-bottom)); }
+  .sticky-inner { grid-template-columns:44px minmax(0,1fr) auto; column-gap:8px; row-gap:0; }
+  .sticky-inner > img { width:44px; left:0; bottom:12px; grid-row:1/3; }
+  .sticky-inner > img[data-package=individual] { width:52px; bottom:14px; }
+  .sticky-product { grid-column:2; grid-row:1; }
+  .sticky-product > strong { display:none; }
+  .sticky-product > span { font-size:10px; line-height:1.4; }
+  .sticky-price { grid-column:2; grid-row:2; justify-content:start; column-gap:5px; max-width:none; }
+  .sticky-price > strong { font-size:18px; }
+  .sticky-price > del { font-size:9px; order:2; }
+  .sticky-price > small { display:none; }
+  .sticky-inner > .button { grid-column:3; grid-row:1/3; margin:0; padding:10px 12px; font-size:10px; gap:6px; }
+  .sticky-inner > .button [data-icon] { display:none; }
+  .sticky-label-desktop { display:none; }
+  .sticky-label-mobile { display:inline; }
+}
+@media(max-width:350px) {
+  .sticky-inner { column-gap:6px; }
+  .sticky-price > strong { font-size:16px; }
+  .sticky-inner > .button { padding-inline:10px; }
 }
 .review-grid {
   grid-template-columns:repeat(3,1fr)
 }
 @media(min-width:1600px) {
-  .product-headline {
-    font-size:28px
-  }
-  .gallery-stage {
-    max-height:650px
-  }
   .editorial-image {
     height:260px
   }
 }
 @media(max-width:1100px) {
-  .product-headline {
-    font-size:23px
-  }
   .ingredient-story {
     gap:40px
   }
   .ingredient-story h2 {
-    font-size:31px
+    font-size:27px
   }
   .moments-layout {
     gap:35px
@@ -1051,11 +1087,8 @@ existing controls and forms stay intact. */
   .moments-visual>img {
     height:300px
   }
-  .moment-tabs button {
-    font-size:10px
-  }
   .moments-content [role=tabpanel] h3 {
-    font-size:25px
+    font-size:22px
   }
   .editorial-ingredients {
     gap:24px
@@ -1064,7 +1097,7 @@ existing controls and forms stay intact. */
     height:180px
   }
   .editorial-ingredient h3 {
-    font-size:18px
+    font-size:16px
   }
   .science-heading {
     gap:45px
@@ -1104,18 +1137,6 @@ existing controls and forms stay intact. */
   }
 }
 @media(max-width:800px) {
-  .product-visual .product-accordions {
-    margin-top:22px
-  }
-  .product-visual .product-accordions summary {
-    font-size:11px
-  }
-  .visual-heading h2 {
-    font-size:40px
-  }
-  .product-headline {
-    font-size:27px
-  }
   .centered-heading {
     margin-bottom:35px
   }
@@ -1123,18 +1144,18 @@ existing controls and forms stay intact. */
     gap:35px
   }
   .monumental-number strong {
-    font-size:210px;
+    font-size:184px;
     letter-spacing:-10px
   }
-  .monumental-number span {
+  .monumental-number .ingredient-count-label {
     font-size:10px;
     letter-spacing:1px
   }
   .ingredient-story h2 {
-    font-size:27px
+    font-size:25px
   }
   .ingredient-story p:not(.eyebrow) {
-    font-size:12px
+    font-size:13px
   }
   .moments-layout {
     gap:25px
@@ -1148,21 +1169,12 @@ existing controls and forms stay intact. */
     height:290px
   }
   .moment-tabs {
-    gap:0;
-    margin-bottom:25px
+    gap:6px;
+    margin-bottom:22px
   }
   .moment-tabs button {
-    font-size:9px;
-    padding-inline:3px
-  }
-  .moments-content [role=tabpanel] h3 {
-    font-size:23px
-  }
-  .moments-content [role=tabpanel]>p {
-    font-size:12px
-  }
-  .moments-content .benefits li {
-    font-size:11px
+    font-size:11px;
+    padding-inline:6px
   }
   .editorial-ingredients {
     grid-template-columns:1fr 1fr;
@@ -1172,7 +1184,7 @@ existing controls and forms stay intact. */
     height:230px
   }
   .editorial-ingredient h3 {
-    font-size:23px
+    font-size:18px
   }
   .science-heading {
     grid-template-columns:1fr;
@@ -1274,86 +1286,26 @@ existing controls and forms stay intact. */
   }
 }
 @media(max-width:560px) {
-  .visual-heading h2 {
-    font-size:34px
-  }
-  .visual-heading>p {
-    font-size:8px;
-    letter-spacing:.7px
-  }
-  .product-headline {
-    font-size:24px
-  }
-  .product-info h1 {
-    font-size:30px
-  }
-  .registration {
-    font-size:9px;
-    margin-top:-5px
-  }
-  .gallery-stage {
-    aspect-ratio:1
-  }
-  .gallery-stage>img {
-    width:75%;
-    height:75%
-  }
-  .package-content {
-    min-height:185px
-  }
-  .package-unit {
-    font-size:9px
-  }
-  .selection-summary>span:last-child strong {
-    font-size:22px
-  }
-  .presentation-switch>span {
-    font-size:10px
-  }
-  .presentation-switch button {
-    font-size:10px
-  }
-  .story {
-    padding-top:50px
-  }
-  .story>h2 {
-    font-size:23px;
-    letter-spacing:.3px
-  }
-  .story-card {
-    min-height:0;
-    padding:25px
-  }
-  .story-card h3 {
-    font-size:21px
-  }
-  .story-card p {
-    font-size:12px
-  }
-  .story-transition h3 {
-    font-size:31px;
-    line-height:1.3
-  }
-  .story-transition p {
-    font-size:12px
-  }
   .comparison-section {
     padding-block:10px 35px
   }
   .comparison-stage {
-    aspect-ratio:4/3;
-    border-radius:6px
+    aspect-ratio:3/2;
+    border-radius:10px
+  }
+  .comparison-stage > .comparison-base {
+    left:calc(50% + var(--position) * .2)
   }
   .comparison-labels {
-    inset:12px 12px auto;
-    gap:10px
+    position:static;
+    gap:10px;
+    margin-bottom:8px
   }
   .comparison-labels span {
-    font-size:9px;
-    padding:4px 7px
-  }
-  .comparison-help {
-    font-size:10px
+    font-size:10px;
+    padding:0;
+    background:none;
+    color:#c5ccbd
   }
   .ingredient-story {
     grid-template-columns:1fr;
@@ -1361,17 +1313,17 @@ existing controls and forms stay intact. */
     text-align:center
   }
   .monumental-number strong {
-    font-size:190px
+    font-size:168px
   }
-  .monumental-number span {
+  .monumental-number .ingredient-count-label {
     font-size:10px;
     margin-top:20px
   }
   .ingredient-story h2 {
-    font-size:28px
+    font-size:24px
   }
   .ingredient-story p:not(.eyebrow) {
-    font-size:12px
+    font-size:13px
   }
   .ingredient-story .eyebrow {
     font-size:8px
@@ -1397,19 +1349,6 @@ existing controls and forms stay intact. */
   .moments-visual.has-lifestyle img {
     height:auto
   }
-  .moment-tabs button {
-    font-size:10px;
-    min-height:70px
-  }
-  .moments-content [role=tabpanel] h3 {
-    font-size:27px
-  }
-  .moments-content [role=tabpanel]>p {
-    font-size:13px
-  }
-  .moments-content .benefits li {
-    font-size:12px
-  }
   .moments-content .button {
     width:100%
   }
@@ -1422,20 +1361,15 @@ existing controls and forms stay intact. */
     margin-bottom:20px
   }
   .editorial-index {
-    font-size:10px;
     min-height:0;
     margin-bottom:10px
   }
   .editorial-ingredient h3 {
-    font-size:25px;
+    font-size:18px;
     margin-bottom:12px
   }
   .editorial-ingredient p {
     font-size:13px
-  }
-  .editorial-source {
-    font-size:10px;
-    margin-top:32px
   }
   .science-heading {
     gap:22px
@@ -1650,27 +1584,17 @@ existing controls and forms stay intact. */
     font-size:9px
   }
 }
-@media(max-width:350px) {
-  .visual-heading h2 {
-    font-size:30px
-  }
-  .product-headline {
-    font-size:22px
-  }
-  .package-unit {
-    font-size:8px
-  }
-  .selection-summary>span:last-child strong {
-    font-size:20px
+@media(max-width:350px), (min-width:561px) and (max-width:680px) {
+  .moment-tabs {
+    grid-template-columns:repeat(2,minmax(0,1fr))
   }
   .moment-tabs button {
-    font-size:9px
+    font-size:12px
   }
+}
+@media(max-width:350px) {
   .centered-heading h2 {
     font-size:25px
-  }
-  .story-transition h3 {
-    font-size:27px
   }
   .science-heading h2 {
     font-size:26px
@@ -1696,4 +1620,10 @@ existing controls and forms stay intact. */
   .footer-columns h3 {
     font-size:9px
   }
+}
+
+
+@media (min-width: 801px) {
+  .header .nav-inner { height: 64px; }
+  #inicio.breadcrumb { display: none; }
 }

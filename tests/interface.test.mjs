@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { Window } from 'happy-dom';
 import { initApp } from '../src/app.js';
 import { commerce } from '../src/config.js';
-import { renderTestimonials } from '../src/components.js';
+import { renderTestimonials, bindTestimonials } from '../src/components.js';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const configured = { ...commerce, orderEndpoint: '/test-orders', merchantName: 'Test merchant', privacyPolicyUrl: '/test-policy', privacyPolicyVersion: 'test-v1', shippingFee: 0, shippingDescription: 'Test delivery' };
@@ -45,6 +45,16 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(ctx.$('#selected-package-price').textContent, '$425.000');
   assert.match(ctx.$('input[value="individual"]').nextElementSibling.querySelector('.package-unit').textContent, /5\.238/);
   assert.match(ctx.$('input[value="familiar"]').nextElementSibling.querySelector('.package-unit').textContent, /3\.373/);
+  const individualCard = ctx.$('input[value="individual"]').nextElementSibling;
+  const familyCard = ctx.$('input[value="familiar"]').nextElementSibling;
+  assert.equal(individualCard.querySelector('.package-title').textContent, '21 sobres');
+  assert.equal(familyCard.querySelector('.package-title').textContent, '126 sobres');
+  assert.equal(individualCard.querySelector('.package-saving'), null);
+  assert.equal(familyCard.querySelector('.package-saving'), null);
+  assert.equal(familyCard.querySelector('.package-tag').textContent, 'MEJOR VALOR');
+  assert.equal(ctx.$('#offer-saving').textContent, 'AHORRA 36%');
+  assert.equal(ctx.$('#offer-saving').hidden, false);
+  assert.equal(ctx.$('#package-selector del'), null);
   ctx.win.happyDOM.abort();
 });
 test('Quantity rejects invalid typed values, caps at configured bounds and recovers', () => {
@@ -67,15 +77,25 @@ test('Gallery buttons, thumbnails and arrow keys update image and accessible sta
   const ctx = setup();
   assert.match(ctx.$('#hero-image').src, /caja-principal-1254.webp$/);
   ctx.$('#gallery-next').click();
-  assert.match(ctx.$('#hero-image').src, /family.webp$/);
+  assert.match(ctx.$('#hero-image').src, /gallery-02-descanso-oficina-1254.webp$/);
   assert.equal(ctx.$('[data-gallery="1"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(ctx.doc.querySelectorAll('[data-gallery][aria-pressed="true"]').length, 1);
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
-  assert.match(ctx.$('#hero-image').src, /product.webp$/);
+  assert.match(ctx.$('#hero-image').src, /gallery-03-coworking-1254.webp$/);
   assert.equal(ctx.doc.activeElement, ctx.$('[data-gallery="2"]'));
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
   ctx.$('#gallery-prev').click();
-  assert.equal(ctx.$('#gallery-count').textContent, '05 / 05');
-  assert.match(ctx.$('#hero-image').src, /composiciones-941.webp$/);
+  assert.equal(ctx.$('#gallery-count').textContent, '10 / 10');
+  assert.match(ctx.$('#hero-image').src, /gallery-10-bebida-caja-sobres-1254.webp$/);
+  ctx.win.happyDOM.abort();
+});
+
+test('Product reading order introduces the product and purchase before supplementary details', () => {
+  const ctx = setup();
+  const sequence = ['.product-intro', '.product-visual', '.product-info', '#product-accordions'];
+  assert.deepEqual([...ctx.$('#producto').children].map(element => sequence.find(selector => element.matches(selector))), sequence);
+  assert.ok(ctx.$('.product-info .main-cta'));
+  assert.equal(ctx.doc.querySelectorAll('h1').length, 1);
   ctx.win.happyDOM.abort();
 });
 test('Menu supports opening, link dismissal and Escape; CTAs point to actual order section', () => {
@@ -152,7 +172,7 @@ test('Legal dialogs open and close; FAQs use native semantic accordions', () => 
   ctx.$('#privacy-link').click(); assert.equal(ctx.$('#privacy-dialog').open, true);
   ctx.$('#privacy-dialog [data-close]').click(); assert.equal(ctx.$('#privacy-dialog').open, false);
   assert.equal(ctx.doc.querySelectorAll('#faq-list details>summary').length, 11);
-  assert.equal(ctx.doc.querySelectorAll('.product-visual details>summary').length, 5);
+  assert.equal(ctx.doc.querySelectorAll('#product-accordions details>summary').length, 5);
   ctx.win.happyDOM.abort();
 });
 test('Routine tabs support click, roving keyboard focus and one visible associated panel', () => {
@@ -190,14 +210,72 @@ test('All control labels, image alternatives and internal anchor destinations ex
   for (const input of ctx.doc.querySelectorAll('input,select')) assert.ok(input.closest('label') || ctx.$(`label[for="${input.id}"]`));
   for (const image of ctx.doc.querySelectorAll('img')) assert.ok(image.hasAttribute('alt'));
   for (const anchor of ctx.doc.querySelectorAll('a[href^="#"]')) assert.ok(ctx.doc.getElementById(anchor.getAttribute('href').slice(1)));
-  assert.equal(ctx.$('#registration').hidden, false);
-  assert.match(ctx.$('#registration').textContent, /NSA-0019488-2025/);
+  assert.equal(ctx.$('#testimonials').hidden, true);
   assert.equal(ctx.$('#testimonials').children.length, 0);
+  assert.ok(ctx.$('.product-info #testimonials'));
   ctx.win.happyDOM.abort();
 });
 test('Reviews require approval and source; text is escaped and verification requires evidence', () => {
   assert.equal(renderTestimonials([{ name: 'Example', rating: 5, comment: 'Example' }]), '');
-  const rendered = renderTestimonials([{ approved: true, sourceUrl: 'https://example.com', name: '<script>', comment: '<img src=x>', rating: 4, verifiedPurchase: false, verifiedOrderId: 'test-order', verificationReference: 'test-evidence' }]);
+  const rendered = renderTestimonials([{ approved: true, publicationRightsConfirmed: true, sourceUrl: 'https://example.com', name: '<script>', comment: '<img src=x>', rating: 4, verifiedPurchase: false, verifiedOrderId: 'test-order', verificationReference: 'test-evidence' }]);
   assert.match(rendered, /&lt;script&gt;/);
   assert.doesNotMatch(rendered, /Compra verificada/);
+});
+
+test('Hero offer preserves shared quantity, bounds, totals and independent gallery state', () => {
+  const ctx = setup();
+  const image = ctx.$('#hero-image').getAttribute('src');
+  ctx.$('#offer-more').click();
+  assert.equal(ctx.$('#quantity').value, '2');
+  assert.equal(ctx.$('#offer-total').textContent, 'Total: COP $850.000');
+  ctx.$('input[value="individual"]').click();
+  assert.equal(ctx.$('#offer-saving').hidden, true);
+  assert.equal(ctx.$('#offer-total').textContent, 'Total: COP $220.000');
+  assert.match(ctx.$('#offer-image').getAttribute('src'), /caja-principal/);
+  assert.equal(ctx.$('#hero-image').getAttribute('src'), image);
+  fill(ctx, 'offer-quantity', '21');
+  assert.equal(ctx.$('#quantity').value, '21');
+  assert.equal(ctx.$('#offer-quantity').getAttribute('aria-invalid'), 'true');
+  fill(ctx, 'offer-quantity', '20');
+  assert.equal(ctx.$('#offer-more').disabled, true);
+  assert.equal(ctx.$('#quantity-more').disabled, true);
+  fill(ctx, 'quantity', '1');
+  assert.equal(ctx.$('#offer-quantity').value, '1');
+  assert.equal(ctx.$('#offer-less').disabled, true);
+  assert.equal(ctx.$('#offer-quantity-error').textContent, '');
+  ctx.win.happyDOM.abort();
+});
+
+test('Review output does not invent scores, provenance or purchase verification', () => {
+  const fixture = { approved: true, publicationRightsConfirmed: true, sourceUrl: 'https://example.com/review', name: 'Fixture', comment: 'Test only' };
+  assert.equal(renderTestimonials([{ ...fixture, publicationRightsConfirmed: false }]), '');
+  assert.equal(renderTestimonials([{ ...fixture, sourceUrl: 'javascript:alert(1)' }]), '');
+  const plain = renderTestimonials([{ ...fixture, verifiedPurchase: true }]);
+  assert.doesNotMatch(plain, /Compra verificada|review-stars|4\.9|500|TODO COLOMBIA|PRODUCTO SEGURO/);
+  assert.match(plain, /Ver fuente/);
+  assert.match(renderTestimonials([{ ...fixture, rating: 3 }]), /3 de 5 estrellas/);
+});
+
+test('Review carousel supports arrows, endpoints and pagination with one interactive slide', () => {
+  const win = new Window();
+  const root = win.document.createElement('div');
+  win.document.body.append(root);
+  root.innerHTML = renderTestimonials([1, 2, 3].map(n => ({ approved: true, publicationRightsConfirmed: true, sourceUrl: 'https://example.com/test', name: `Fixture ${n}`, comment: 'Test content' })));
+  const track = root.querySelector('.purchase-review-track');
+  [...track.children].forEach((card, n) => Object.defineProperty(card, 'offsetLeft', { value: n * 300 }));
+  track.scrollTo = ({ left }) => { track.scrollLeft = left; };
+  bindTestimonials(root);
+  const key = key => track.dispatchEvent(new win.KeyboardEvent('keydown', { key, bubbles: true }));
+  key('End');
+  assert.equal(track.scrollLeft, 600);
+  assert.equal(root.querySelector('[data-review-next]').disabled, true);
+  assert.equal([...track.children].filter(c => !c.inert).length, 1);
+  key('Home');
+  assert.equal(root.querySelector('[data-review-prev]').disabled, true);
+  root.querySelector('[data-review-next]').click();
+  assert.equal(track.scrollLeft, 300);
+  root.querySelector('[data-review-index="2"]').click();
+  assert.equal(track.children[2].inert, false);
+  assert.equal(root.querySelector('[data-review-status]').textContent, 'Testimonio 3 de 3');
+  win.happyDOM.abort();
 });

@@ -21,9 +21,9 @@ test('Final offers select the right package; image selection cannot change the p
   $('[data-order-package="individual"]').click();
   assert.equal($('#packageId').value, 'individual');
   assert.equal($('#summary-total').textContent, '$110.000');
-  $('#gallery-next').click(); $('[data-presentation="caja"]').click();
+  $('#gallery-next').click(); $('[data-gallery="0"]').click();
   assert.equal(app.getState().selected, 'individual');
-  assert.equal($('[data-presentation="sobres"]').disabled, true);
+  assert.equal($('[data-presentation="sobres"]'), null);
   $('[data-order-package="familiar"]').click();
   assert.equal($('#sticky-price').textContent, '$425.000');
   assert.equal($('#comparacion').hidden, false);
@@ -45,7 +45,7 @@ test('FAQ and nutrition tabs support keyboard navigation and maintain a single v
   await win.happyDOM.abort();
 });
 
-test('Benefit tabs update approved imagery and retain four supporting points per panel', async () => {
+test('Benefit tabs update approved imagery and keep the approved supporting points', async () => {
   const old = productMedia.lifestyle.energia;
   productMedia.lifestyle.energia = { ...photo, alt: 'Fotografía aprobada de prueba' };
   const win = windowForTest();
@@ -53,7 +53,10 @@ test('Benefit tabs update approved imagery and retain four supporting points per
     win.document.write(html); initApp(win.document, win);
     win.document.querySelector('#tab-energia').click();
     assert.equal(win.document.querySelector('#benefit-image').alt, productMedia.lifestyle.energia.alt);
-    for (const panel of win.document.querySelectorAll('#moment-panels [role="tabpanel"]')) assert.equal(panel.querySelectorAll('li').length, 4);
+    for (const panel of win.document.querySelectorAll('#moment-panels [role="tabpanel"]')) {
+      assert.equal(panel.querySelectorAll('li').length, panel.id === 'panel-bienestar' ? 3 : 4);
+    }
+    assert.doesNotMatch(win.document.querySelector('#panel-bienestar').textContent, /Sin azúcar añadida/i);
   } finally { productMedia.lifestyle.energia = old; await win.happyDOM.abort(); }
 });
 
@@ -66,8 +69,13 @@ test('Comparison uses two real image layers; input and captured pointer movement
   stage.getBoundingClientRect = () => ({ left: 100, width: 400 });
   assert.equal(root.querySelectorAll('img').length, 2);
   assert.equal(range.type, 'range'); // Native range provides arrow/Home/End keyboard semantics.
+  const labels = root.querySelectorAll('.comparison-labels span');
+  assert.equal(labels[0].style.visibility, 'visible');
+  assert.equal(labels[1].style.visibility, 'visible');
   range.value = '25'; range.dispatchEvent(new win.Event('input'));
   assert.equal(stage.style.getPropertyValue('--position'), '25%');
+  assert.equal(labels[0].style.visibility, 'hidden');
+  assert.equal(labels[1].style.visibility, 'visible');
   stage.dispatchEvent(new win.PointerEvent('pointerdown', { pointerId: 2, pointerType: 'touch', clientX: 400, button: 0 }));
   assert.equal(range.value, '75');
   assert.equal(win.document.activeElement, range);
@@ -77,6 +85,11 @@ test('Comparison uses two real image layers; input and captured pointer movement
   stage.dispatchEvent(new win.PointerEvent('pointermove', { pointerId: 2, clientX: 100 }));
   assert.equal(range.value, '100');
   assert.equal(range.getAttribute('aria-valuetext'), '100% de la primera escena');
+  assert.equal(labels[0].style.visibility, 'visible');
+  assert.equal(labels[1].style.visibility, 'hidden');
+  range.value = '0'; range.dispatchEvent(new win.Event('input'));
+  assert.equal(labels[0].style.visibility, 'hidden');
+  assert.equal(labels[1].style.visibility, 'visible');
   await win.happyDOM.abort();
 });
 

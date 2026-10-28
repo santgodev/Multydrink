@@ -1,14 +1,17 @@
 import { approvedImages } from './media-catalog.js';
+import { storefrontImages } from './storefront-media.js';
 // Original supplied PNGs stay under assets/multydrink/; derivatives preserve their content.
 // Independent sachet and drink photographs are still absent. Never crop them out of scenes.
 export const productMedia = {
   individual: approvedImages.individual,
+  family: storefrontImages.family,
+  gallery: storefrontImages.gallery,
   alternateBox: approvedImages.alternateBox,
   sachet: null,
   preparedDrink: null,
   nutritionLabel: approvedImages.nutritionLabel,
   composition: approvedImages.composition,
-  lifestyle: { enfoque: approvedImages.enfoque, energia: approvedImages.energia, memoria: approvedImages.memoria, bienestar: approvedImages.bienestar },
+  lifestyle: storefrontImages.benefits,
 };
 
 // { first: Image, second: Image, firstLabel: '...', secondLabel: '...' }

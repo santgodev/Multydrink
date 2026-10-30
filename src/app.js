@@ -4,6 +4,7 @@ import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery,
 import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
 import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
+import { initLegalDrafts } from './legal.js';
 import { renderEditorialIngredients, renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderVideoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
@@ -49,19 +50,24 @@ export function initApp(doc = document, win = window, options = {}) {
     }, { threshold: 0.18 });
     ritualObserver.observe(ritualSteps);
   }
-  $('#video-carousel').innerHTML = renderVideoCarousel(videoTestimonials);
+  const videoReview = { localReview: ['127.0.0.1', 'localhost', '[::1]'].includes(win.location.hostname) && new URLSearchParams(win.location.search).get('revision-videos') === '1' };
+  $('#video-carousel').innerHTML = renderVideoCarousel(videoTestimonials, videoReview);
   $('#video-testimonials').hidden = !$('#video-carousel').children.length;
-  bindVideoCarousel($('#video-carousel'), videoTestimonials);
+  bindVideoCarousel($('#video-carousel'), videoTestimonials, videoReview);
   $('#testimonials').innerHTML = renderTestimonials(testimonials);
   $('#testimonials').hidden = !$('#testimonials').children.length;
   bindTestimonials($('#testimonials'));
   $('#customer-fields').innerHTML = [
     renderField({ name: 'fullName', label: 'Nombre completo', autocomplete: 'name', placeholder: 'Nombre y apellidos', full: true }),
-    renderField({ name: 'phone', label: 'Celular colombiano', type: 'tel', autocomplete: 'tel', placeholder: '300 123 4567', maxLength: 20, full: true }),
+    renderField({ name: 'documentNumber', label: 'Número de documento de identidad', inputmode: 'numeric', maxLength: 30, full: true }),
+    renderField({ name: 'phone', label: 'Celular', type: 'tel', autocomplete: 'tel', placeholder: '300 123 4567', maxLength: 20, full: true }),
     `<div class="field"><label for="department">Departamento</label><select id="department" name="department" autocomplete="address-level1" required aria-describedby="department-error"><option value="">Selecciona</option>${renderDepartments()}</select><span id="department-error" class="field-error"></span></div>`,
     renderField({ name: 'city', label: 'Ciudad o municipio', autocomplete: 'address-level2', placeholder: 'Tu ciudad', maxLength: 80 }),
-    renderField({ name: 'address', label: 'Dirección de entrega', autocomplete: 'address-line1', placeholder: 'Calle, carrera, número y barrio', full: true, maxLength: 180 }),
-    renderField({ name: 'instructions', label: 'Detalles de entrega', autocomplete: 'address-line2', placeholder: 'Apartamento, torre o indicaciones', optional: true, full: true, maxLength: 300 }),
+    renderField({ name: 'address', label: 'Dirección completa de entrega', autocomplete: 'address-line1', placeholder: 'Calle o carrera, número de vía y casa', full: true, maxLength: 180 }),
+    renderField({ name: 'neighborhood', label: 'Barrio', placeholder: 'Nombre de tu barrio', maxLength: 100 }),
+    renderField({ name: 'unit', label: 'Apartamento, torre o interior', autocomplete: 'address-line2', placeholder: 'Detalles de tu vivienda', optional: true, maxLength: 120 }),
+    renderField({ name: 'instructions', label: 'Referencia o instrucciones de entrega', placeholder: 'Un punto de referencia o indicación adicional', optional: true, full: true, maxLength: 300 }),
+    renderField({ name: 'email', label: 'Correo electrónico', type: 'email', autocomplete: 'email', placeholder: 'nombre@correo.com', optional: true, full: true, maxLength: 254 }),
   ].join('');
   $('#packageId').innerHTML = packages.map(item => `<option value="${item.id}">${item.name} · ${item.sachets} sobres</option>`).join('');
   $('#offer-quantity').max = String(commerce.maxQuantity);
@@ -82,7 +88,9 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#privacy-help').textContent = 'Consulta quién recibe tus datos y cómo ejercer tus derechos.';
     $('#privacy-dialog').querySelector('p:not(.eyebrow)').textContent = `Consulta la política de ${commerce.merchantName || 'el vendedor'} antes de enviar tus datos.`;
     $('#privacy-dialog').querySelectorAll('p:not(.eyebrow)').forEach((p, index) => { if (index > 0) p.hidden = true; });
-    const privacyAnchor = $('#privacy-dialog').querySelector('a');
+    const privacyAnchor = $('#privacy-dialog').querySelector('a') || doc.createElement('a');
+    privacyAnchor.className = 'text-link';
+    if (!privacyAnchor.isConnected) $('#privacy-dialog').append(privacyAnchor);
     privacyAnchor.href = commerce.privacyPolicyUrl; privacyAnchor.textContent = 'Leer la política del vendedor ↗';
   } else {
     $('#privacy-link').addEventListener('click', event => { event.preventDefault(); openDialog('privacy-dialog'); });
@@ -93,6 +101,7 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#submit-order').innerHTML = `CONFIRMAR PEDIDO CONTRA ENTREGA ${icon('arrow')}`;
     $('#conditions-dialog').querySelector('p:last-child').textContent = `Vendedor: ${commerce.merchantName}. ${commerce.shippingDescription} Consulta sus condiciones completas antes de enviar el pedido.`;
   }
+  initLegalDrafts(doc, win, commerce);
   function updateSummary() {
     const item = getPackage(selected);
     const totals = calculateOrder(selected, quantity, commerce.shippingFee);
@@ -226,26 +235,62 @@ export function initApp(doc = document, win = window, options = {}) {
   $$('#navigation a').forEach(link => link.addEventListener('click', closeMenu));
   doc.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') { closeMenu(); menu.focus(); } });
   doc.addEventListener('click', event => { if (!event.target.closest('.nav-inner')) closeMenu(); });
-  $$('a[href="#pedido"]').forEach(link => link.addEventListener('click', event => {
-    event.preventDefault(); closeMenu();
-    if (link.dataset.orderPackage) selectPackage(link.dataset.orderPackage);
+  const checkout = $('#pedido');
+  let checkoutTrigger = null;
+  let checkoutScroll = 0;
+  let savedBodyStyle = null;
+  function openCheckout(trigger = doc.activeElement) {
+    if (checkout.open) return;
+    checkoutTrigger = trigger;
+    checkoutScroll = win.scrollY;
+    savedBodyStyle = doc.body.getAttribute('style');
+    checkout.showModal();
+    Object.assign(doc.body.style, { position: 'fixed', top: `-${checkoutScroll}px`, width: '100%', overflow: 'hidden' });
+    doc.documentElement.classList.add('checkout-open');
+    checkout.scrollTop = 0;
     $('#order-title').focus({ preventScroll: true });
-    $('#pedido').scrollIntoView({ behavior: win.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
-    win.history.replaceState(null, '', '#pedido');
-  }));
+    updateStickyVisibility();
+  }
+  checkout.addEventListener('close', () => {
+    if (savedBodyStyle === null) doc.body.removeAttribute('style');
+    else doc.body.setAttribute('style', savedBodyStyle);
+    doc.documentElement.classList.remove('checkout-open');
+    win.scrollTo({ top: checkoutScroll, behavior: 'instant' });
+    updateStickyVisibility();
+    if (checkoutTrigger?.isConnected) checkoutTrigger.focus({ preventScroll: true });
+    if (win.location.hash === '#pedido') win.history.replaceState(null, '', win.location.pathname + win.location.search);
+  });
+  checkout.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const controls = [...checkout.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
+      .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') && element.getClientRects().length);
+    const first = controls[0], last = controls.at(-1);
+    if (!first) { event.preventDefault(); $('#order-title').focus(); return; }
+    if (event.shiftKey && (doc.activeElement === first || doc.activeElement === $('#order-title'))) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && doc.activeElement === last) {
+      event.preventDefault(); first.focus();
+    }
+  });
+  $$('a[href="#pedido"]').forEach(link => {
+    link.setAttribute('aria-haspopup', 'dialog');
+    link.setAttribute('aria-controls', 'pedido');
+    link.addEventListener('click', event => {
+      event.preventDefault(); closeMenu();
+      if (link.dataset.orderPackage) selectPackage(link.dataset.orderPackage);
+      openCheckout(link);
+    });
+  });
   const sticky = $('.sticky-purchase');
   const primaryPurchaseCta = $('.main-cta');
-  const orderSection = $('#pedido');
   const footer = $('.footer');
   // The sticky purchase prompt appears only once the in-page purchase CTA has
   // passed above the viewport. It must never obscure the initial hero.
   function updateStickyVisibility() {
     const pastPurchaseCta = primaryPurchaseCta.getBoundingClientRect().bottom <= 0;
-    const orderRect = orderSection.getBoundingClientRect();
     const footerRect = footer.getBoundingClientRect();
-    const atOrder = orderRect.top < win.innerHeight && orderRect.bottom > 0;
     const atFooter = footerRect.top < win.innerHeight && footerRect.bottom > 0;
-    const hide = !pastPurchaseCta || atOrder || atFooter;
+    const hide = !pastPurchaseCta || checkout.open || atFooter;
     sticky.classList.toggle('is-hidden', hide);
     sticky.inert = hide;
     sticky.setAttribute('aria-hidden', String(hide));
@@ -264,7 +309,7 @@ export function initApp(doc = document, win = window, options = {}) {
     dialog.addEventListener('click', event => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); } });
   });
   function values() {
-    return Object.fromEntries(['fullName', 'phone', 'department', 'city', 'address', 'instructions', 'packageId', 'quantity', 'privacy'].map(name => [name, name === 'privacy' ? $('#privacy').checked : doc.getElementById(name).value]));
+    return Object.fromEntries(['fullName', 'documentNumber', 'phone', 'department', 'city', 'address', 'neighborhood', 'unit', 'instructions', 'email', 'packageId', 'quantity', 'privacy'].map(name => [name, name === 'privacy' ? $('#privacy').checked : doc.getElementById(name).value]));
   }
   function showFieldError(name, error) {
     const field = doc.getElementById(name);
@@ -319,6 +364,8 @@ export function initApp(doc = document, win = window, options = {}) {
   updateSummary();
   displayGallery(0);
   selectMoment(momentTabs[0]);
+  if (win.location.hash === '#pedido') openCheckout($('.nav-purchase'));
+  win.addEventListener('hashchange', () => { if (win.location.hash === '#pedido') openCheckout($('.nav-purchase')); });
   return { selectPackage, displayGallery, getState: () => ({ selected, quantity, galleryIndex, confirmed }) };
 }
 

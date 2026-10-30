@@ -20,7 +20,7 @@ function fill(ctx, id, value, event = 'input') {
   node.dispatchEvent(new ctx.win.Event(event, { bubbles: true }));
 }
 function fillValid(ctx) {
-  for (const [id, value] of Object.entries({ fullName: 'María Pérez', phone: '3001234567', department: 'Antioquia', city: 'Medellín', address: 'Carrera 10 # 20-30', privacy: true })) fill(ctx, id, value, 'change');
+  for (const [id, value] of Object.entries({ fullName: 'María Pérez', documentNumber: '0012345678', phone: '3001234567', department: 'Antioquia', city: 'Medellín', address: 'Carrera 10 # 20-30', neighborhood: 'Laureles', privacy: true })) fill(ctx, id, value, 'change');
 }
 const settle = () => new Promise(resolve => setTimeout(resolve, 0));
 
@@ -75,7 +75,7 @@ test('Quantity rejects invalid typed values, caps at configured bounds and recov
 });
 test('Gallery buttons, thumbnails and arrow keys update image and accessible state', () => {
   const ctx = setup();
-  assert.match(ctx.$('#hero-image').src, /caja-principal-1254.webp$/);
+  assert.match(ctx.$('#hero-image').src, /hero-ingredientes-1254.webp$/);
   ctx.$('#gallery-next').click();
   assert.match(ctx.$('#hero-image').src, /gallery-02-descanso-oficina-1254.webp$/);
   assert.equal(ctx.$('[data-gallery="1"]').getAttribute('aria-pressed'), 'true');
@@ -98,7 +98,7 @@ test('Product reading order introduces the product and purchase before supplemen
   assert.equal(ctx.doc.querySelectorAll('h1').length, 1);
   ctx.win.happyDOM.abort();
 });
-test('Menu supports opening, link dismissal and Escape; CTAs point to actual order section', () => {
+test('Menu supports opening, link dismissal and Escape; CTAs open checkout dialog', () => {
   const ctx = setup();
   const menu = ctx.$('.menu-toggle');
   menu.click(); assert.equal(menu.getAttribute('aria-expanded'), 'true');
@@ -108,7 +108,8 @@ test('Menu supports opening, link dismissal and Escape; CTAs point to actual ord
   menu.click(); ctx.$('#navigation a').click();
   assert.equal(menu.getAttribute('aria-expanded'), 'false');
   ctx.$('.main-cta').click();
-  assert.equal(ctx.win.location.hash, '#pedido');
+  assert.equal(ctx.$('#pedido').open, true);
+  assert.equal(ctx.$('main #order-form'), null);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-title'));
   ctx.win.happyDOM.abort();
 });
@@ -125,6 +126,16 @@ test('Missing service keeps submission disabled and blocks programmatic submissi
 });
 test('Validation shows field errors, corrects in real time and focuses first invalid field', async () => {
   const ctx = setup({ commerce: configured });
+  assert.equal(ctx.$('#fullName').closest('.field').nextElementSibling.querySelector('input').id, 'documentNumber');
+  assert.equal(ctx.$('#documentNumber').type, 'text');
+  assert.equal(ctx.$('#documentNumber').getAttribute('inputmode'), 'numeric');
+  assert.equal(ctx.$('#documentNumber').required, true);
+  assert.equal(ctx.$('label[for="phone"]').textContent, 'Celular');
+  fill(ctx, 'documentNumber', '', 'change');
+  assert.equal(ctx.$('#documentNumber').getAttribute('aria-invalid'), 'true');
+  fill(ctx, 'documentNumber', '0012345678');
+  assert.equal(ctx.$('#documentNumber').value, '0012345678');
+  assert.equal(ctx.$('#documentNumber-error').textContent, '');
   fill(ctx, 'phone', '123', 'change');
   assert.equal(ctx.$('#phone').getAttribute('aria-invalid'), 'true');
   fill(ctx, 'phone', '3001234567');
@@ -278,4 +289,35 @@ test('Review carousel supports arrows, endpoints and pagination with one interac
   assert.equal(track.children[2].inert, false);
   assert.equal(root.querySelector('[data-review-status]').textContent, 'Testimonio 3 de 3');
   win.happyDOM.abort();
+});
+
+
+test('Checkout modal preserves selection, totals and form values across openings', async () => {
+  const ctx = setup();
+  ctx.$('#offer-more').click();
+  ctx.$('.main-cta').focus();
+  ctx.$('.main-cta').click();
+  assert.equal(ctx.$('#pedido').open, true);
+  assert.equal(ctx.$('#packageId').value, 'familiar');
+  assert.equal(ctx.$('#quantity').value, '2');
+  assert.equal(ctx.$('#summary-total').textContent, '$850.000');
+  fill(ctx, 'neighborhood', 'Laureles', 'change');
+  fill(ctx, 'packageId', 'individual', 'change');
+  assert.equal(ctx.$('#summary-total').textContent, '$220.000');
+  assert.equal(ctx.$('#offer-quantity').value, '2');
+  ctx.$('#pedido [data-close]').click();
+  await settle();
+  assert.equal(ctx.$('#pedido').open, false);
+  assert.equal(ctx.doc.activeElement, ctx.$('.main-cta'));
+  assert.equal(ctx.doc.documentElement.classList.contains('checkout-open'), false);
+  ctx.$('.nav-purchase').click();
+  assert.equal(ctx.$('#quantity').value, '2');
+  assert.equal(ctx.$('#neighborhood').value, 'Laureles');
+  ctx.$('#pedido [data-close]').click();
+  await settle();
+  ctx.$('[data-order-package="familiar"]').click();
+  assert.equal(ctx.$('#packageId').value, 'familiar');
+  assert.equal(ctx.$('#quantity').value, '2');
+  assert.equal(ctx.$('#summary-total').textContent, '$850.000');
+  ctx.win.happyDOM.abort();
 });

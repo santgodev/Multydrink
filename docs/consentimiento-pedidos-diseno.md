@@ -18,7 +18,7 @@ El fragmento de `appendRow` compartido contiene **29 valores**, y los últimos s
 - Índice base cero 27 / columna AB: `solicitudId`.
 - Índice base cero 28 / columna AC: `fecha`.
 
-No inferir que la columna AC corresponde a «Fecha de autorización de datos» sin verificar los **encabezados reales de la fila 1**. Si efectivamente AC tiene ese título, el valor `fecha` final ya representa una marca temporal escrita por servidor, pero debe verificarse que solo se escriba ante consentimiento estricto. Si el encabezado está en otra columna, corregir el mapeo preservando la estructura de 29 columnas.
+Encabezados confirmados por la usuaria: **A = ID Pedido**, **B = Fecha de pedido**, **R = Subtotal COP**, **U = Total COP**, **AB = ID de solicitud**, **AC = Fecha de autorización de datos**. El `appendRow` compartido ya escribe `fecha` (creada en Apps Script) en AC y valida estrictamente `aceptaPrivacidad === true` antes de guardar. No hay que mover columnas ni añadir hojas.
 
 Para versión de política, revisar los encabezados y campos existentes antes de proponer nuevos. No añadir hojas, columnas ni desplazar datos sin autorización.
 
@@ -29,4 +29,4 @@ Para versión de política, revisar los encabezados y campos existentes antes de
 - Permanecen deshabilitados `orderEndpoint: null`, `ORDERS_ENABLED=false` y los bloqueos del servicio.
 
 ## Próximo paso
-Pedir únicamente los nombres de encabezados A:AC de la pestaña `Pedidos` (sin filas con datos personales) para comprobar el mapeo y, con ellos, preparar una versión exacta de `Pedidos.gs` sin alterar la hoja.
+Preparar y revisar el ajuste preciso de `Pedidos.gs` para reforzar validaciones e idempotencia conservando sus 29 columnas, sin cambiar el registro de la fecha AC. No pedir nuevamente encabezados ni activar el flujo de pedidos.

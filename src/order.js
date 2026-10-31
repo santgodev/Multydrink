@@ -15,13 +15,13 @@ export function normalizePhone(value) {
 export function validateField(name, value) {
   const text = String(value ?? '').trim();
   switch (name) {
-    case 'fullName': return text.length >= 5 && text.length <= 100 && /^[\p{L}\p{M}' .-]+$/u.test(text) && text.split(/\s+/).length > 1 ? '' : 'Escribe tu nombre y apellido completos.';
-    case 'documentNumber': return text.length >= 4 && text.length <= 30 && /^[\p{L}\p{N}]+(?:[ .-]?[\p{L}\p{N}]+)*$/u.test(text) ? '' : 'Escribe tu documento de identidad (entre 4 y 30 caracteres; admite letras, números, espacios, puntos y guiones).';
+    case 'fullName': if (!text) return 'Ingresa tu nombre y apellido.'; return text.length >= 5 && text.length <= 100 && /^[\p{L}\p{M}' .-]+$/u.test(text) && text.split(/\s+/).length > 1 ? '' : 'Escribe tu nombre y apellido completos.';
+    case 'documentNumber': if (!text) return 'Ingresa tu número de documento.'; return text.length >= 4 && text.length <= 30 && /^[\p{L}\p{N}]+(?:[ .-]?[\p{L}\p{N}]+)*$/u.test(text) ? '' : 'Escribe tu documento de identidad (entre 4 y 30 caracteres; admite letras, números, espacios, puntos y guiones).';
     case 'phone': return !text ? 'Ingresa tu número de celular.' : /^3\d{9}$/.test(normalizePhone(text)) ? '' : 'El celular debe tener exactamente 10 dígitos y comenzar por 3.';
     case 'department': return departments.includes(text) ? '' : 'Selecciona tu departamento.';
-    case 'city': return text.length >= 2 && text.length <= 80 && /^[\p{L}\p{M} .'-]+$/u.test(text) ? '' : 'Escribe una ciudad o municipio válido.';
-    case 'address': return text.length >= 8 && text.length <= 180 ? '' : 'Escribe una dirección completa, entre 8 y 180 caracteres.';
-    case 'neighborhood': return text.length >= 2 && text.length <= 100 ? '' : 'Escribe tu barrio, entre 2 y 100 caracteres.';
+    case 'city': if (!text) return 'Ingresa tu ciudad o municipio.'; return text.length >= 2 && text.length <= 80 && /^[\p{L}\p{M} .'-]+$/u.test(text) ? '' : 'Escribe una ciudad o municipio válido.';
+    case 'address': if (!text) return 'Ingresa tu dirección de entrega.'; return text.length >= 8 && text.length <= 180 ? '' : 'Escribe una dirección completa, entre 8 y 180 caracteres.';
+    case 'neighborhood': if (!text) return 'Ingresa tu barrio.'; return text.length >= 2 && text.length <= 100 ? '' : 'Escribe tu barrio, entre 2 y 100 caracteres.';
     case 'unit': return text.length <= 120 ? '' : 'Usa máximo 120 caracteres para los detalles de tu vivienda.';
     case 'email': return !text || (text.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) ? '' : 'Escribe un correo electrónico válido o deja el campo vacío.';
     case 'instructions': return text.length <= 300 ? '' : 'Usa máximo 300 caracteres.';
@@ -67,7 +67,7 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch)
         const response = await fetcher(config.orderEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': retryKey }, body: JSON.stringify(payload), signal: controller.signal, credentials: 'same-origin' });
         if (!response.ok) {
           outcomeUnknown = response.status >= 500 || response.status === 409;
-          throw new OrderError(response.status === 429 ? 'Hay muchas solicitudes. Espera un momento y vuelve a intentar.' : 'No pudimos confirmar tu solicitud. Reintenta con los mismos datos o consulta al vendedor.', 'HTTP');
+          throw new OrderError(response.status === 400 ? 'Los datos enviados no son válidos. Revisa el formulario.' : response.status === 429 ? 'Hay muchas solicitudes. Espera un momento y vuelve a intentar.' : response.status === 503 ? 'Los pedidos no están disponibles en este momento. No se ha confirmado tu pedido.' : 'No pudimos confirmar tu solicitud. Reintenta con los mismos datos o consulta al vendedor.', 'HTTP');
         }
         const result = await response.json();
         // Only an explicit persisted order receipt counts as success.

@@ -8,9 +8,9 @@ const videos = eligibleVideos(videoTestimonials);
 const approvedVideoFiles = new Set(videos.flatMap(item => [item.videoSrc, item.captionsSrc]));
 const configuredImages = [productMedia.individual, productMedia.family, ...productMedia.gallery, productMedia.alternateBox, productMedia.sachet, productMedia.preparedDrink, productMedia.nutritionLabel, productMedia.composition, ...Object.values(productMedia.lifestyle), comparisonMedia?.first, comparisonMedia?.second, ...videos.map(item => item.poster)].filter(Boolean);
 const configuredImageFiles = new Set();
-const validImagePath = /^assets\/(?:multydrink\/optimized\/)?[\w.-]+\.webp$/;
+const validImagePath = /^assets\\/(?:multydrink\\/(?:optimized|producto)\\/)?[\\w.-]+\\.webp$/;
 for (const item of configuredImages) {
-  if (!validImagePath.test(item.src) || !item.alt || !(item.width > 0) || !(item.height > 0)) throw new Error('Approved image requires a local WebP, alt text and dimensions');
+  if (!validImagePath.test(item.src) || !item.alt || ((item.width > 0) !== (item.height > 0))) throw new Error('Approved image requires a local WebP, alt text and dimensions');
   for (const file of [item.src, item.thumbnail, ...(item.variants || []).map(variant => variant.src)].filter(Boolean)) {
     if (!validImagePath.test(file)) throw new Error('Invalid image candidate path');
     await stat(file); configuredImageFiles.add(file);

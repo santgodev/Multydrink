@@ -4,7 +4,7 @@ import { commerce, packages } from '../src/config.js';
 import { calculateOrder, createOrderClient, isOrderingEnabled, money, normalizePhone, validateField, validateOrder } from '../src/order.js';
 
 const configured = { ...commerce, orderEndpoint: '/test-orders', merchantName: 'Test merchant', privacyPolicyUrl: '/test-policy', privacyPolicyVersion: 'test-v1', shippingFee: 0, shippingDescription: 'Test shipping' };
-const valid = { fullName: 'María Pérez', phone: '+57 300 123 4567', department: 'Bogotá, D. C.', city: 'Bogotá', address: 'Calle 10 # 15-20', instructions: '', packageId: 'familiar', quantity: '2', privacy: true };
+const valid = { fullName: 'María Pérez', documentNumber: '0012345678', phone: '+57 300 123 4567', department: 'Bogotá, D. C.', city: 'Bogotá', address: 'Calle 10 # 15-20', neighborhood: 'Centro', instructions: '', packageId: 'familiar', quantity: '2', privacy: true };
 const receipt = { status: 'received', orderId: 'test-order-1', total: 850000, currency: 'COP' };
 
 test('Exactly two offers with correct quantities, savings and Colombian prices', () => {
@@ -27,13 +27,39 @@ test('Colombian phone validation accepts formatting and rejects invalid length o
 });
 test('Required fields, Colombian department, consent and length constraints are enforced', () => {
   assert.deepEqual(validateOrder(valid), {});
+  for (const documentNumber of ['', '123', '1'.repeat(31), '<script>']) assert.ok(validateOrder({ ...valid, documentNumber }).documentNumber);
+  for (const documentNumber of ['0012345678', 'AB-123456', '1234', '12 345 678']) assert.equal(validateField('documentNumber', documentNumber), '');
   assert.ok(validateOrder({ ...valid, privacy: false }).privacy);
+  assert.ok(validateOrder({ ...valid, neighborhood: '' }).neighborhood);
+  assert.ok(validateOrder({ ...valid, email: 'invalid' }).email);
+  assert.deepEqual(validateOrder({ ...valid, email: 'test@example.com', unit: 'Torre 2' }), {});
+  assert.ok(validateOrder({ ...valid, unit: 'x'.repeat(121) }).unit);
   assert.ok(validateOrder({ ...valid, department: 'Invalid' }).department);
   assert.ok(validateOrder({ ...valid, fullName: 'A' }).fullName);
   assert.ok(validateOrder({ ...valid, city: '<script>' }).city);
   assert.ok(validateOrder({ ...valid, address: 'short', instructions: 'x'.repeat(301) }).address);
   assert.ok(validateOrder({ ...valid, quantity: '1.2' }).quantity);
 });
+test('Required checkout fields report precise empty-value errors', () => {
+  const required = ['fullName', 'documentNumber', 'phone', 'department', 'city', 'address', 'neighborhood', 'packageId', 'quantity'];
+  for (const field of required) {
+    assert.ok(validateOrder({ ...valid, [field]: '' })[field], `Expected error for missing ${field}`);
+  }
+  assert.match(validateField('phone', ''), /celular/i);
+  assert.match(validateField('phone', '300123456'), /10 dígitos/);
+  assert.match(validateField('phone', '2001234567'), /comenzar por 3/);
+  assert.equal(validateField('phone', '3001234567'), '');
+  assert.ok(validateOrder({ ...valid, privacy: false }).privacy);
+  assert.deepEqual(validateOrder({ ...valid, unit: '', instructions: '', email: '' }), {});
+});
+
+test('HTTP 400, 429 and 503 do not confirm orders and show specific feedback', async () => {
+  for (const [status, expected] of [[400, /datos enviados no son válidos/i], [429, /muchas solicitudes/i], [503, /no están disponibles/i]]) {
+    const client = createOrderClient(configured, async () => new Response('{}', { status }));
+    await assert.rejects(client.submit(valid), error => error.code === 'HTTP' && expected.test(error.message));
+  }
+});
+
 test('Unconfigured checkout never calls a network service or fakes success', async () => {
   assert.equal(isOrderingEnabled(commerce), false);
   let called = false;
@@ -49,6 +75,7 @@ test('Submission sends only product IDs and quantity; backend owns authoritative
   const payload = JSON.parse(options.body);
   assert.deepEqual(payload.items, [{ packageId: 'familiar', quantity: 2 }]);
   assert.equal(payload.customer.phone, '+573001234567');
+  assert.equal(payload.customer.documentNumber, '0012345678');
   assert.equal(payload.paymentMethod, 'cash_on_delivery');
   assert.equal(payload.consent.policyVersion, 'test-v1');
   assert.ok(options.headers['Idempotency-Key']);

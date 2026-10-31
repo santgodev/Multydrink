@@ -101,6 +101,24 @@ test('Video eligibility requires rights, approval, source, captions and transcri
   assert.doesNotMatch(markup, /<video|autoplay|Compra verificada|estrellas/);
 });
 
+test('Local video review is opt-in on loopback and excluded from production eligibility', async () => {
+  assert.equal(eligibleVideos(videoTestimonials).length, 0);
+  assert.equal(renderVideoCarousel(videoTestimonials), '');
+  for (const [url, visible] of [['http://localhost:4173/?revision-videos=1', true], ['https://example.com/?revision-videos=1', false]]) {
+    const win = windowForTest();
+    win.location.href = url;
+    win.document.write(html);
+    initApp(win.document, win);
+    assert.equal(win.document.querySelector('#video-testimonials').hidden, !visible);
+    assert.equal(win.document.querySelectorAll('#video-testimonials').length, 1);
+    if (visible) {
+      assert.equal(win.document.querySelectorAll('.video-card').length, 3);
+      assert.equal(win.document.querySelectorAll('.video-card blockquote').length, 0);
+    }
+    await win.happyDOM.abort();
+  }
+});
+
 test('Video carousel is keyboard navigable, plays only on request and releases media on close', async () => {
   const win = windowForTest(), root = win.document.body;
   let played = 0, paused = 0;

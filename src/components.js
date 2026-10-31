@@ -54,8 +54,8 @@ export const renderProductFaqs = items => items.map(item => `<details class="acc
     ${item.footer ? `<p class="product-detail-footer">${escapeHTML(item.footer)}</p>` : ''}
   </div>
 </details>`).join('');
-export function renderField({ name, label, autocomplete, placeholder = '', type = 'text', optional = false, full = false, maxLength = 100 }) {
-  return `<div class="field ${full ? 'full-width' : ''}"><label for="${name}">${label}${optional ? ' <span>(opcional)</span>' : ''}</label><input id="${name}" name="${name}" type="${type}" autocomplete="${autocomplete || 'off'}" placeholder="${placeholder}" maxlength="${maxLength}" ${optional ? '' : 'required'} ${name === 'phone' ? 'inputmode="tel"' : ''} aria-describedby="${name}-error"><span class="field-error" id="${name}-error"></span></div>`;
+export function renderField({ name, label, autocomplete, placeholder = '', type = 'text', optional = false, full = false, maxLength = 100, inputmode = name === 'phone' ? 'tel' : '' }) {
+  return `<div class="field ${full ? 'full-width' : ''}"><label for="${name}">${label}${optional ? ' <span>(opcional)</span>' : ''}</label><input id="${name}" name="${name}" type="${type}" autocomplete="${autocomplete || 'off'}" placeholder="${placeholder}" maxlength="${maxLength}" ${optional ? '' : 'required'} ${inputmode ? `inputmode="${inputmode}"` : ''} aria-describedby="${name}-error"><span class="field-error" id="${name}-error"></span></div>`;
 }
 export const renderDepartments = () => departments.map(item => `<option value="${item}">${item}</option>`).join('');
 export function renderTestimonials(reviews) {

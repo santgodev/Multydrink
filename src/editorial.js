@@ -121,39 +121,53 @@ export function bindComparison(root) {
 export function eligibleVideos(items) {
   return items.filter(item => item.approved === true && item.publicationRightsConfirmed === true && item.name && item.excerpt && item.poster?.src && item.sourceUrl && item.transcript && /^assets\/[\w.-]+\.vtt$/.test(item.captionsSrc) && /^assets\/[\w.-]+\.(mp4|webm)$/.test(item.videoSrc));
 }
-export function renderVideoCarousel(items) {
-  const eligible = eligibleVideos(items);
-  if (!eligible.length) return '';
-  return `<div class="carousel-heading"><div><p class="eyebrow">EXPERIENCIAS COMPARTIDAS</p><h2 id="video-title">MultyDrink, en sus palabras.</h2></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-label="Reproducir testimonio de ${esc(item.name)}">${imageMarkup(item.poster)}<span class="video-play" aria-hidden="true">▶</span></button><blockquote>${esc(item.excerpt)}</blockquote><p>${esc(item.name)}</p></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
+function reviewableVideos(items, localReview) {
+  return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc) : eligibleVideos(items);
 }
-export function bindVideoCarousel(root, items) {
-  const eligible = eligibleVideos(items);
+export function renderVideoCarousel(items, { localReview = false } = {}) {
+  const eligible = reviewableVideos(items, localReview);
+  if (!eligible.length) return '';
+  return `<div class="carousel-heading"><div><p class="eyebrow">EXPERIENCIAS REALES</p><h2 id="video-title">Conoce sus experiencias.</h2><p class="video-intro">Personas que comparten cómo incorporan MultyDrink a su rutina.</p></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${item.poster.width > item.poster.height ? `<img class="video-card-backdrop" src="${esc(item.poster.src)}" alt="" aria-hidden="true" loading="lazy" decoding="async">` : ''}${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 380px')}<span class="video-play" aria-hidden="true">▶</span><span class="video-watch" aria-hidden="true">Ver experiencia</span></button><div class="video-card-copy"><p>${esc(item.name)}</p>${item.excerpt ? `<blockquote>${esc(item.excerpt)}</blockquote>` : ''}</div></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
+}
+export function bindVideoCarousel(root, items, { localReview = false } = {}) {
+  const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return;
   const track = root.querySelector('.video-track');
   const cards = [...track.children];
   const prev = root.querySelector('[data-carousel-prev]'), next = root.querySelector('[data-carousel-next]');
   const dialog = root.querySelector('dialog'), player = root.querySelector('[data-video-player]');
+  let trigger = null;
+  const releasePlayer = () => { const video = player.querySelector('video'); if (video) { video.pause(); video.removeAttribute('src'); video.load(); } player.replaceChildren(); };
   let index = 0;
-  const controls = () => { prev.disabled = index === 0; next.disabled = index === cards.length - 1; root.querySelector('[data-carousel-status]').textContent = `Testimonio ${index + 1} de ${cards.length}`; };
+  const controls = () => { const overflow = track.scrollWidth > track.clientWidth + 1; prev.disabled = !overflow || track.scrollLeft <= 1; next.disabled = !overflow || track.scrollLeft >= track.scrollWidth - track.clientWidth - 1; root.querySelector('[data-carousel-status]').textContent = `Testimonio ${index + 1} de ${cards.length}`; };
   const go = value => { index = Math.max(0, Math.min(cards.length - 1, value)); const left = cards[index].offsetLeft - cards[0].offsetLeft; track.scrollTo({ left, behavior: root.ownerDocument.defaultView.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); controls(); };
   prev.addEventListener('click', () => go(index - 1)); next.addEventListener('click', () => go(index + 1));
   track.addEventListener('keydown', event => { if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return; event.preventDefault(); go(event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 : index + (event.key === 'ArrowRight' ? 1 : -1)); });
   track.addEventListener('scroll', () => { const offsets = cards.map(card => Math.abs(card.offsetLeft - cards[0].offsetLeft - track.scrollLeft)); index = offsets.indexOf(Math.min(...offsets)); controls(); });
+  root.ownerDocument.defaultView.addEventListener('resize', controls);
   root.querySelectorAll('[data-play-video]').forEach(button => button.addEventListener('click', () => {
+    trigger = button;
+    releasePlayer();
     const item = eligible[Number(button.dataset.playVideo)];
     const video = root.ownerDocument.createElement('video');
     video.controls = true; video.preload = 'none'; video.playsInline = true; video.poster = item.poster.src; video.src = item.videoSrc;
-    const captions = root.ownerDocument.createElement('track');
-    captions.kind = 'captions'; captions.src = item.captionsSrc; captions.srclang = 'es'; captions.label = 'Español'; captions.default = true;
-    video.append(captions);
-    const transcript = root.ownerDocument.createElement('details');
-    const summary = root.ownerDocument.createElement('summary'); summary.textContent = 'Leer transcripción';
-    const text = root.ownerDocument.createElement('p'); text.textContent = item.transcript;
-    transcript.append(summary, text);
-    player.replaceChildren(video, transcript); root.querySelector('#video-dialog-title').textContent = `Testimonio de ${item.name}`; dialog.showModal();
+    if (item.captionsSrc) {
+      const captions = root.ownerDocument.createElement('track');
+      captions.kind = 'captions'; captions.src = item.captionsSrc; captions.srclang = 'es'; captions.label = 'Español'; captions.default = true;
+      video.append(captions);
+    }
+    player.replaceChildren(video);
+    if (item.transcript) {
+      const transcript = root.ownerDocument.createElement('details');
+      const summary = root.ownerDocument.createElement('summary'); summary.textContent = 'Leer transcripción';
+      const text = root.ownerDocument.createElement('p'); text.textContent = item.transcript;
+      transcript.append(summary, text);
+      player.append(transcript);
+    }
+    root.querySelector('#video-dialog-title').textContent = item.name; if (!dialog.open) dialog.showModal();
     video.play()?.catch(() => {});
   }));
   root.querySelector('[data-video-close]').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => { const video = player.querySelector('video'); if (video) { video.pause(); video.removeAttribute('src'); video.load(); } player.replaceChildren(); });
+  dialog.addEventListener('close', () => { releasePlayer(); trigger?.focus({ preventScroll: true }); });
   controls();
 }

@@ -44,7 +44,8 @@ test('Supplied originals are unchanged and optimized images retain dimensions, a
 test('Real media is mapped to gallery, final offers, nutrition, tabs and selected-purchase thumbnails', async () => {
   const { win, $, app } = setup();
   try {
-    assert.ok($('#hero-image').src.endsWith(productMedia.individual.src));
+    assert.ok($('#hero-image').src.endsWith(productMedia.gallery[0].src));
+    assert.notEqual(productMedia.gallery[0].src, productMedia.individual.src, 'Hero photo must not replace purchase imagery');
     assert.ok($('.final-offer img').src.endsWith(productMedia.individual.src));
     assert.ok($('.real-nutrition-label').src.endsWith(productMedia.nutritionLabel.src));
     assert.equal($('.nutrition-label-figure a').getAttribute('href'), productMedia.nutritionLabel.src);
@@ -95,7 +96,7 @@ test('Responsive candidates are replaced on gallery changes and every rendered i
 });
 
 test('Approved gallery order, full-size links and optimized sources remain complete and independent of checkout', async () => {
-  assert.deepEqual(gallery.map(item => item.sourceName), ['01-caja-principal', '02-descanso-oficina', '03-coworking', '04-como-prepararlo', '05-brindis-oficina', '06-cinco-extractos', '07-mujer-sachet-caja', '08-preparacion-en-pareja', '09-tabla-nutricional', '10-bebida-caja-sobres']);
+  assert.deepEqual(gallery.map(item => item.sourceName), ['01-hero-ingredientes', '02-descanso-oficina', '03-coworking', '04-como-prepararlo', '05-brindis-oficina', '06-cinco-extractos', '07-mujer-sachet-caja', '08-preparacion-en-pareja', '09-tabla-nutricional', '10-bebida-caja-sobres']);
   for (const entry of storefrontInventory) {
     const original = await readFile(entry.original);
     assert.equal(createHash('sha256').update(original).digest('hex'), entry.sha256);

@@ -17,7 +17,7 @@ export function validateField(name, value) {
   switch (name) {
     case 'fullName': return text.length >= 5 && text.length <= 100 && /^[\p{L}\p{M}' .-]+$/u.test(text) && text.split(/\s+/).length > 1 ? '' : 'Escribe tu nombre y apellido completos.';
     case 'documentNumber': return text.length >= 4 && text.length <= 30 && /^[\p{L}\p{N}]+(?:[ .-]?[\p{L}\p{N}]+)*$/u.test(text) ? '' : 'Escribe tu documento de identidad (entre 4 y 30 caracteres; admite letras, números, espacios, puntos y guiones).';
-    case 'phone': return /^3\d{9}$/.test(normalizePhone(text)) ? '' : 'Ingresa un celular colombiano de 10 dígitos que comience por 3.';
+    case 'phone': return !text ? 'Ingresa tu número de celular.' : /^3\d{9}$/.test(normalizePhone(text)) ? '' : 'El celular debe tener exactamente 10 dígitos y comenzar por 3.';
     case 'department': return departments.includes(text) ? '' : 'Selecciona tu departamento.';
     case 'city': return text.length >= 2 && text.length <= 80 && /^[\p{L}\p{M} .'-]+$/u.test(text) ? '' : 'Escribe una ciudad o municipio válido.';
     case 'address': return text.length >= 8 && text.length <= 180 ? '' : 'Escribe una dirección completa, entre 8 y 180 caracteres.';

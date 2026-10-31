@@ -16,7 +16,16 @@ const heroImage = {
 export const productMedia = {
   individual: approvedImages.individual,
   family: storefrontImages.family,
-  gallery: [heroImage, ...storefrontImages.gallery.slice(1)],
+  gallery: [
+    heroImage,
+    { src: 'assets/multydrink/producto/hero-02-producto.webp', thumbnail: 'assets/multydrink/producto/hero-02-producto.webp', alt: 'Presentación del producto MultyDrink', label: 'Producto MultyDrink', sourceName: 'hero-02-producto' },
+    { src: 'assets/multydrink/producto/hero-03-beneficios.webp', thumbnail: 'assets/multydrink/producto/hero-03-beneficios.webp', alt: 'Infografía sobre las características de MultyDrink', label: 'Características de MultyDrink', sourceName: 'hero-03-beneficios' },
+    { src: 'assets/multydrink/producto/hero-04-como-disfrutar.webp', thumbnail: 'assets/multydrink/producto/hero-04-como-disfrutar.webp', alt: 'Infografía con ideas para disfrutar MultyDrink', label: 'Cómo disfrutar MultyDrink', sourceName: 'hero-04-como-disfrutar' },
+    { src: 'assets/multydrink/producto/hero-05-mujer-casa.webp', thumbnail: 'assets/multydrink/producto/hero-05-mujer-casa.webp', alt: 'Mujer en casa con MultyDrink', label: 'MultyDrink en casa', sourceName: 'hero-05-mujer-casa' },
+    { src: 'assets/multydrink/producto/hero-06-vaso-frio.webp', thumbnail: 'assets/multydrink/producto/hero-06-vaso-frio.webp', alt: 'Vaso de MultyDrink servido frío', label: 'MultyDrink frío', sourceName: 'hero-06-vaso-frio' },
+    { src: 'assets/multydrink/producto/hero-07-ingredientes.webp', thumbnail: 'assets/multydrink/producto/hero-07-ingredientes.webp', alt: 'Infografía de ingredientes de MultyDrink', label: 'Ingredientes de MultyDrink', sourceName: 'hero-07-ingredientes' },
+    { src: 'assets/multydrink/producto/hero-08-mujer-oficina.webp', thumbnail: 'assets/multydrink/producto/hero-08-mujer-oficina.webp', alt: 'Mujer en una oficina con MultyDrink', label: 'MultyDrink en la oficina', sourceName: 'hero-08-mujer-oficina' },
+  ],
   alternateBox: approvedImages.alternateBox,
   sachet: null,
   preparedDrink: null,

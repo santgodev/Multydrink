@@ -12,7 +12,7 @@ const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
     const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
-    if (relative.split(/[\\/]/).some(part => part.startsWith('.')) || (!localReviewFiles.has(relative) && !/^(index\.html|robots\.txt|assets\/[\w.-]+|assets\/multydrink\/optimized\/[\w-]+-\d+\.webp|src\/[\w.-]+)$/.test(relative))) { res.writeHead(404); res.end('Not found'); return; }
+    if (relative.split(/[\\/]/).some(part => part.startsWith('.')) || (!localReviewFiles.has(relative) && !/^(index\.html|robots\.txt|assets\/[\w.-]+|assets\/multydrink\/(?:optimized|producto)\/[\w.-]+\.webp|src\/[\w.-]+)$/.test(relative))) { res.writeHead(404); res.end('Not found'); return; }
     const file = path.resolve(root, relative);
     if (!file.startsWith(root + path.sep)) { res.writeHead(403); res.end(); return; }
     if (!(await stat(file)).isFile()) throw new Error('Not file');

@@ -1,6 +1,6 @@
 import { commerce as defaultCommerce, packages, gallery, testimonials, productFaqs } from './config.js';
 import { calculateOrder, createOrderClient, getPackage, isOrderingEnabled, money, validateField, validateOrder } from './order.js';
-import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages, renderTestimonials, bindTestimonials, renderMomentTabs, renderMomentPanels } from './components.js';
+import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages, renderTestimonials, bindTestimonials } from './components.js';
 import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
 import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
@@ -16,15 +16,17 @@ export function initApp(doc = document, win = window, options = {}) {
   let galleryIndex = 0;
   let sending = false;
   let confirmed = false;
-  const client = createOrderClient(commerce, options.fetcher || globalThis.fetch);
+  // Explicit opt-in on loopback only. This path never creates a network client.
+  const localDemo = ['localhost', '127.0.0.1', '[::1]'].includes(win.location.hostname)
+    && ['http:', 'https:'].includes(win.location.protocol)
+    && new URLSearchParams(win.location.search).get('pedido-demo') === '1';
+  const client = localDemo ? null : createOrderClient(commerce, options.fetcher || globalThis.fetch);
   const touched = new Set();
   const ready = isOrderingEnabled(commerce);
   $('#product-schema').textContent = serializeStructuredData();
   $('#package-selector').insertAdjacentHTML('beforeend', renderPackages(selected));
   $('#gallery-thumbs').innerHTML = renderGallery();
   $('#ingredients-grid').innerHTML = renderEditorialIngredients();
-  $('#moment-tabs').innerHTML = renderMomentTabs();
-  $('#moment-panels').innerHTML = renderMomentPanels();
   $('#product-accordions').innerHTML = renderProductFaqs(productFaqs);
   $('#faq-categories').innerHTML = renderFaqCategories();
   $('#faq-list').innerHTML = renderFaqPanels();
@@ -32,7 +34,16 @@ export function initApp(doc = document, win = window, options = {}) {
   $('#nutrition-composition').innerHTML = renderNutrition();
   $('#final-offers').innerHTML = renderFinalOffers();
   bindTabs($('#faq-categories'), { vertical: true });
-  bindTabs($('#nutrition-tabs'));
+  bindTabs($('#nutrition-tabs'), { onSelect: tab => {
+    $('#nutrition-cta-label').textContent = tab.getAttribute('aria-controls') === 'nutrition-preparation'
+      ? 'ELIGE TU PREPARACIÓN' : 'ELIGE TU PRESENTACIÓN';
+  } });
+  bindTabs($('#moment-tabs'), { onSelect: tab => {
+    const panelId = tab.getAttribute('aria-controls');
+    $$('#tu-momento [data-chapter-image]').forEach(image => {
+      image.hidden = image.dataset.chapterImage !== panelId;
+    });
+  } });
   $('#comparacion').innerHTML = renderComparison(comparisonMedia);
   $('#comparacion').hidden = !$('#comparacion').children.length;
   bindComparison($('#comparacion'));
@@ -95,7 +106,14 @@ export function initApp(doc = document, win = window, options = {}) {
   } else {
     $('#privacy-link').addEventListener('click', event => { event.preventDefault(); openDialog('privacy-dialog'); });
   }
-  if (ready) {
+  if (localDemo) {
+    $('#order-availability').textContent = 'SIMULACIÓN LOCAL · Usa datos ficticios. No se crea un pedido real, no se envían ni guardan datos y no se realizan pagos ni notificaciones.';
+    $('#submit-order').disabled = false;
+    $('#submit-order').textContent = 'SIMULAR PEDIDO · SIN ENVÍO DE DATOS';
+    $('#privacy-help').textContent = 'Validación de prueba con datos ficticios. Esta simulación no registra consentimiento ni sustituye la política definitiva del vendedor.';
+    $('#order-form').setAttribute('autocomplete', 'off');
+    $$('#order-form input').forEach(input => input.setAttribute('autocomplete', 'off'));
+  } else if (ready) {
     $('#order-availability').textContent = commerce.shippingDescription;
     $('#submit-order').disabled = false;
     $('#submit-order').innerHTML = `CONFIRMAR PEDIDO CONTRA ENTREGA ${icon('arrow')}`;
@@ -196,31 +214,6 @@ export function initApp(doc = document, win = window, options = {}) {
     else if (active.offsetLeft + active.offsetWidth > thumbs.scrollLeft + thumbs.clientWidth) thumbs.scrollLeft = active.offsetLeft + active.offsetWidth - thumbs.clientWidth;
   }
   $$('[data-gallery]').forEach(button => button.addEventListener('click', () => displayGallery(Number(button.dataset.gallery))));
-  const momentTabs = $$('#moment-tabs [role="tab"]');
-  function selectMoment(tab, focus = false) {
-    momentTabs.forEach(button => {
-      const active = button === tab;
-      button.setAttribute('aria-selected', String(active));
-      button.tabIndex = active ? 0 : -1;
-      doc.getElementById(button.getAttribute('aria-controls')).hidden = !active;
-    });
-    const photo = productMedia.lifestyle[tab.id.replace('tab-', '')];
-    const image = $('#benefit-image');
-    // Until real lifestyle media is supplied, retain the identified product photo.
-    applyImage(image, photo || productMedia.family, '(max-width: 560px) 90vw, 620px');
-    image.closest('.moments-visual').classList.toggle('has-lifestyle', Boolean(photo));
-    $('#benefit-image-caption').textContent = photo ? tab.textContent.trim() : 'MultyDrink · pack familiar';
-    if (focus) tab.focus();
-  }
-  momentTabs.forEach(tab => tab.addEventListener('click', () => selectMoment(tab)));
-  $('#moment-tabs').addEventListener('keydown', event => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    const index = momentTabs.indexOf(event.target);
-    if (index < 0) return;
-    event.preventDefault();
-    const next = event.key === 'Home' ? 0 : event.key === 'End' ? momentTabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + momentTabs.length) % momentTabs.length;
-    selectMoment(momentTabs[next], true);
-  });
   $('#gallery-prev').addEventListener('click', () => displayGallery(galleryIndex - 1));
   $('#gallery-next').addEventListener('click', () => displayGallery(galleryIndex + 1));
   $('#gallery-thumbs').addEventListener('keydown', event => {
@@ -326,11 +319,41 @@ export function initApp(doc = document, win = window, options = {}) {
     if (sending || confirmed) return;
     const message = $('#form-message');
     message.hidden = true;
-    if (!ready) { message.textContent = 'Los pedidos aún no están habilitados. No hemos enviado tus datos.'; message.hidden = false; message.focus(); return; }
+    if (!ready && !localDemo) { message.textContent = 'Los pedidos aún no están habilitados. No hemos enviado tus datos.'; message.hidden = false; message.focus(); return; }
     const data = values();
     const errors = validateOrder(data);
     Object.keys(data).forEach(name => { touched.add(name); showFieldError(name, errors[name] || ''); });
     if (Object.keys(errors).length) { message.textContent = 'Revisa los campos señalados para continuar.'; message.hidden = false; doc.getElementById(Object.keys(errors)[0]).focus(); return; }
+    if (localDemo) {
+      const totals = calculateOrder(selected, quantity, commerce.shippingFee);
+      const confirmation = $('#order-confirmation');
+      confirmation.querySelector('h3').textContent = 'Simulación completada · no es un pedido real';
+      $('#confirmation-detail').textContent = `Total simulado: ${money(totals.total)} COP. No se enviaron ni guardaron datos, no se creó un pedido y no habrá entrega ni cobro.`;
+      $('#order-form').reset();
+      touched.clear();
+      confirmed = true;
+      updateSummary();
+      $('#order-form').hidden = true;
+      confirmation.hidden = false;
+      confirmation.tabIndex = -1;
+      if (!confirmation.querySelector('[data-demo-reset]')) {
+        const again = doc.createElement('button');
+        again.type = 'button';
+        again.className = 'button button-outline';
+        again.dataset.demoReset = '';
+        again.textContent = 'HACER OTRA SIMULACIÓN';
+        again.addEventListener('click', () => {
+          confirmed = false;
+          confirmation.hidden = true;
+          $('#order-form').hidden = false;
+          updateSummary();
+          $('#fullName').focus();
+        });
+        confirmation.append(again);
+      }
+      confirmation.focus();
+      return;
+    }
     sending = true;
     updateSummary();
     $('#order-fields').disabled = true;
@@ -363,7 +386,7 @@ export function initApp(doc = document, win = window, options = {}) {
   });
   updateSummary();
   displayGallery(0);
-  selectMoment(momentTabs[0]);
+
   if (win.location.hash === '#pedido') openCheckout($('.nav-purchase'));
   win.addEventListener('hashchange', () => { if (win.location.hash === '#pedido') openCheckout($('.nav-purchase')); });
   return { selectPackage, displayGallery, getState: () => ({ selected, quantity, galleryIndex, confirmed }) };

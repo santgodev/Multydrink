@@ -1,4 +1,4 @@
-import { packages, ingredients, gallery, faqs, departments, moments } from './config.js';
+import { packages, ingredients, gallery, faqs, departments } from './config.js';
 import { money } from './order.js';
 
 const paths = {
@@ -16,6 +16,8 @@ const paths = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/>',
   focus: '<circle cx="12" cy="12" r="4"/><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/>',
   moon: '<path d="M20.8 13a9 9 0 0 1-9.8-9.8A9 9 0 1 0 20.8 13Z"/>',
+  rhythm: '<path d="M3 7c3-4 6 4 9 0s6 4 9 0M3 12c3-4 6 4 9 0s6 4 9 0M3 17c3-4 6 4 9 0s6 4 9 0"/>',
+  sprout: '<path d="M12 21v-8M12 17C6 17 3 14 3 8c6 0 9 3 9 9ZM12 13c0-6 3-9 9-9 0 6-3 9-9 9Z"/>',
   lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/>',
   chat: '<path d="M21 11a9 9 0 0 1-9 9H3l2-5a9 9 0 1 1 16-4Z"/><path d="M8 10h8M8 14h5"/>',
 };
@@ -32,12 +34,6 @@ export function renderPackages(selected) {
       </span>
       <span class="package-radio" aria-hidden="true"></span>
     </span></label>`).join('');
-}
-export function renderMomentTabs() {
-  return moments.map((item, index) => `<button type="button" role="tab" id="tab-${item.id}" aria-controls="panel-${item.id}" aria-selected="${index === 0}" tabindex="${index === 0 ? '0' : '-1'}">${item.tab}</button>`).join('');
-}
-export function renderMomentPanels() {
-  return moments.map((item, index) => `<div role="tabpanel" id="panel-${item.id}" aria-labelledby="tab-${item.id}" tabindex="0" ${index === 0 ? '' : 'hidden'}><h3>${item.title}</h3><p>${item.text}</p><ul class="benefits">${item.points.map(point => `<li>${icon('check')}<span>${point}</span></li>`).join('')}</ul><a class="button button-outline" href="#confianza">CONOCE LA INFORMACIÓN ${icon('arrow')}</a></div>`).join('');
 }
 export function renderGallery() {
   return gallery.map((item, index) => `<button type="button" class="gallery-thumb" data-gallery="${index}" aria-label="Ver ${item.label}" aria-pressed="${index === 0}"><img src="${item.thumbnail || item.src}" width="64" height="64" alt="" loading="lazy"></button>`).join('');

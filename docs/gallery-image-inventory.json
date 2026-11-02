@@ -1,0 +1,247 @@
+[
+  {
+    "original": "assets/multydrink/producto/hero-02-producto.webp",
+    "sha256": "acc8868bfee8a95876773e745f85a9d2e9742a9f5d41abe676d39be958314aea",
+    "originalWidth": 1536,
+    "originalHeight": 1024,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": false,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-02-producto-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 5554
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-02-producto-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 29460
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-02-producto-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 83598
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-02-producto-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 111092
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/hero-03-beneficios.webp",
+    "sha256": "89fe6f4f1adcf91316d5024329f0b499a3c8c6aa8db765f2349a953e4113cc22",
+    "originalWidth": 1600,
+    "originalHeight": 900,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": true,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-03-beneficios-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 22814
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-03-beneficios-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 161708
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-03-beneficios-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 490090
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-03-beneficios-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 754302
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/hero-04-como-disfrutar.webp",
+    "sha256": "700eebaab6f8a6c19c65b3cbe783c574b7cc5c607b9bad004dca7f9289b5df9b",
+    "originalWidth": 1536,
+    "originalHeight": 1024,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": true,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-04-como-disfrutar-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 30464
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-04-como-disfrutar-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 215888
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-04-como-disfrutar-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 646388
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-04-como-disfrutar-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1012770
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/hero-05-mujer-casa.webp",
+    "sha256": "53783b3d73a34c55db0907b9076b4ff66072374baf10e6c006be602d52e1cc6b",
+    "originalWidth": 1536,
+    "originalHeight": 1024,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": false,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-05-mujer-casa-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 6810
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-05-mujer-casa-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 32512
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-05-mujer-casa-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 87328
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-05-mujer-casa-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 124450
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/hero-06-vaso-frio.webp",
+    "sha256": "7fc87054c15d2e1c16c4711decba6ef9fce4dce8db665abbf266c42e49cdf57d",
+    "originalWidth": 1217,
+    "originalHeight": 1292,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": false,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-06-vaso-frio-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 10968
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-06-vaso-frio-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 66730
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-06-vaso-frio-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 183690
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-06-vaso-frio-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 261238
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/hero-07-ingredientes.webp",
+    "sha256": "ef3c8b1199ff6a51b585451c90cd27abee182110244d7225cb04bcfd24d00c17",
+    "originalWidth": 1080,
+    "originalHeight": 1457,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": true,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-07-ingredientes-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 34064
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-07-ingredientes-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 247718
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-07-ingredientes-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 816260
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-07-ingredientes-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 1272834
+      }
+    ]
+  },
+  {
+    "original": "assets/multydrink/producto/hero-08-mujer-oficina.webp",
+    "sha256": "d724603e8b863187f8333cbf95a280c314d614658b97fa180c8ed665cd9663ba",
+    "originalWidth": 1448,
+    "originalHeight": 1086,
+    "fit": "contain",
+    "background": "transparent",
+    "lossless": false,
+    "variants": [
+      {
+        "src": "assets/multydrink/optimized/hero-08-mujer-oficina-160.webp",
+        "width": 160,
+        "height": 160,
+        "bytes": 8370
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-08-mujer-oficina-480.webp",
+        "width": 480,
+        "height": 480,
+        "bytes": 39214
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-08-mujer-oficina-960.webp",
+        "width": 960,
+        "height": 960,
+        "bytes": 102068
+      },
+      {
+        "src": "assets/multydrink/optimized/hero-08-mujer-oficina-1254.webp",
+        "width": 1254,
+        "height": 1254,
+        "bytes": 145202
+      }
+    ]
+  }
+]

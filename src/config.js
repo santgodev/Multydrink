@@ -58,12 +58,6 @@ export const testimonials = Object.freeze([
   }),
 ]);
 
-export const moments = [
-  { id: 'enfoque', tab: 'Enfoque', title: 'Dale un momento a lo importante.', text: 'MultyDrink le da a tu cuerpo los nutrientes que necesita para mantenerse en modo concentración — sin picos, sin caídas, sin tener que forzarlo.', points: ['Mente clara desde la mañana hasta el cierre del día', 'Sin la niebla mental de media tarde', 'Fluyes en lo que tienes que hacer — sin batalla interna', 'Presente de verdad en cada reunión y cada tarea'] },
-  { id: 'energia', tab: 'Energía', title: 'Energía que acompaña tu ritmo.', text: 'MultyDrink combina ingredientes botánicos pensados para acompañar tus jornadas con una energía más estable y amable con tu rutina, sin depender de sensaciones artificiales.', points: ['Acompaña tus mañanas y tus jornadas exigentes', 'Una bebida práctica para integrar a tu rutina', 'Ideal para una pausa consciente en medio del día', 'Sin convertir tu bienestar en algo complicado'] },
-  { id: 'memoria', tab: 'Memoria', title: 'Más claridad para retener y seguir.', text: 'MultyDrink acompaña tu rutina con ingredientes botánicos pensados para favorecer una experiencia de mayor claridad mental, ayudándote a sostener la atención y seguir el ritmo de tus actividades.', points: ['Mejor continuidad en tus tareas del día', 'Más facilidad para seguir ideas y pendientes', 'Un apoyo práctico para jornadas de estudio o trabajo', 'Pensado para acompañar hábitos de enfoque y organización'] },
-  { id: 'bienestar', tab: 'Bienestar', title: 'Tu cerebro hoy y a largo plazo', text: 'Todos los nutrientes que tu cuerpo necesita para funcionar bien no solo hoy, sino de forma sostenida en el tiempo. Sin ingredientes raros, sin artificiales.', points: ['Sin ingredientes raros ni artificiales', 'Formulado para el largo plazo', 'Notificación sanitaria INVIMA NSA-0019488-2025'] },
-];
 
 // Ten supplied gallery images, in the approved numerical order.
 export const gallery = productMedia.gallery;
@@ -79,12 +73,14 @@ export const ingredients = [
 ];
 
 export const faqs = [
-  { id: 'includes', category: 'uso', question: '¿Qué incluye MultyDrink?', answer: 'La caja individual incluye 21 sobres de 10 g. El pack familiar reúne 6 cajas, para un total de 126 sobres. Son las dos opciones disponibles en esta página.' },
-  { id: 'preparation', category: 'uso', question: '¿Cómo se prepara?', answer: 'Mezcla un sobre de 10 g en 250 mL de agua. Sigue las indicaciones y advertencias de tu empaque. La porción declarada no establece una frecuencia médica de consumo.' },
-  { id: 'ingredients', category: 'ingredientes', question: '¿Cuáles son sus ingredientes?', answer: 'La marca destaca mucílago de café, piel y semillas de uva morada, sirope de agave azul, Ganoderma lucidum y té negro. Consulta la etiqueta para la lista completa y posibles alérgenos.' },
+  {"id":"ingredients","category":"ingredientes","question":"¿Qué contiene Multydrink?","answer":"Pulpa concentrada de café, uva en polvo, jarabe orgánico de agave azul, extracto de té negro y betaglucanos de Ganoderma lucidum."},
+  {"id":"flavor","category":"uso","question":"¿A qué sabe?","answer":"Tiene sabor limón."},
+  {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sachet de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
+  {"id":"includes","category":"uso","question":"¿Cuántos sachets trae cada caja?","answer":"Cada caja contiene 21 sachets individuales."},
+  {"id":"payment","category":"pedidos","question":"¿Puedo pagar cuando reciba el producto?","answer":"Sí. Puedes realizar tu pedido con modalidad de pago contra entrega, sujeto a confirmación y cobertura logística."},
+  {"id":"diet","category":"seguridad","question":"¿Multydrink reemplaza una alimentación equilibrada?","answer":"No. Es una bebida para complementar tu rutina; no sustituye una alimentación variada ni las recomendaciones de un profesional de salud."},
   { id: 'caffeine', category: 'seguridad', question: '¿Contiene cafeína?', answer: 'La fórmula incluye té negro. No contamos con una cantidad de cafeína verificada por sobre y no lo presentamos como un producto libre de cafeína. Si eres sensible, consulta la etiqueta y a un profesional de salud antes de consumirlo.' },
   { id: 'frequency', category: 'uso', question: '¿Cuándo puedo tomarlo?', answer: 'Puedes incorporarlo a tu rutina siguiendo el modo de uso del empaque. No se establece aquí un horario ni una dosis diaria recomendada.' },
-  { id: 'payment', category: 'pedidos', question: '¿Cómo funciona el pago contra entrega?', answer: 'Pagas al recibir el producto. El envío está incluido en los precios publicados. La recepción de pedidos de esta página aún está deshabilitada; cuando se habilite, se confirmarán la disponibilidad y las condiciones de entrega para tu dirección.' },
   { id: 'delivery', category: 'pedidos', question: '¿Dónde realizan envíos y cuánto cuestan?', answer: 'El envío está incluido tanto en la caja individual como en el pack familiar. La cobertura y el plazo deben confirmarse para tu dirección en Colombia. Seleccionar un departamento no garantiza cobertura.' },
   { id: 'notification', category: 'seguridad', question: '¿Cuál es su notificación sanitaria?', answer: 'La notificación sanitaria colombiana indicada para MultyDrink es NSA-0019488-2025. Es información sanitaria del alimento; no constituye prueba de eficacia clínica.' },
   { id: 'precautions', category: 'seguridad', question: '¿Qué debo revisar antes de consumirlo?', answer: 'Revisa ingredientes, alérgenos y advertencias del empaque. Si estás en embarazo o lactancia, tomas medicamentos o tienes una condición de salud, consulta a un profesional antes de incorporarlo a tu alimentación. MultyDrink es un alimento, no un medicamento.' },

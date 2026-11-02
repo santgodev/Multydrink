@@ -16,6 +16,8 @@ for (const item of configuredImages) {
     await stat(file); configuredImageFiles.add(file);
   }
 }
+// Exact approved Origen photograph, referenced directly by its chapter markup.
+configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
 for (const file of approvedVideoFiles) await stat(file);
 
 const output = path.resolve('dist');

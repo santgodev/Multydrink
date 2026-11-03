@@ -24,7 +24,7 @@ export function initApp(doc = document, win = window, options = {}) {
   const client = localDemo ? null : createOrderClient(commerce, options.fetcher || globalThis.fetch);
   const touched = new Set();
   const ready = isOrderingEnabled(commerce);
-  const turnstile = !localDemo && ready ? createOrderTurnstile({ win, doc, siteKey: commerce.turnstileSiteKey, container: $('#order-turnstile') }) : null;
+  const turnstile = !localDemo && ready ? (options.turnstile || createOrderTurnstile({ win, doc, siteKey: commerce.turnstileSiteKey, container: $('#order-turnstile') })) : null;
   if (turnstile) {
     $('#order-turnstile').hidden = false;
     $('#turnstile-status').hidden = false;

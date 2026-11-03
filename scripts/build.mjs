@@ -40,8 +40,10 @@ for (const file of configuredImageFiles) {
   await mkdir(path.dirname(destination), { recursive: true });
   await cp(file, destination);
 }
-// No speculative canonical, availability or review schema. Add a canonical only with a real deployment URL.
-await writeFile('dist/robots.txt', 'User-agent: *\nDisallow: /\n');
+// The approved production hostname is the canonical destination.
+const siteUrl = 'https://multydrincolombia.com/';
+await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${siteUrl}sitemap.xml\n`);
+await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}</loc></url>\n</urlset>\n`);
 async function directorySize(directory) {
   let size = 0;
   for (const entry of await readdir(directory, { withFileTypes: true })) {

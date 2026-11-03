@@ -61,9 +61,10 @@ test('HTTP 400, 429 and 503 do not confirm orders and show specific feedback', a
 });
 
 test('Unconfigured checkout never calls a network service or fakes success', async () => {
-  assert.equal(isOrderingEnabled(commerce), false);
+  const unavailable = { ...commerce, orderEndpoint: null };
+  assert.equal(isOrderingEnabled(unavailable), false);
   let called = false;
-  await assert.rejects(createOrderClient(commerce, async () => { called = true; }).submit(valid, 'test-turnstile-token'), { code: 'UNAVAILABLE' });
+  await assert.rejects(createOrderClient(unavailable, async () => { called = true; }).submit(valid, 'test-turnstile-token'), { code: 'UNAVAILABLE' });
   assert.equal(called, false);
   assert.equal(isOrderingEnabled({ ...configured, privacyPolicyUrl: null }), false);
   assert.equal(isOrderingEnabled({ ...configured, shippingFee: null }), false);
@@ -133,6 +134,6 @@ test('Approved policy version reaches the Worker contract through a mocked order
   const client=createOrderClient({...configured,privacyPolicyVersion:commerce.privacyPolicyVersion},async (_,request)=>{payload=JSON.parse(request.body);return new Response(JSON.stringify(receipt));});
   await client.submit(valid,'test-turnstile-token');
   assert.deepEqual(payload.consent,{accepted:true,policyVersion:'2026-11-03'});
-  assert.equal(isOrderingEnabled(commerce),false);
-  assert.equal(commerce.orderEndpoint,null);
+  assert.equal(isOrderingEnabled(commerce),true);
+  assert.equal(commerce.orderEndpoint,'https://multydrink-orders-api.santgodev.workers.dev/orders');
 });

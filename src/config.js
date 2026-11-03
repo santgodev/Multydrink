@@ -12,7 +12,7 @@ export const commerce = Object.freeze({
   maxQuantity: 20,
   // Public Turnstile site key only. Checkout remains disabled until legal and Worker activation.
   turnstileSiteKey: '0x4AAAAAAFyHXmvZUx5W0ipy',
-  orderEndpoint: null,
+  orderEndpoint: 'https://multydrink-orders-api.santgodev.workers.dev/orders',
   // Seller identified in the approved policies. Endpoint remains disabled until Worker validation.
   merchantName: 'Dora Patricia Ortiz',
   privacyPolicyUrl: approvedPrivacyPolicy.url,

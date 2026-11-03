@@ -81,6 +81,26 @@ test('Submission sends only product IDs and quantity; backend owns authoritative
   assert.ok(options.headers['Idempotency-Key']);
   assert.equal(payload.total, undefined);
 });
+test('Public checkout refuses to send an order without a Turnstile token', async () => {
+  let calls = 0;
+  const client = createOrderClient(configured, async () => { calls++; return new Response(JSON.stringify(receipt)); });
+  await assert.rejects(client.submit(valid), { code: 'TURNSTILE' });
+  await assert.rejects(client.submit(valid, '  '), { code: 'TURNSTILE' });
+  assert.equal(calls, 0);
+});
+test('One-time Turnstile token changes on retry without changing the order idempotency key', async () => {
+  const sent = [];
+  const client = createOrderClient(configured, async (_, request) => {
+    sent.push({ key: request.headers['Idempotency-Key'], body: JSON.parse(request.body) });
+    if (sent.length === 1) throw new Error('Network lost');
+    return new Response(JSON.stringify(receipt));
+  });
+  await assert.rejects(client.submit(valid, 'initial-token'), { code: 'NETWORK' });
+  await client.submit(valid, 'fresh-token');
+  assert.equal(sent[0].key, sent[1].key);
+  assert.equal(sent[0].body.turnstileToken, 'initial-token');
+  assert.equal(sent[1].body.turnstileToken, 'fresh-token');
+});
 test('Double submissions are blocked and successful receipt is reused', async () => {
   let resolveRequest;
   let calls = 0;

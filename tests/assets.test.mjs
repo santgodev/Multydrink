@@ -118,7 +118,7 @@ test('Approved gallery order, full-size links and optimized sources remain compl
       $(`[data-gallery="${index}"]`).click();
       assert.ok($('#hero-image').src.endsWith(item.src));
       assert.equal($('#gallery-full').getAttribute('href'), item.src);
-      assert.equal($('#gallery-count').textContent, `${String(index + 1).padStart(2, '0')} / ${gallery.length}`);
+      assert.equal($('#gallery-count').textContent, `${String(index + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}`);
       assert.equal(app.getState().selected, selected);
     }
   } finally { await win.happyDOM.abort(); }

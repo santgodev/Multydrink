@@ -124,6 +124,36 @@
 .review-dots button::after { content:''; width:7px; height:7px; background:#71815e; border-radius:50%; }
 .review-dots button[aria-pressed='true']::after { width:18px; border-radius:6px; background:var(--accent); }
 
+/* Testimonial carousel: approved editorial emphasis, scoped to the purchase card. */
+.purchase-reviews{padding:clamp(20px,2.3vw,30px);border-color:#35472d}
+.purchase-reviews-heading{align-items:flex-start;gap:16px;margin-bottom:22px}
+.review-heading-copy{max-width:570px;min-width:0}
+.review-eyebrow{display:block;color:var(--accent);font-size:10px;font-weight:700;line-height:1.5;letter-spacing:.13em;margin-bottom:8px}
+.purchase-reviews-heading h2{font-family:var(--heading);font-size:clamp(19px,2vw,27px);font-weight:600;line-height:1.3;letter-spacing:-.025em}
+.purchase-reviews-heading h2 span{color:var(--accent)}
+.review-controls{gap:7px}
+.review-controls button{color:var(--text);transition:border-color .2s ease,color .2s ease}
+.review-controls button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.purchase-review-track{border-top:1px solid #34472b;padding-top:16px}
+.review-decorative-quote{display:block;height:31px;color:var(--accent);font:600 54px/.9 Georgia,serif}
+.review-topic{display:block;margin:5px 0 8px}
+.review-quote{font-size:clamp(14px,1.25vw,17px);line-height:1.65;color:var(--text);margin-bottom:18px}
+.review-author{display:flex;align-items:center;gap:11px}
+.review-author-icon{display:grid;place-items:center;width:38px;height:38px;flex:none;border-radius:50%;background:#24331e;color:var(--accent)}
+.review-author-details{display:flex;flex-direction:column;gap:1px}
+.review-author-details strong{font-size:13px;line-height:1.35}
+.review-author-details>span{font-size:11px;line-height:1.4}
+.review-source-note{margin:12px 0 0 49px}
+.review-dots{margin-top:14px}
+@media(max-width:560px){
+  .purchase-reviews{padding:18px 16px}
+  .purchase-reviews-heading{gap:10px;margin-bottom:18px}
+  .purchase-reviews-heading h2{font-size:19px}
+  .review-controls button{width:36px;height:36px}
+  .review-quote{font-size:15px}
+  .review-source-note{margin-left:0}
+}
+
 /* Supplementary details */
 .science-note { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; margin-bottom: 12px; border: 1px solid #52643a; border-radius: 12px; background: #151910; color: var(--hero-muted); font-size: 13px; line-height: 1.5; }
 .science-note > span:nth-child(2) { flex: 1; min-width: 0; }

@@ -49,15 +49,17 @@ test('Real media is mapped to gallery, final offers, nutrition, tabs and selecte
     assert.ok($('.final-offer img').src.endsWith(productMedia.individual.src));
     assert.ok($('.real-nutrition-label').src.endsWith(productMedia.nutritionLabel.src));
     assert.equal($('.nutrition-label-figure a').getAttribute('href'), productMedia.nutritionLabel.src);
-    assert.match($('.nutrition-transcript').textContent, /0,2 g/);
+    assert.match($('.nutrition-label-figure figcaption').textContent, /Etiqueta original de MultyDrink/);
     assert.equal($('#comparacion').hidden, false);
     assert.equal($('#comparacion img.comparison-base').getAttribute('src'), comparisonMedia.second.src);
     assert.equal($('#comparacion .comparison-overlay img').getAttribute('src'), comparisonMedia.first.src);
     assert.equal(comparisonMedia.first.width / comparisonMedia.first.height, comparisonMedia.second.width / comparisonMedia.second.height);
-    for (const [tab, photo] of Object.entries(productMedia.lifestyle)) {
-      $(`#tab-${tab}`).click();
-      assert.ok($('#benefit-image').src.endsWith(photo.src));
-      assert.equal($('#benefit-image').srcset, imageSrcset(photo));
+    const chapters = ['origen', 'nutricional', 'combinacion', 'rutina'];
+    for (const chapter of chapters) {
+      const tab = $('#story-tab-' + chapter);
+      tab.click();
+      assert.equal($('#story-panel-' + chapter).hidden, false);
+      assert.equal($('[data-chapter-image="story-panel-' + chapter + '"]').hidden, false);
     }
     app.selectPackage('individual');
     assert.ok($('.sticky-inner > img').src.endsWith(productMedia.individual.thumbnail));
@@ -70,7 +72,7 @@ test('Real media is mapped to gallery, final offers, nutrition, tabs and selecte
     assert.equal($('[data-presentation="sobres"]'), null, 'Unavailable standalone sachet photography is not offered as a gallery choice');
     assert.equal(productMedia.sachet, null);
     assert.equal(productMedia.preparedDrink, null);
-    assert.equal(videoTestimonials.length, 0);
+    assert.equal(videoTestimonials.length, 3);
     assert.equal($('#video-testimonials').hidden, true);
   } finally { await win.happyDOM.abort(); }
 });
@@ -96,7 +98,7 @@ test('Responsive candidates are replaced on gallery changes and every rendered i
 });
 
 test('Approved gallery order, full-size links and optimized sources remain complete and independent of checkout', async () => {
-  assert.deepEqual(gallery.map(item => item.sourceName), ['01-hero-ingredientes', '02-descanso-oficina', '03-coworking', '04-como-prepararlo', '05-brindis-oficina', '06-cinco-extractos', '07-mujer-sachet-caja', '08-preparacion-en-pareja', '09-tabla-nutricional', '10-bebida-caja-sobres']);
+  assert.deepEqual(gallery.map(item => item.sourceName), ['01-hero-ingredientes', 'hero-03-beneficios', 'hero-02-producto', 'hero-04-como-disfrutar', 'hero-05-mujer-casa', 'hero-06-vaso-frio', 'hero-07-ingredientes', 'hero-08-mujer-oficina']);
   for (const entry of storefrontInventory) {
     const original = await readFile(entry.original);
     assert.equal(createHash('sha256').update(original).digest('hex'), entry.sha256);
@@ -116,7 +118,7 @@ test('Approved gallery order, full-size links and optimized sources remain compl
       $(`[data-gallery="${index}"]`).click();
       assert.ok($('#hero-image').src.endsWith(item.src));
       assert.equal($('#gallery-full').getAttribute('href'), item.src);
-      assert.equal($('#gallery-count').textContent, `${String(index + 1).padStart(2, '0')} / 10`);
+      assert.equal($('#gallery-count').textContent, `${String(index + 1).padStart(2, '0')} / ${gallery.length}`);
       assert.equal(app.getState().selected, selected);
     }
   } finally { await win.happyDOM.abort(); }

@@ -21,8 +21,13 @@ try {
   const schema = JSON.parse(html.match(/id="product-schema">([^<]+)<\/script>/)[1]);
   assert.equal(schema['@type'], 'Product');
   assert.deepEqual(schema.offers.map(offer => offer.price), [110000, 425000]);
-  assert.match(html, /name="robots" content="noindex, nofollow"/);
-  assert.match(await (await fetch(base + '/robots.txt')).text(), /Disallow: \//);
+  assert.match(html, /name="robots" content="index, follow"/);
+  assert.match(html, /rel="canonical" href="https:\/\/multydrincolombia\.com\/"/);
+  const robots = await (await fetch(base + '/robots.txt')).text();
+  assert.match(robots, /Allow: \/\s*$/m);
+  assert.match(robots, /Sitemap: https:\/\/multydrincolombia\.com\/sitemap\.xml/);
+  const sitemap = await (await fetch(base + '/sitemap.xml')).text();
+  assert.match(sitemap, /<loc>https:\/\/multydrincolombia\.com\/<\/loc>/);
   async function listFiles(directory) {
     const files = [];
     for (const entry of await readdir(directory, { withFileTypes: true })) {

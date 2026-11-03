@@ -1670,33 +1670,33 @@ html.checkout-open { overflow:hidden; }
 }
 
 
-/* Dra. Erika Piedrahita — standalone editorial section */
-.doctor-section{background:#f7f8f4;color:#172319;color-scheme:light;border:0}
-.doctor-shell{max-width:1140px}
-.doctor-intro{max-width:800px;margin:0 auto 42px;text-align:center}
-.doctor-intro .eyebrow{color:#4d7440;font-size:11px;letter-spacing:.08em}
-.doctor-intro h2{font-family:var(--heading);font-size:clamp(27px,3.3vw,43px);line-height:1.22;letter-spacing:-.035em;margin:13px 0 18px}
-.doctor-intro h2 span{color:#487e3b}
-.doctor-intro>p:last-child{font-size:14px;line-height:1.75;color:#526451;max-width:670px;margin-inline:auto}
-.doctor-profile{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,60px);align-items:center}
-.doctor-portrait{aspect-ratio:4/4;overflow:hidden;border-radius:16px;background:#e5ebe2}
+/* Dra. Erika Piedrahita: use the existing MultyDrink light-editorial language. */
+.doctor-section{--doctor-ink:#171a14;--doctor-muted:#52584c;--doctor-line:#e3e5df;background:#fff;color:var(--doctor-ink);color-scheme:light;border:0}
+.doctor-shell{max-width:1120px}
+.doctor-intro{max-width:800px;margin:0 auto 36px;text-align:center}
+.doctor-intro .eyebrow{color:#4e6338;font-size:11px;letter-spacing:.08em}
+.doctor-intro h2{font-family:var(--heading);font-size:clamp(25px,2.7vw,39px);font-weight:600;line-height:1.35;letter-spacing:-.025em;margin:12px 0 16px}
+.doctor-intro h2 span{color:var(--doctor-ink)}
+.doctor-intro>p:last-child{font-size:13px;line-height:1.75;color:var(--doctor-muted);max-width:670px;margin-inline:auto}
+.doctor-profile{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(26px,4vw,54px);align-items:center}
+.doctor-portrait{aspect-ratio:4/3;overflow:hidden;border-radius:12px;background:#f7f8f4}
 .doctor-portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
-.doctor-kicker{color:#487e3b;font-size:11px;font-weight:700;letter-spacing:.1em}
-.doctor-bio h3{font:600 clamp(25px,3vw,38px)/1.2 var(--heading);margin:9px 0 10px;letter-spacing:-.025em}
-.doctor-specialties{font-size:12px;font-weight:600;color:#487e3b;line-height:1.7;margin-bottom:15px}
-.doctor-bio>p:not(.doctor-kicker):not(.doctor-specialties){font-size:14px;color:#526451;line-height:1.8}
-.doctor-highlights{padding:0;margin:20px 0;list-style:none;display:grid;gap:12px}
-.doctor-highlights li{display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.55;color:#334332}
-.doctor-highlights li span{display:grid;place-items:center;flex:none;width:19px;height:19px;border-radius:50%;background:#def3d8;color:#337629;font-size:12px}
-.doctor-credentials{border-top:1px solid #d8e2d5;padding-top:15px;font-size:13px;color:#354534}
-.doctor-credentials summary{cursor:pointer;color:#376f31;font-weight:650;list-style-position:inside}
-.doctor-credentials summary:focus-visible{outline:2px solid #397d34;outline-offset:4px}
+.doctor-kicker{color:#4e6338;font-size:11px;font-weight:600;letter-spacing:.08em}
+.doctor-bio h3{font:600 clamp(24px,2.5vw,34px)/1.3 var(--heading);margin:9px 0 10px;letter-spacing:-.025em}
+.doctor-specialties{font-size:12px;font-weight:600;color:#4e6338;line-height:1.7;margin-bottom:14px}
+.doctor-bio>p:not(.doctor-kicker):not(.doctor-specialties){font-size:13px;color:var(--doctor-muted);line-height:1.75}
+.doctor-highlights{padding:0;margin:19px 0;list-style:none;display:grid;gap:12px}
+.doctor-highlights li{display:flex;gap:11px;align-items:flex-start;font-size:13px;line-height:1.55;color:var(--doctor-ink)}
+.doctor-highlights li span{display:grid;place-items:center;flex:none;width:19px;height:19px;border-radius:50%;background:transparent;color:#3b942b;font-size:14px}
+.doctor-credentials{border-top:1px solid var(--doctor-line);padding-top:15px;font-size:13px;color:var(--doctor-muted)}
+.doctor-credentials summary{cursor:pointer;color:#36592e;font-weight:600;list-style-position:inside}
+.doctor-credentials summary:focus-visible{outline:2px solid #36592e;outline-offset:4px}
 .doctor-credentials ul{margin:14px 0 0 18px;padding:0;display:grid;gap:9px;line-height:1.6}
-.doctor-video-area{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(28px,5vw,80px);align-items:center;margin-top:55px;padding:32px 38px;background:#e9f0e5;border-radius:18px}
-.doctor-video-copy h3{font:600 clamp(23px,2.8vw,33px)/1.25 var(--heading);letter-spacing:-.025em;margin:11px 0 16px}
-.doctor-video-copy>p:not(.doctor-kicker){font-size:14px;color:#526451;line-height:1.75}
-.doctor-video-copy .doctor-closing{font-weight:600;color:#29462b!important;margin-top:22px}
-.doctor-video-frame{max-width:270px;justify-self:center;width:100%;aspect-ratio:9/16;background:#132015;border-radius:14px;overflow:hidden}
+.doctor-video-area{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(28px,5vw,70px);align-items:center;margin-top:42px;padding:34px 0 0;background:transparent;border:0;border-top:1px solid var(--doctor-line);border-radius:0}
+.doctor-video-copy h3{font:600 clamp(23px,2.5vw,32px)/1.35 var(--heading);letter-spacing:-.025em;margin:11px 0 16px}
+.doctor-video-copy>p:not(.doctor-kicker){font-size:13px;color:var(--doctor-muted);line-height:1.75}
+.doctor-video-copy .doctor-closing{font-weight:600;color:var(--doctor-ink)!important;margin-top:20px}
+.doctor-video-frame{max-width:245px;justify-self:center;width:100%;aspect-ratio:9/16;background:#10110e;border-radius:12px;overflow:hidden}
 .doctor-video-frame video{display:block;width:100%;height:100%;object-fit:contain}
-@media(max-width:800px){.doctor-profile{gap:26px}.doctor-video-area{gap:25px;padding:24px}}
-@media(max-width:620px){.doctor-intro{margin-bottom:27px}.doctor-profile,.doctor-video-area{grid-template-columns:1fr}.doctor-portrait{aspect-ratio:4/3}.doctor-video-area{margin-top:35px;padding:23px 19px}.doctor-video-frame{max-width:260px}.doctor-bio h3{font-size:29px}.doctor-intro>p:last-child,.doctor-bio>p:not(.doctor-kicker):not(.doctor-specialties){font-size:13px}}
+@media(max-width:800px){.doctor-profile{gap:26px}.doctor-video-area{gap:25px}}
+@media(max-width:620px){.doctor-intro{margin-bottom:25px}.doctor-profile,.doctor-video-area{grid-template-columns:1fr}.doctor-portrait{aspect-ratio:4/3}.doctor-video-area{margin-top:32px;padding-top:26px}.doctor-video-frame{max-width:245px}.doctor-bio h3{font-size:27px}.doctor-intro>p:last-child,.doctor-bio>p:not(.doctor-kicker):not(.doctor-specialties){font-size:13px}}

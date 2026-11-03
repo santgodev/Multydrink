@@ -13,7 +13,8 @@ export const commerce = Object.freeze({
   // Public Turnstile site key only. Checkout remains disabled until legal and Worker activation.
   turnstileSiteKey: '0x4AAAAAAFyHXmvZUx5W0ipy',
   orderEndpoint: null,
-  merchantName: null,
+  // Seller identified in the approved policies. Endpoint remains disabled until Worker validation.
+  merchantName: 'Dora Patricia Ortiz',
   privacyPolicyUrl: approvedPrivacyPolicy.url,
   privacyPolicyVersion: approvedPrivacyPolicy.version,
   // null = not confirmed; 0 means explicitly confirmed free delivery.

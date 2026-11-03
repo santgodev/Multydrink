@@ -59,7 +59,8 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch)
         paymentMethod: 'cash_on_delivery',
         consent: { accepted: true, policyVersion: config.privacyPolicyVersion },
       };
-      const fingerprint = JSON.stringify(payload);
+      // Exclude the one-time Turnstile token so retries reuse the same idempotency key.
+      const fingerprint = JSON.stringify({ ...payload, turnstileToken: undefined });
       if (outcomeUnknown && retryFingerprint !== fingerprint) throw new OrderError('No pudimos confirmar el resultado del intento anterior. Conserva sus datos para reintentar o contacta al vendedor antes de hacer otro pedido.', 'UNKNOWN');
       if (fingerprint !== retryFingerprint) { retryKey = crypto.randomUUID(); retryFingerprint = fingerprint; }
       pending = true;

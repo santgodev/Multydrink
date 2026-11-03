@@ -8,14 +8,19 @@ const videos = eligibleVideos(videoTestimonials);
 const approvedVideoFiles = new Set(videos.flatMap(item => [item.videoSrc, item.captionsSrc]));
 const configuredImages = [productMedia.individual, productMedia.family, ...productMedia.gallery, productMedia.alternateBox, productMedia.sachet, productMedia.preparedDrink, productMedia.nutritionLabel, productMedia.composition, ...Object.values(productMedia.lifestyle), comparisonMedia?.first, comparisonMedia?.second, ...videos.map(item => item.poster)].filter(Boolean);
 const configuredImageFiles = new Set();
-const validImagePath = /^assets\/(?:multydrink\/optimized\/)?[\w.-]+\.webp$/;
+const validImagePath = /^assets\/(?:multydrink\/(?:optimized|producto)\/)?[\w.-]+\.webp$/;
 for (const item of configuredImages) {
-  if (!validImagePath.test(item.src) || !item.alt || !(item.width > 0) || !(item.height > 0)) throw new Error('Approved image requires a local WebP, alt text and dimensions');
+  if (!validImagePath.test(item.src) || !item.alt || ((item.width > 0) !== (item.height > 0))) throw new Error('Approved image requires a local WebP, alt text and dimensions');
   for (const file of [item.src, item.thumbnail, ...(item.variants || []).map(variant => variant.src)].filter(Boolean)) {
     if (!validImagePath.test(file)) throw new Error('Invalid image candidate path');
     await stat(file); configuredImageFiles.add(file);
   }
 }
+// Doctor's approved portrait and explainer video, referenced by the standalone editorial section.
+const doctorFiles = ['assets/multydrink/profesional/dra-erika-piedrahita.jpg', 'assets/multydrink/profesional/dra-erika-multydrink.mp4'];
+for (const file of doctorFiles) { await stat(file); configuredImageFiles.add(file); }
+// Exact approved Origen photograph, referenced directly by its chapter markup.
+configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
 for (const file of approvedVideoFiles) await stat(file);
 
 const output = path.resolve('dist');
@@ -35,8 +40,10 @@ for (const file of configuredImageFiles) {
   await mkdir(path.dirname(destination), { recursive: true });
   await cp(file, destination);
 }
-// No speculative canonical, availability or review schema. Add a canonical only with a real deployment URL.
-await writeFile('dist/robots.txt', 'User-agent: *\nDisallow: /\n');
+// The approved production hostname is the canonical destination.
+const siteUrl = 'https://multydrincolombia.com/';
+await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${siteUrl}sitemap.xml\n`);
+await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${siteUrl}</loc></url>\n</urlset>\n`);
 async function directorySize(directory) {
   let size = 0;
   for (const entry of await readdir(directory, { withFileTypes: true })) {

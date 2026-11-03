@@ -7,12 +7,12 @@ const root = path.resolve(process.argv[2] || '.');
 const port = Number(process.env.PORT || 4173);
 // Serve only the named originals for the owner's source preview, never from dist.
 const localReviewFiles = new Set(root === path.resolve('.') ? videoTestimonials.filter(item => item.localReviewApproved).map(item => item.videoSrc) : []);
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.txt': 'text/plain; charset=utf-8', '.mp4': 'video/mp4', '.webm': 'video/webm', '.vtt': 'text/vtt; charset=utf-8' };
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.mp4': 'video/mp4', '.webm': 'video/webm', '.vtt': 'text/vtt; charset=utf-8' };
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
     const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
-    if (relative.split(/[\\/]/).some(part => part.startsWith('.')) || (!localReviewFiles.has(relative) && !/^(index\.html|robots\.txt|assets\/[\w.-]+|assets\/multydrink\/optimized\/[\w-]+-\d+\.webp|src\/[\w.-]+)$/.test(relative))) { res.writeHead(404); res.end('Not found'); return; }
+    if (relative.split(/[\\/]/).some(part => part.startsWith('.')) || (!localReviewFiles.has(relative) && relative !== 'assets/multydrink/optimized/origen-cafe-multydrink.png' && !/^assets\/multydrink\/profesional\/(dra-erika-piedrahita\.jpg|dra-erika-multydrink\.mp4)$/.test(relative) && !/^(index\.html|robots\.txt|sitemap\.xml|assets\/[\w.-]+|assets\/multydrink\/(?:optimized|producto)\/[\w.-]+\.webp|src\/[\w.-]+)$/.test(relative))) { res.writeHead(404); res.end('Not found'); return; }
     const file = path.resolve(root, relative);
     if (!file.startsWith(root + path.sep)) { res.writeHead(403); res.end(); return; }
     if (!(await stat(file)).isFile()) throw new Error('Not file');

@@ -1,5 +1,12 @@
 import { approvedImages } from './media-catalog.js';
 import { storefrontImages } from './storefront-media.js';
+// Approved square compositions: keep native resolution and complete framing.
+function approvedGalleryImage(sourceName, size, alt, label) {
+  const variants = [160, 480, 960, size].map(width => ({
+    src: `assets/multydrink/optimized/${sourceName}-approved-${width}.webp`, width,
+  }));
+  return { src: variants.at(-1).src, thumbnail: variants[0].src, width: size, height: size, variants, alt, label, sourceName };
+}
 // Hero-only photograph. Purchase imagery and the generated catalog remain independent.
 const heroImage = {
   src: 'assets/multydrink/optimized/hero-ingredientes-1254.webp',
@@ -16,7 +23,26 @@ const heroImage = {
 export const productMedia = {
   individual: approvedImages.individual,
   family: storefrontImages.family,
-  gallery: [heroImage, ...storefrontImages.gallery.slice(1)],
+  gallery: [
+    heroImage,
+    approvedGalleryImage('hero-03-beneficios', 1254, 'Infografía sobre las características de MultyDrink', 'Características de MultyDrink'),
+    approvedGalleryImage('hero-02-producto', 1024, 'Presentación del producto MultyDrink', 'Producto MultyDrink'),
+    // Square recomposition: four steps in a left column, product on the right.
+    {
+      src: 'assets/multydrink/optimized/hero-04-como-disfrutar-square-v2-1254.webp',
+      thumbnail: 'assets/multydrink/optimized/hero-04-como-disfrutar-square-v2-160.webp',
+      width: 1254,
+      height: 1254,
+      variants: [160, 480, 960, 1254].map(width => ({ src: `assets/multydrink/optimized/hero-04-como-disfrutar-square-v2-${width}.webp`, width })),
+      alt: 'Infografía con ideas para disfrutar MultyDrink',
+      label: 'Cómo disfrutar MultyDrink',
+      sourceName: 'hero-04-como-disfrutar',
+    },
+    approvedGalleryImage('hero-05-mujer-casa', 1024, 'Mujer en casa con MultyDrink', 'MultyDrink en casa'),
+    approvedGalleryImage('hero-06-vaso-frio', 1217, 'Vaso de MultyDrink servido frío', 'MultyDrink frío'),
+    approvedGalleryImage('hero-07-ingredientes', 1254, 'Infografía de ingredientes de MultyDrink', 'Ingredientes de MultyDrink'),
+    approvedGalleryImage('hero-08-mujer-oficina', 1086, 'Mujer en una oficina con MultyDrink', 'MultyDrink en la oficina'),
+  ],
   alternateBox: approvedImages.alternateBox,
   sachet: null,
   preparedDrink: null,

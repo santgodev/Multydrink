@@ -45,19 +45,27 @@ test('FAQ and nutrition tabs support keyboard navigation and maintain a single v
   await win.happyDOM.abort();
 });
 
-test('Benefit tabs update approved imagery and keep the approved supporting points', async () => {
-  const old = productMedia.lifestyle.energia;
-  productMedia.lifestyle.energia = { ...photo, alt: 'Fotografía aprobada de prueba' };
+test('Story chapters select their approved images and preserve meaningful content', async () => {
   const win = windowForTest();
   try {
     win.document.write(html); initApp(win.document, win);
-    win.document.querySelector('#tab-energia').click();
-    assert.equal(win.document.querySelector('#benefit-image').alt, productMedia.lifestyle.energia.alt);
-    for (const panel of win.document.querySelectorAll('#moment-panels [role="tabpanel"]')) {
-      assert.equal(panel.querySelectorAll('li').length, panel.id === 'panel-bienestar' ? 3 : 4);
+    const doc = win.document;
+    const chapters = ['origen', 'nutricional', 'combinacion', 'rutina'];
+    for (const chapter of chapters) {
+      const tab = doc.getElementById('story-tab-' + chapter);
+      const panel = doc.getElementById('story-panel-' + chapter);
+      const visual = doc.querySelector('[data-chapter-image="story-panel-' + chapter + '"]');
+      assert.ok(tab && panel && visual, chapter);
+      tab.click();
+      assert.equal(tab.getAttribute('aria-selected'), 'true');
+      assert.equal(panel.hidden, false);
+      assert.equal(visual.hidden, false);
+      assert.ok(visual.querySelector('img')?.getAttribute('alt'), chapter);
+      assert.ok(panel.textContent.trim().length > 35, chapter);
+      assert.equal(doc.querySelectorAll('.moment-panels [role="tabpanel"]:not([hidden])').length, 1);
     }
-    assert.doesNotMatch(win.document.querySelector('#panel-bienestar').textContent, /Sin azúcar añadida/i);
-  } finally { productMedia.lifestyle.energia = old; await win.happyDOM.abort(); }
+    assert.doesNotMatch(doc.getElementById('story-panel-rutina').textContent, /Sin azúcar añadida/i);
+  } finally { await win.happyDOM.abort(); }
 });
 
 test('Comparison uses two real image layers; input and captured pointer movement update bounded position', async () => {

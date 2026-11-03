@@ -1,4 +1,5 @@
 import { productMedia } from './media.js';
+import { approvedPrivacyPolicy } from './legal-config.js';
 // All commercial data lives here. Never put credentials in this public file.
 export const packages = Object.freeze([
   Object.freeze({ id: 'individual', name: 'Caja individual', boxes: 1, sachets: 21, price: 110000, referencePrice: 125000 }),
@@ -9,10 +10,13 @@ export const commerce = Object.freeze({
   defaultPackage: 'familiar',
   currency: 'COP',
   maxQuantity: 20,
-  orderEndpoint: null,
-  merchantName: null,
-  privacyPolicyUrl: null,
-  privacyPolicyVersion: null,
+  // Public Turnstile site key only. Checkout remains disabled until legal and Worker activation.
+  turnstileSiteKey: '0x4AAAAAAFyHXmvZUx5W0ipy',
+  orderEndpoint: 'https://multydrink-orders-api.santgodev.workers.dev/orders',
+  // Seller identified in the approved policies. Endpoint remains disabled until Worker validation.
+  merchantName: 'Dora Patricia Ortiz',
+  privacyPolicyUrl: approvedPrivacyPolicy.url,
+  privacyPolicyVersion: approvedPrivacyPolicy.version,
   // null = not confirmed; 0 means explicitly confirmed free delivery.
   shippingFee: 0,
   shippingDescription: 'Envío incluido en ambos paquetes. La cobertura y el plazo se confirman para tu dirección. Pago contra entrega.',
@@ -58,12 +62,6 @@ export const testimonials = Object.freeze([
   }),
 ]);
 
-export const moments = [
-  { id: 'enfoque', tab: 'Enfoque', title: 'Dale un momento a lo importante.', text: 'MultyDrink le da a tu cuerpo los nutrientes que necesita para mantenerse en modo concentración — sin picos, sin caídas, sin tener que forzarlo.', points: ['Mente clara desde la mañana hasta el cierre del día', 'Sin la niebla mental de media tarde', 'Fluyes en lo que tienes que hacer — sin batalla interna', 'Presente de verdad en cada reunión y cada tarea'] },
-  { id: 'energia', tab: 'Energía', title: 'Energía que acompaña tu ritmo.', text: 'MultyDrink combina ingredientes botánicos pensados para acompañar tus jornadas con una energía más estable y amable con tu rutina, sin depender de sensaciones artificiales.', points: ['Acompaña tus mañanas y tus jornadas exigentes', 'Una bebida práctica para integrar a tu rutina', 'Ideal para una pausa consciente en medio del día', 'Sin convertir tu bienestar en algo complicado'] },
-  { id: 'memoria', tab: 'Memoria', title: 'Más claridad para retener y seguir.', text: 'MultyDrink acompaña tu rutina con ingredientes botánicos pensados para favorecer una experiencia de mayor claridad mental, ayudándote a sostener la atención y seguir el ritmo de tus actividades.', points: ['Mejor continuidad en tus tareas del día', 'Más facilidad para seguir ideas y pendientes', 'Un apoyo práctico para jornadas de estudio o trabajo', 'Pensado para acompañar hábitos de enfoque y organización'] },
-  { id: 'bienestar', tab: 'Bienestar', title: 'Tu cerebro hoy y a largo plazo', text: 'Todos los nutrientes que tu cuerpo necesita para funcionar bien no solo hoy, sino de forma sostenida en el tiempo. Sin ingredientes raros, sin artificiales.', points: ['Sin ingredientes raros ni artificiales', 'Formulado para el largo plazo', 'Notificación sanitaria INVIMA NSA-0019488-2025'] },
-];
 
 // Ten supplied gallery images, in the approved numerical order.
 export const gallery = productMedia.gallery;
@@ -72,19 +70,21 @@ export const departments = ['Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bo
 
 export const ingredients = [
   { name: 'Mucílago de café', subtitle: 'El origen de la mezcla', image: 'coffee', text: 'La capa que rodea el grano de café forma parte de esta combinación de origen botánico.' },
-  { name: 'Uva morada', subtitle: 'Piel y semilla', image: 'grape', text: 'La fórmula incorpora piel y semillas de uvas moradas, según la información de la marca.' },
-  { name: 'Agave azul', subtitle: 'Un toque de dulzura', image: 'agave', text: 'El sirope de agave azul es uno de los cinco ingredientes destacados por MultyDrink.' },
+  { name: 'Extracto de uva', subtitle: 'De origen botánico', image: 'grape', text: 'El extracto de uva forma parte de los cinco ingredientes de MultyDrink.' },
+  { name: 'Miel de agave azul', subtitle: 'Un toque de dulzura', image: 'agave', text: 'La miel de agave azul es uno de los cinco ingredientes destacados por MultyDrink.' },
   { name: 'Ganoderma lucidum', subtitle: 'También conocido como reishi', image: 'ganoderma', text: 'Un hongo que se integra a la mezcla junto con los demás ingredientes botánicos.' },
   { name: 'Té negro', subtitle: 'El complemento de la fórmula', image: 'tea', text: 'El té negro completa la combinación. Revisa la etiqueta para conocer su composición y advertencias.' },
 ];
 
 export const faqs = [
-  { id: 'includes', category: 'uso', question: '¿Qué incluye MultyDrink?', answer: 'La caja individual incluye 21 sobres de 10 g. El pack familiar reúne 6 cajas, para un total de 126 sobres. Son las dos opciones disponibles en esta página.' },
-  { id: 'preparation', category: 'uso', question: '¿Cómo se prepara?', answer: 'Mezcla un sobre de 10 g en 250 mL de agua. Sigue las indicaciones y advertencias de tu empaque. La porción declarada no establece una frecuencia médica de consumo.' },
-  { id: 'ingredients', category: 'ingredientes', question: '¿Cuáles son sus ingredientes?', answer: 'La marca destaca mucílago de café, piel y semillas de uva morada, sirope de agave azul, Ganoderma lucidum y té negro. Consulta la etiqueta para la lista completa y posibles alérgenos.' },
+  {"id":"ingredients","category":"ingredientes","question":"¿Qué contiene Multydrink?","answer":"Mucílago de café, extracto de uva, miel de agave azul, Ganoderma lucidum y té negro."},
+  {"id":"flavor","category":"uso","question":"¿A qué sabe?","answer":"Tiene sabor limón."},
+  {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sachet de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
+  {"id":"includes","category":"uso","question":"¿Cuántos sachets trae cada caja?","answer":"Cada caja contiene 21 sachets individuales."},
+  {"id":"payment","category":"pedidos","question":"¿Puedo pagar cuando reciba el producto?","answer":"Sí. Puedes realizar tu pedido con modalidad de pago contra entrega, sujeto a confirmación y cobertura logística."},
+  {"id":"diet","category":"seguridad","question":"¿Multydrink reemplaza una alimentación equilibrada?","answer":"No. Es una bebida para complementar tu rutina; no sustituye una alimentación variada ni las recomendaciones de un profesional de salud."},
   { id: 'caffeine', category: 'seguridad', question: '¿Contiene cafeína?', answer: 'La fórmula incluye té negro. No contamos con una cantidad de cafeína verificada por sobre y no lo presentamos como un producto libre de cafeína. Si eres sensible, consulta la etiqueta y a un profesional de salud antes de consumirlo.' },
   { id: 'frequency', category: 'uso', question: '¿Cuándo puedo tomarlo?', answer: 'Puedes incorporarlo a tu rutina siguiendo el modo de uso del empaque. No se establece aquí un horario ni una dosis diaria recomendada.' },
-  { id: 'payment', category: 'pedidos', question: '¿Cómo funciona el pago contra entrega?', answer: 'Pagas al recibir el producto. El envío está incluido en los precios publicados. La recepción de pedidos de esta página aún está deshabilitada; cuando se habilite, se confirmarán la disponibilidad y las condiciones de entrega para tu dirección.' },
   { id: 'delivery', category: 'pedidos', question: '¿Dónde realizan envíos y cuánto cuestan?', answer: 'El envío está incluido tanto en la caja individual como en el pack familiar. La cobertura y el plazo deben confirmarse para tu dirección en Colombia. Seleccionar un departamento no garantiza cobertura.' },
   { id: 'notification', category: 'seguridad', question: '¿Cuál es su notificación sanitaria?', answer: 'La notificación sanitaria colombiana indicada para MultyDrink es NSA-0019488-2025. Es información sanitaria del alimento; no constituye prueba de eficacia clínica.' },
   { id: 'precautions', category: 'seguridad', question: '¿Qué debo revisar antes de consumirlo?', answer: 'Revisa ingredientes, alérgenos y advertencias del empaque. Si estás en embarazo o lactancia, tomas medicamentos o tienes una condición de salud, consulta a un profesional antes de incorporarlo a tu alimentación. MultyDrink es un alimento, no un medicamento.' },
@@ -107,7 +107,7 @@ export const productFaqs = [
     { icon: 'glass', label: 'Con tus jugos favoritos:', text: 'incorpóralo a tu bebida habitual.' },
     { icon: 'apple', label: 'Con frutas:', text: 'intégralo a tus preparaciones favoritas.' },
   ] },
-  { id: 'caffeine', icon: 'leaf', question: '¿Contiene cafeína?', intro: 'MultyDrink contiene ingredientes derivados del café y extracto de té negro, fuentes naturales de cafeína. Su fórmula combina estos ingredientes con extracto de uva, Ganoderma lucidum y miel de agave azul.' },
+  { id: 'caffeine', icon: 'leaf', question: '¿Contiene cafeína?', intro: 'MultyDrink contiene mucílago de café y té negro en su fórmula. También combina extracto de uva, Ganoderma lucidum y miel de agave azul. Revisa la información del empaque si eres sensible a la cafeína.' },
   { id: 'precautions', icon: 'shield', question: '¿ES SEGURO?', items: [
     { text: `Notificación sanitaria INVIMA ${commerce.sanitaryRegistration}.` },
     { text: 'No consumir junto con warfarina.' },
@@ -129,8 +129,8 @@ export const nutrition = {
 export const ingredientGroups = [
   { title: 'El origen está en el café.', name: 'Mucílago de café', images: ['coffee'], text: 'La capa que rodea el grano de café es uno de los cinco ingredientes destacados en la mezcla. Su composición se estudia como materia prima alimentaria.' },
   { title: 'Un hongo con identidad propia.', name: 'Ganoderma lucidum', images: ['ganoderma'], text: 'También conocido como reishi. Forma parte de la composición de MultyDrink, sin que su presencia permita atribuir a la bebida resultados de estudios sobre extractos aislados.' },
-  { title: 'Dos orígenes que se encuentran.', name: 'Uva morada + té negro', images: ['grape', 'tea'], text: 'Piel y semillas de uva morada y té negro forman dos de los grupos de ingredientes. La investigación de sus compuestos es distinta de estudiar la fórmula terminada.' },
-  { title: 'El toque del agave azul.', name: 'Sirope de agave azul', images: ['agave'], text: 'Completa los cinco grupos de ingredientes. La etiqueta declara 0,2 g de azúcares añadidos por porción de 10 g.' },
+  { title: 'Dos orígenes que se encuentran.', name: 'Extracto de uva + té negro', images: ['grape', 'tea'], text: 'Extracto de uva y té negro forman dos de los grupos de ingredientes. La investigación de sus compuestos es distinta de estudiar la fórmula terminada.' },
+  { title: 'El toque del agave azul.', name: 'Miel de agave azul', images: ['agave'], text: 'Completa los cinco grupos de ingredientes. La etiqueta declara 0,2 g de azúcares añadidos por porción de 10 g.' },
 ];
 export const research = [
   { year: '2013', label: 'Polifenoles de la uva', source: 'Ensayo clínico · Cardiovascular Drugs and Therapy', url: 'https://pubmed.ncbi.nlm.nih.gov/23224687/', description: 'En 75 personas con enfermedad coronaria, un extracto de uva enriquecido con resveratrol se estudió por sus efectos sobre biomarcadores inflamatorios.' },

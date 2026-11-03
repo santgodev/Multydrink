@@ -1,10 +1,11 @@
-import { packages, ingredients, gallery, faqs, departments, moments } from './config.js';
+import { packages, ingredients, gallery, faqs, departments } from './config.js';
 import { money } from './order.js';
 
 const paths = {
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
   box: '<path d="m12 3 9 5v9l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v9M7 5.8l10 5.5"/>',
+  'shopping-bag': '<path d="M4.5 8h15l1 12.5H3.5L4.5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/>',
   leaf: '<path d="M20 3C7 2 2 8 6 15s15 3 14-12Z"/><path d="M3 21 16 8"/>',
   flask: '<path d="M9 3h6M10 3v7L5 20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l-5-10V3M8 15h8"/>',
   glass: '<path d="m5 3 2 18h10l2-18ZM6 10c4-3 8 3 12 0"/>',
@@ -16,6 +17,8 @@ const paths = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/>',
   focus: '<circle cx="12" cy="12" r="4"/><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/>',
   moon: '<path d="M20.8 13a9 9 0 0 1-9.8-9.8A9 9 0 1 0 20.8 13Z"/>',
+  rhythm: '<path d="M3 7c3-4 6 4 9 0s6 4 9 0M3 12c3-4 6 4 9 0s6 4 9 0M3 17c3-4 6 4 9 0s6 4 9 0"/>',
+  sprout: '<path d="M12 21v-8M12 17C6 17 3 14 3 8c6 0 9 3 9 9ZM12 13c0-6 3-9 9-9 0 6-3 9-9 9Z"/>',
   lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/>',
   chat: '<path d="M21 11a9 9 0 0 1-9 9H3l2-5a9 9 0 1 1 16-4Z"/><path d="M8 10h8M8 14h5"/>',
 };
@@ -32,12 +35,6 @@ export function renderPackages(selected) {
       </span>
       <span class="package-radio" aria-hidden="true"></span>
     </span></label>`).join('');
-}
-export function renderMomentTabs() {
-  return moments.map((item, index) => `<button type="button" role="tab" id="tab-${item.id}" aria-controls="panel-${item.id}" aria-selected="${index === 0}" tabindex="${index === 0 ? '0' : '-1'}">${item.tab}</button>`).join('');
-}
-export function renderMomentPanels() {
-  return moments.map((item, index) => `<div role="tabpanel" id="panel-${item.id}" aria-labelledby="tab-${item.id}" tabindex="0" ${index === 0 ? '' : 'hidden'}><h3>${item.title}</h3><p>${item.text}</p><ul class="benefits">${item.points.map(point => `<li>${icon('check')}<span>${point}</span></li>`).join('')}</ul><a class="button button-outline" href="#confianza">CONOCE LA INFORMACIÓN ${icon('arrow')}</a></div>`).join('');
 }
 export function renderGallery() {
   return gallery.map((item, index) => `<button type="button" class="gallery-thumb" data-gallery="${index}" aria-label="Ver ${item.label}" aria-pressed="${index === 0}"><img src="${item.thumbnail || item.src}" width="64" height="64" alt="" loading="lazy"></button>`).join('');
@@ -63,12 +60,12 @@ export function renderTestimonials(reviews) {
   const excerpts = reviews.filter(item => item.transcriptProvided === true && item.name && item.comment);
   if (!excerpts.length) return '';
   return `<section class="purchase-reviews" aria-labelledby="reviews-title" aria-roledescription="carrusel">
-    <div class="purchase-reviews-heading"><h2 id="reviews-title">Experiencias compartidas</h2><div class="review-controls"><button type="button" data-review-prev aria-label="Testimonio anterior">‹</button><button type="button" data-review-next aria-label="Siguiente testimonio">›</button></div></div>
-    <div class="purchase-review-track" tabindex="0" aria-label="Experiencias personales; usa las flechas para navegar">
+    <div class="purchase-reviews-heading"><div class="review-heading-copy"><span class="review-eyebrow">TESTIMONIOS</span><h2 id="reviews-title">Lo que dicen nuestros clientes después de probar <span>MultyDrink</span></h2></div><div class="review-controls"><button type="button" data-review-prev aria-label="Testimonio anterior">‹</button><button type="button" data-review-next aria-label="Siguiente testimonio">›</button></div></div>
+    <div class="purchase-review-track" tabindex="0" aria-label="Testimonios; usa las flechas para navegar">
       ${excerpts.map((item, index) => `<figure class="purchase-review-card" role="group" aria-roledescription="diapositiva" aria-label="${index + 1} de ${excerpts.length}">
-        <span class="review-topic">${escapeHTML(item.topic || 'Experiencia personal')}</span>
+        <span class="review-decorative-quote" aria-hidden="true">“</span><span class="review-topic">${escapeHTML(item.topic || 'Experiencia personal')}</span>
         <blockquote class="review-quote">“${escapeHTML(item.comment)}”</blockquote>
-        <figcaption class="review-author"><strong>${escapeHTML(item.name)}</strong>${item.location ? `<span>${escapeHTML(item.location)}</span>` : ''}</figcaption>
+        <figcaption class="review-author"><span class="review-author-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/></svg></span><span class="review-author-details"><strong>${escapeHTML(item.name)}</strong>${item.location ? `<span>${escapeHTML(item.location)}</span>` : ''}</span></figcaption>
         <p class="review-source-note">${escapeHTML(item.sourceNote || 'Testimonio personal')}</p>
       </figure>`).join('')}
     </div>

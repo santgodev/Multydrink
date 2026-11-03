@@ -46,14 +46,16 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch)
   let completed = null;
   let outcomeUnknown = false;
   return {
-    async submit(values) {
+    async submit(values, turnstileToken) {
       if (pending) throw new OrderError('Tu solicitud ya se está enviando.', 'BUSY');
       if (completed) return completed;
       if (!isOrderingEnabled(config)) throw new OrderError('Los pedidos en línea aún no están habilitados. No hemos enviado tus datos.', 'UNAVAILABLE');
       if (Object.keys(validateOrder(values)).length) throw new OrderError('Revisa los campos del formulario.', 'VALIDATION');
+      if (typeof turnstileToken !== 'string' || !turnstileToken.trim()) throw new OrderError('Completa la verificación de seguridad antes de enviar el pedido.', 'TURNSTILE');
       const payload = {
         customer: { fullName: values.fullName.trim(), documentNumber: values.documentNumber.trim(), phone: '+57' + normalizePhone(values.phone), department: values.department, city: values.city.trim(), address: values.address.trim(), neighborhood: values.neighborhood.trim(), unit: (values.unit || '').trim(), instructions: (values.instructions || '').trim(), email: (values.email || '').trim() },
         items: [{ packageId: values.packageId, quantity: Number(values.quantity) }],
+        turnstileToken,
         paymentMethod: 'cash_on_delivery',
         consent: { accepted: true, policyVersion: config.privacyPolicyVersion },
       };
@@ -64,7 +66,7 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch)
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 15000);
       try {
-        const response = await fetcher(config.orderEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': retryKey }, body: JSON.stringify(payload), signal: controller.signal, credentials: 'same-origin' });
+        const response = await fetcher(config.orderEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': retryKey }, body: JSON.stringify(payload), signal: controller.signal, credentials: 'omit' });
         if (!response.ok) {
           outcomeUnknown = response.status >= 500 || response.status === 409;
           throw new OrderError(response.status === 400 ? 'Los datos enviados no son válidos. Revisa el formulario.' : response.status === 429 ? 'Hay muchas solicitudes. Espera un momento y vuelve a intentar.' : response.status === 503 ? 'Los pedidos no están disponibles en este momento. No se ha confirmado tu pedido.' : 'No pudimos confirmar tu solicitud. Reintenta con los mismos datos o consulta al vendedor.', 'HTTP');

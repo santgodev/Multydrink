@@ -123,7 +123,7 @@ export function initApp(doc = document, win = window, options = {}) {
   } else if (ready) {
     $('#order-availability').textContent = commerce.shippingDescription;
     $('#submit-order').disabled = false;
-    $('#submit-order').innerHTML = `CONFIRMAR PEDIDO CONTRA ENTREGA ${icon('arrow')}`;
+    $('#submit-order').innerHTML = `CONFIRMAR PEDIDO · PAGO EN CASA ${icon('arrow')}`;
     $('#conditions-dialog').querySelector('p:last-child').textContent = `Vendedor: ${commerce.merchantName}. ${commerce.shippingDescription} Consulta sus condiciones completas antes de enviar el pedido.`;
   }
   initLegalDrafts(doc, win, commerce);
@@ -398,7 +398,7 @@ export function initApp(doc = document, win = window, options = {}) {
         $('#order-fields').disabled = false;
         $('#package-selector').disabled = false;
         $('#submit-order').disabled = false;
-        $('#submit-order').innerHTML = `CONFIRMAR PEDIDO CONTRA ENTREGA ${icon('arrow')}`;
+        $('#submit-order').innerHTML = `CONFIRMAR PEDIDO · PAGO EN CASA ${icon('arrow')}`;
       }
     }
   });

@@ -52,7 +52,7 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(individualCard.querySelector('.package-saving'), null);
   assert.equal(familyCard.querySelector('.package-saving'), null);
   assert.equal(familyCard.querySelector('.package-tag').textContent, 'MEJOR VALOR');
-  assert.equal(ctx.$('#offer-saving').textContent, 'AHORRA 36%');
+  assert.equal(ctx.$('#offer-saving').textContent, 'AHORRAS $235.000');
   assert.equal(ctx.$('#offer-saving').hidden, false);
   assert.equal(ctx.$('#package-selector del'), null);
   ctx.win.happyDOM.abort();
@@ -77,7 +77,7 @@ test('Gallery buttons, thumbnails and arrow keys update image and accessible sta
   const ctx = setup();
   assert.match(ctx.$('#hero-image').src, /hero-ingredientes-1254.webp$/);
   ctx.$('#gallery-next').click();
-  assert.match(ctx.$('#hero-image').src, /gallery-02-descanso-oficina-1254.webp$/);
+  assert.match(ctx.$('#hero-image').src, /hero-03-beneficios-approved-1254.webp$/);
   assert.equal(ctx.$('[data-gallery="1"]').getAttribute('aria-pressed'), 'true');
   assert.equal(ctx.doc.querySelectorAll('[data-gallery][aria-pressed="true"]').length, 1);
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
@@ -182,7 +182,7 @@ test('Legal dialogs open and close; FAQs use native semantic accordions', () => 
   const ctx = setup();
   ctx.$('#privacy-link').click(); assert.equal(ctx.$('#privacy-dialog').open, true);
   ctx.$('#privacy-dialog [data-close]').click(); assert.equal(ctx.$('#privacy-dialog').open, false);
-  assert.equal(ctx.doc.querySelectorAll('#faq-list details>summary').length, 11);
+  assert.equal(ctx.doc.querySelectorAll('#faq-list details>summary').length, 13);
   assert.equal(ctx.doc.querySelectorAll('#product-accordions details>summary').length, 5);
   ctx.win.happyDOM.abort();
 });
@@ -192,8 +192,8 @@ test('Routine tabs support click, roving keyboard focus and one visible associat
   assert.equal(tabs.length, 4);
   tabs[1].click();
   assert.equal(tabs[1].getAttribute('aria-selected'), 'true');
-  assert.equal(ctx.$('#panel-energia').hidden, false);
-  assert.equal(ctx.$('#panel-enfoque').hidden, true);
+  assert.equal(ctx.$('#story-panel-nutricional').hidden, false);
+  assert.equal(ctx.$('#story-panel-origen').hidden, true);
   tabs[1].dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'End', bubbles: true }));
   assert.equal(ctx.doc.activeElement, tabs[3]);
   assert.equal(tabs[1].tabIndex, -1);
@@ -205,8 +205,9 @@ test('Routine tabs support click, roving keyboard focus and one visible associat
 });
 test('Product facts use configured counts and all accessibility ID references resolve', () => {
   const ctx = setup();
-  assert.match(ctx.$('#nutrition-composition').textContent, /21 porciones/);
-  assert.match(ctx.$('#nutrition-composition').textContent, /0,2 g/);
+  assert.ok(ctx.$('#nutrition-composition .real-nutrition-label'));
+  assert.match(ctx.$('#nutrition-portion').textContent, /21 sachets/);
+  assert.match(ctx.$('#story-panel-nutricional').textContent, /30 mg/);
   for (const attribute of ['aria-labelledby', 'aria-describedby', 'aria-controls']) {
     for (const element of ctx.doc.querySelectorAll(`[${attribute}]`)) {
       for (const id of element.getAttribute(attribute).split(/\s+/)) assert.ok(ctx.doc.getElementById(id), `${attribute}: ${id}`);
@@ -221,16 +222,21 @@ test('All control labels, image alternatives and internal anchor destinations ex
   for (const input of ctx.doc.querySelectorAll('input,select')) assert.ok(input.closest('label') || ctx.$(`label[for="${input.id}"]`));
   for (const image of ctx.doc.querySelectorAll('img')) assert.ok(image.hasAttribute('alt'));
   for (const anchor of ctx.doc.querySelectorAll('a[href^="#"]')) assert.ok(ctx.doc.getElementById(anchor.getAttribute('href').slice(1)));
-  assert.equal(ctx.$('#testimonials').hidden, true);
-  assert.equal(ctx.$('#testimonials').children.length, 0);
+  assert.equal(ctx.$('#testimonials').hidden, false);
+  assert.equal(ctx.doc.querySelectorAll('#testimonials .purchase-review-card').length, 3);
   assert.ok(ctx.$('.product-info #testimonials'));
   ctx.win.happyDOM.abort();
 });
-test('Reviews require approval and source; text is escaped and verification requires evidence', () => {
+test('Transcript testimonials require provenance and escape user-supplied text', () => {
   assert.equal(renderTestimonials([{ name: 'Example', rating: 5, comment: 'Example' }]), '');
-  const rendered = renderTestimonials([{ approved: true, publicationRightsConfirmed: true, sourceUrl: 'https://example.com', name: '<script>', comment: '<img src=x>', rating: 4, verifiedPurchase: false, verifiedOrderId: 'test-order', verificationReference: 'test-evidence' }]);
+  const rendered = renderTestimonials([{
+    transcriptProvided: true, name: '<script>', comment: '<img src=x>',
+    sourceNote: 'Fragmento de transcripción de prueba', verifiedPurchase: false
+  }]);
   assert.match(rendered, /&lt;script&gt;/);
-  assert.doesNotMatch(rendered, /Compra verificada/);
+  assert.match(rendered, /&lt;img src=x&gt;/);
+  assert.match(rendered, /Fragmento de transcripción de prueba/);
+  assert.doesNotMatch(rendered, /Compra verificada|review-stars|5 de 5 estrellas/);
 });
 
 test('Hero offer preserves shared quantity, bounds, totals and independent gallery state', () => {
@@ -257,22 +263,24 @@ test('Hero offer preserves shared quantity, bounds, totals and independent galle
   ctx.win.happyDOM.abort();
 });
 
-test('Review output does not invent scores, provenance or purchase verification', () => {
-  const fixture = { approved: true, publicationRightsConfirmed: true, sourceUrl: 'https://example.com/review', name: 'Fixture', comment: 'Test only' };
-  assert.equal(renderTestimonials([{ ...fixture, publicationRightsConfirmed: false }]), '');
-  assert.equal(renderTestimonials([{ ...fixture, sourceUrl: 'javascript:alert(1)' }]), '');
-  const plain = renderTestimonials([{ ...fixture, verifiedPurchase: true }]);
-  assert.doesNotMatch(plain, /Compra verificada|review-stars|4\.9|500|TODO COLOMBIA|PRODUCTO SEGURO/);
-  assert.match(plain, /Ver fuente/);
-  assert.match(renderTestimonials([{ ...fixture, rating: 3 }]), /3 de 5 estrellas/);
+test('Transcript testimonials do not fabricate provenance, scores or verification', () => {
+  const fixture = { transcriptProvided: true, name: 'Persona de prueba', comment: 'Testimonio de prueba', sourceNote: 'Transcripción de prueba' };
+  assert.equal(renderTestimonials([{ ...fixture, transcriptProvided: false }]), '');
+  assert.equal(renderTestimonials([{ ...fixture, comment: '' }]), '');
+  const plain = renderTestimonials([{ ...fixture, rating: 5, verifiedPurchase: true }]);
+  assert.match(plain, /Transcripción de prueba/);
+  assert.doesNotMatch(plain, /Compra verificada|review-stars|4\\.9|500|TODO COLOMBIA|PRODUCTO SEGURO|5 de 5 estrellas/);
 });
-
-test('Review carousel supports arrows, endpoints and pagination with one interactive slide', () => {
+test('Transcript testimonial carousel supports arrows, endpoints and pagination', () => {
   const win = new Window();
   const root = win.document.createElement('div');
   win.document.body.append(root);
-  root.innerHTML = renderTestimonials([1, 2, 3].map(n => ({ approved: true, publicationRightsConfirmed: true, sourceUrl: 'https://example.com/test', name: `Fixture ${n}`, comment: 'Test content' })));
+  root.innerHTML = renderTestimonials([1, 2, 3].map(n => ({
+    transcriptProvided: true, name: 'Persona ' + n, comment: 'Testimonio ' + n,
+    sourceNote: 'Transcripción de prueba'
+  })));
   const track = root.querySelector('.purchase-review-track');
+  assert.ok(track, 'Testimonial carousel is rendered for transcript excerpts');
   [...track.children].forEach((card, n) => Object.defineProperty(card, 'offsetLeft', { value: n * 300 }));
   track.scrollTo = ({ left }) => { track.scrollLeft = left; };
   bindTestimonials(root);
@@ -290,7 +298,6 @@ test('Review carousel supports arrows, endpoints and pagination with one interac
   assert.equal(root.querySelector('[data-review-status]').textContent, 'Testimonio 3 de 3');
   win.happyDOM.abort();
 });
-
 
 test('Checkout modal preserves selection, totals and form values across openings', async () => {
   const ctx = setup();

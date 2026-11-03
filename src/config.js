@@ -9,6 +9,8 @@ export const commerce = Object.freeze({
   defaultPackage: 'familiar',
   currency: 'COP',
   maxQuantity: 20,
+  // Public Turnstile site key only. Checkout remains disabled until legal and Worker activation.
+  turnstileSiteKey: '0x4AAAAAAFyHXmvZUx5W0ipy',
   orderEndpoint: null,
   merchantName: null,
   privacyPolicyUrl: null,

@@ -81,12 +81,12 @@ test('Gallery buttons, thumbnails and arrow keys update image and accessible sta
   assert.equal(ctx.$('[data-gallery="1"]').getAttribute('aria-pressed'), 'true');
   assert.equal(ctx.doc.querySelectorAll('[data-gallery][aria-pressed="true"]').length, 1);
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
-  assert.match(ctx.$('#hero-image').src, /gallery-03-coworking-1254.webp$/);
+  assert.match(ctx.$('#hero-image').src, /hero-02-producto-approved-1024.webp$/);
   assert.equal(ctx.doc.activeElement, ctx.$('[data-gallery="2"]'));
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
   ctx.$('#gallery-prev').click();
-  assert.equal(ctx.$('#gallery-count').textContent, '10 / 10');
-  assert.match(ctx.$('#hero-image').src, /gallery-10-bebida-caja-sobres-1254.webp$/);
+  assert.equal(ctx.$('#gallery-count').textContent, '08 / 08');
+  assert.match(ctx.$('#hero-image').src, /hero-08-mujer-oficina-approved-1086.webp$/);
   ctx.win.happyDOM.abort();
 });
 
@@ -200,7 +200,7 @@ test('Routine tabs support click, roving keyboard focus and one visible associat
   assert.equal(tabs[3].tabIndex, 0);
   tabs[3].dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
   assert.equal(ctx.doc.activeElement, tabs[0]);
-  assert.equal(ctx.doc.querySelectorAll('#moment-panels [role="tabpanel"]:not([hidden])').length, 1);
+  assert.equal(ctx.doc.querySelectorAll('.moment-panels [role="tabpanel"]:not([hidden])').length, 1);
   ctx.win.happyDOM.abort();
 });
 test('Product facts use configured counts and all accessibility ID references resolve', () => {

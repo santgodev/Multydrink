@@ -69,14 +69,14 @@ export const departments = ['Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bo
 
 export const ingredients = [
   { name: 'Mucílago de café', subtitle: 'El origen de la mezcla', image: 'coffee', text: 'La capa que rodea el grano de café forma parte de esta combinación de origen botánico.' },
-  { name: 'Uva morada', subtitle: 'Piel y semilla', image: 'grape', text: 'La fórmula incorpora piel y semillas de uvas moradas, según la información de la marca.' },
-  { name: 'Agave azul', subtitle: 'Un toque de dulzura', image: 'agave', text: 'El sirope de agave azul es uno de los cinco ingredientes destacados por MultyDrink.' },
+  { name: 'Extracto de uva', subtitle: 'De origen botánico', image: 'grape', text: 'El extracto de uva forma parte de los cinco ingredientes de MultyDrink.' },
+  { name: 'Miel de agave azul', subtitle: 'Un toque de dulzura', image: 'agave', text: 'La miel de agave azul es uno de los cinco ingredientes destacados por MultyDrink.' },
   { name: 'Ganoderma lucidum', subtitle: 'También conocido como reishi', image: 'ganoderma', text: 'Un hongo que se integra a la mezcla junto con los demás ingredientes botánicos.' },
   { name: 'Té negro', subtitle: 'El complemento de la fórmula', image: 'tea', text: 'El té negro completa la combinación. Revisa la etiqueta para conocer su composición y advertencias.' },
 ];
 
 export const faqs = [
-  {"id":"ingredients","category":"ingredientes","question":"¿Qué contiene Multydrink?","answer":"Pulpa concentrada de café, uva en polvo, jarabe orgánico de agave azul, extracto de té negro y betaglucanos de Ganoderma lucidum."},
+  {"id":"ingredients","category":"ingredientes","question":"¿Qué contiene Multydrink?","answer":"Mucílago de café, extracto de uva, miel de agave azul, Ganoderma lucidum y té negro."},
   {"id":"flavor","category":"uso","question":"¿A qué sabe?","answer":"Tiene sabor limón."},
   {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sachet de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
   {"id":"includes","category":"uso","question":"¿Cuántos sachets trae cada caja?","answer":"Cada caja contiene 21 sachets individuales."},
@@ -106,7 +106,7 @@ export const productFaqs = [
     { icon: 'glass', label: 'Con tus jugos favoritos:', text: 'incorpóralo a tu bebida habitual.' },
     { icon: 'apple', label: 'Con frutas:', text: 'intégralo a tus preparaciones favoritas.' },
   ] },
-  { id: 'caffeine', icon: 'leaf', question: '¿Contiene cafeína?', intro: 'MultyDrink contiene ingredientes derivados del café y extracto de té negro, fuentes naturales de cafeína. Su fórmula combina estos ingredientes con extracto de uva, Ganoderma lucidum y miel de agave azul.' },
+  { id: 'caffeine', icon: 'leaf', question: '¿Contiene cafeína?', intro: 'MultyDrink contiene mucílago de café y té negro en su fórmula. También combina extracto de uva, Ganoderma lucidum y miel de agave azul. Revisa la información del empaque si eres sensible a la cafeína.' },
   { id: 'precautions', icon: 'shield', question: '¿ES SEGURO?', items: [
     { text: `Notificación sanitaria INVIMA ${commerce.sanitaryRegistration}.` },
     { text: 'No consumir junto con warfarina.' },
@@ -128,8 +128,8 @@ export const nutrition = {
 export const ingredientGroups = [
   { title: 'El origen está en el café.', name: 'Mucílago de café', images: ['coffee'], text: 'La capa que rodea el grano de café es uno de los cinco ingredientes destacados en la mezcla. Su composición se estudia como materia prima alimentaria.' },
   { title: 'Un hongo con identidad propia.', name: 'Ganoderma lucidum', images: ['ganoderma'], text: 'También conocido como reishi. Forma parte de la composición de MultyDrink, sin que su presencia permita atribuir a la bebida resultados de estudios sobre extractos aislados.' },
-  { title: 'Dos orígenes que se encuentran.', name: 'Uva morada + té negro', images: ['grape', 'tea'], text: 'Piel y semillas de uva morada y té negro forman dos de los grupos de ingredientes. La investigación de sus compuestos es distinta de estudiar la fórmula terminada.' },
-  { title: 'El toque del agave azul.', name: 'Sirope de agave azul', images: ['agave'], text: 'Completa los cinco grupos de ingredientes. La etiqueta declara 0,2 g de azúcares añadidos por porción de 10 g.' },
+  { title: 'Dos orígenes que se encuentran.', name: 'Extracto de uva + té negro', images: ['grape', 'tea'], text: 'Extracto de uva y té negro forman dos de los grupos de ingredientes. La investigación de sus compuestos es distinta de estudiar la fórmula terminada.' },
+  { title: 'El toque del agave azul.', name: 'Miel de agave azul', images: ['agave'], text: 'Completa los cinco grupos de ingredientes. La etiqueta declara 0,2 g de azúcares añadidos por porción de 10 g.' },
 ];
 export const research = [
   { year: '2013', label: 'Polifenoles de la uva', source: 'Ensayo clínico · Cardiovascular Drugs and Therapy', url: 'https://pubmed.ncbi.nlm.nih.gov/23224687/', description: 'En 75 personas con enfermedad coronaria, un extracto de uva enriquecido con resveratrol se estudió por sus efectos sobre biomarcadores inflamatorios.' },

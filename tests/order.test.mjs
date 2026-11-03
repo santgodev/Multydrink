@@ -56,14 +56,14 @@ test('Required checkout fields report precise empty-value errors', () => {
 test('HTTP 400, 429 and 503 do not confirm orders and show specific feedback', async () => {
   for (const [status, expected] of [[400, /datos enviados no son válidos/i], [429, /muchas solicitudes/i], [503, /no están disponibles/i]]) {
     const client = createOrderClient(configured, async () => new Response('{}', { status }));
-    await assert.rejects(client.submit(valid), error => error.code === 'HTTP' && expected.test(error.message));
+    await assert.rejects(client.submit(valid, 'test-turnstile-token'), error => error.code === 'HTTP' && expected.test(error.message));
   }
 });
 
 test('Unconfigured checkout never calls a network service or fakes success', async () => {
   assert.equal(isOrderingEnabled(commerce), false);
   let called = false;
-  await assert.rejects(createOrderClient(commerce, async () => { called = true; }).submit(valid), { code: 'UNAVAILABLE' });
+  await assert.rejects(createOrderClient(commerce, async () => { called = true; }).submit(valid, 'test-turnstile-token'), { code: 'UNAVAILABLE' });
   assert.equal(called, false);
   assert.equal(isOrderingEnabled({ ...configured, privacyPolicyUrl: null }), false);
   assert.equal(isOrderingEnabled({ ...configured, shippingFee: null }), false);
@@ -71,7 +71,7 @@ test('Unconfigured checkout never calls a network service or fakes success', asy
 test('Submission sends only product IDs and quantity; backend owns authoritative pricing', async () => {
   let options;
   const client = createOrderClient(configured, async (url, request) => { assert.equal(url, '/test-orders'); options = request; return new Response(JSON.stringify(receipt)); });
-  assert.deepEqual(await client.submit(valid), { orderId: 'test-order-1', total: 850000, currency: 'COP' });
+  assert.deepEqual(await client.submit(valid, 'test-turnstile-token'), { orderId: 'test-order-1', total: 850000, currency: 'COP' });
   const payload = JSON.parse(options.body);
   assert.deepEqual(payload.items, [{ packageId: 'familiar', quantity: 2 }]);
   assert.equal(payload.customer.phone, '+573001234567');
@@ -85,25 +85,25 @@ test('Double submissions are blocked and successful receipt is reused', async ()
   let resolveRequest;
   let calls = 0;
   const client = createOrderClient(configured, () => { calls++; return new Promise(resolve => { resolveRequest = resolve; }); });
-  const pending = client.submit(valid);
-  await assert.rejects(client.submit(valid), { code: 'BUSY' });
+  const pending = client.submit(valid, 'test-turnstile-token');
+  await assert.rejects(client.submit(valid, 'test-turnstile-token'), { code: 'BUSY' });
   resolveRequest(new Response(JSON.stringify(receipt)));
   await pending;
-  await client.submit(valid);
+  await client.submit(valid, 'test-turnstile-token');
   assert.equal(calls, 1);
 });
 test('Network uncertainty reuses the idempotency key and blocks changed details', async () => {
   const keys = [];
   const client = createOrderClient(configured, async (_, request) => { keys.push(request.headers['Idempotency-Key']); if (keys.length === 1) throw new Error('Network lost'); return new Response(JSON.stringify(receipt)); });
-  await assert.rejects(client.submit(valid), { code: 'NETWORK' });
-  await assert.rejects(client.submit({ ...valid, quantity: '3' }), { code: 'UNKNOWN' });
-  await client.submit(valid);
+  await assert.rejects(client.submit(valid, 'test-turnstile-token'), { code: 'NETWORK' });
+  await assert.rejects(client.submit({ ...valid, quantity: '3' }, 'test-turnstile-token'), { code: 'UNKNOWN' });
+  await client.submit(valid, 'test-turnstile-token');
   assert.equal(keys[0], keys[1]);
 });
 test('HTTP errors and malformed receipts cannot produce a confirmed order', async () => {
-  await assert.rejects(createOrderClient(configured, async () => new Response('{}', { status: 500 })).submit(valid), { code: 'HTTP' });
-  await assert.rejects(createOrderClient(configured, async () => new Response('{}', { status: 429 })).submit(valid), { code: 'HTTP' });
+  await assert.rejects(createOrderClient(configured, async () => new Response('{}', { status: 500 })).submit(valid, 'test-turnstile-token'), { code: 'HTTP' });
+  await assert.rejects(createOrderClient(configured, async () => new Response('{}', { status: 429 })).submit(valid, 'test-turnstile-token'), { code: 'HTTP' });
   for (const body of [{}, { ...receipt, status: 'ok' }, { ...receipt, total: '850000' }, { ...receipt, currency: 'USD' }, { ...receipt, orderId: '' }]) {
-    await assert.rejects(createOrderClient(configured, async () => new Response(JSON.stringify(body))).submit(valid), { code: 'RECEIPT' });
+    await assert.rejects(createOrderClient(configured, async () => new Response(JSON.stringify(body))).submit(valid, 'test-turnstile-token'), { code: 'RECEIPT' });
   }
 });

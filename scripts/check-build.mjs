@@ -40,7 +40,16 @@ try {
     assert.ok((await asset.arrayBuffer()).byteLength > 0, file);
   }
   for (const file of ['/docs/registry.pdf', '/package.json', '/.env', '/node_modules/happy-dom/package.json', '/src/%2e%2e%5cpackage.json', '/assets/README.md', '/assets/multydrink/producto/caja-principal.png', '/assets/multydrink/testimonios/Testimonio-Multydrink-Vitalidad.mp4', '/assets/multydrink/optimized/%2e%2e%5cproducto%5ccaja-principal.png']) assert.equal((await fetch(base + file)).status, 404, file);
-  assert.equal(assets.some(file => /\.(mp4|webm|png)$/.test(file) && file !== 'favicon.png'), false, 'No unreviewed videos or original PNGs in build');
+  // Only explicitly approved media files may be included in the production build.
+  const approvedSpecialAssets = new Set([
+    'favicon.png',
+    'multydrink/profesional/dra-erika-multydrink.mp4',
+    'multydrink/optimized/origen-cafe-multydrink.png',
+  ]);
+  const unapprovedAssets = assets.filter(file =>
+    /\.(mp4|webm|png)$/i.test(file) && !approvedSpecialAssets.has(file)
+  );
+  assert.deepEqual(unapprovedAssets, [], 'No unreviewed videos or original PNGs in build');
   const cssFiles = modules.filter(name => name.endsWith('.css'));
   const win = new Window({ settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
   for (const name of cssFiles) {

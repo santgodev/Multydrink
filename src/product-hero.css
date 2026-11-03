@@ -94,6 +94,9 @@
 #offer-quantity-error:empty { display:none; }
 .offer-total { color:var(--hero-muted); font-size:13px; line-height:1.5; margin:9px 0 0; }
 .purchase-offer .main-cta { grid-area:cta; display:flex; justify-content:center; align-items:center; width:100%; min-height:50px; padding:13px 16px; border-radius:28px; font-size:13px; line-height:1.5; font-weight:700; text-align:center; letter-spacing:0; background:var(--accent); color:#14200c; }
+.purchase-offer .main-cta { gap:10px; }
+.purchase-offer .main-cta .icon { width:20px; height:20px; flex:none; stroke-width:1.8; }
+.purchase-offer .main-cta span:last-child { min-width:0; }
 .purchase-trust { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:15px 12px; margin:12px 0 0; border:1px solid #303d25; border-radius:10px; background:#10160d; }
 .purchase-trust > span { display:flex; align-items:center; justify-content:center; gap:8px; min-width:0; font-size:13px; line-height:1.5; color:var(--hero-muted); }
 .purchase-trust > span + span { border-left:1px solid #3d4933; padding-left:12px; }

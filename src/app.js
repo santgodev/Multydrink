@@ -5,6 +5,7 @@ import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
 import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
+import { createOrderTurnstile } from './turnstile.js';
 import { renderEditorialIngredients, renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderVideoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
@@ -23,6 +24,11 @@ export function initApp(doc = document, win = window, options = {}) {
   const client = localDemo ? null : createOrderClient(commerce, options.fetcher || globalThis.fetch);
   const touched = new Set();
   const ready = isOrderingEnabled(commerce);
+  const turnstile = !localDemo && ready ? createOrderTurnstile({ win, doc, siteKey: commerce.turnstileSiteKey, container: $('#order-turnstile') }) : null;
+  if (turnstile) {
+    $('#order-turnstile').hidden = false;
+    $('#turnstile-status').hidden = false;
+  }
   $('#product-schema').textContent = serializeStructuredData();
   $('#package-selector').insertAdjacentHTML('beforeend', renderPackages(selected));
   $('#gallery-thumbs').innerHTML = renderGallery();
@@ -243,6 +249,9 @@ export function initApp(doc = document, win = window, options = {}) {
     checkout.scrollTop = 0;
     $('#order-title').focus({ preventScroll: true });
     updateStickyVisibility();
+    if (turnstile) turnstile.mount().catch(() => {
+      $('#turnstile-status').textContent = 'No se pudo iniciar la verificación. Revisa tu conexión y abre nuevamente el pedido.';
+    });
   }
   checkout.addEventListener('close', () => {
     if (savedBodyStyle === null) doc.body.removeAttribute('style');
@@ -354,6 +363,13 @@ export function initApp(doc = document, win = window, options = {}) {
       confirmation.focus();
       return;
     }
+    const verificationToken = turnstile?.getToken();
+    if (!verificationToken) {
+      message.textContent = 'Completa la verificación de seguridad antes de enviar el pedido.';
+      message.hidden = false;
+      message.focus();
+      return;
+    }
     sending = true;
     updateSummary();
     $('#order-fields').disabled = true;
@@ -362,7 +378,7 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#submit-order').textContent = 'Enviando tu solicitud…';
     $('#order-form').setAttribute('aria-busy', 'true');
     try {
-      const result = await client.submit(data);
+      const result = await client.submit(data, verificationToken);
       confirmed = true;
       $('#confirmation-detail').textContent = `Solicitud ${result.orderId}. Total confirmado: ${money(result.total)} COP.`;
       $('#order-form').hidden = true;
@@ -370,6 +386,7 @@ export function initApp(doc = document, win = window, options = {}) {
       $('#order-confirmation').hidden = false;
       $('#order-confirmation').focus();
     } catch (error) {
+      turnstile?.reset();
       message.textContent = error.message || 'No pudimos confirmar el pedido. Intenta nuevamente.';
       message.hidden = false; message.focus();
     } finally {

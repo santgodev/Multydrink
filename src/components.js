@@ -59,12 +59,12 @@ export function renderTestimonials(reviews) {
   const excerpts = reviews.filter(item => item.transcriptProvided === true && item.name && item.comment);
   if (!excerpts.length) return '';
   return `<section class="purchase-reviews" aria-labelledby="reviews-title" aria-roledescription="carrusel">
-    <div class="purchase-reviews-heading"><h2 id="reviews-title">Experiencias compartidas</h2><div class="review-controls"><button type="button" data-review-prev aria-label="Testimonio anterior">‹</button><button type="button" data-review-next aria-label="Siguiente testimonio">›</button></div></div>
-    <div class="purchase-review-track" tabindex="0" aria-label="Experiencias personales; usa las flechas para navegar">
+    <div class="purchase-reviews-heading"><div class="review-heading-copy"><span class="review-eyebrow">TESTIMONIOS</span><h2 id="reviews-title">Lo que dicen nuestros clientes después de probar <span>MultyDrink</span></h2></div><div class="review-controls"><button type="button" data-review-prev aria-label="Testimonio anterior">‹</button><button type="button" data-review-next aria-label="Siguiente testimonio">›</button></div></div>
+    <div class="purchase-review-track" tabindex="0" aria-label="Testimonios; usa las flechas para navegar">
       ${excerpts.map((item, index) => `<figure class="purchase-review-card" role="group" aria-roledescription="diapositiva" aria-label="${index + 1} de ${excerpts.length}">
-        <span class="review-topic">${escapeHTML(item.topic || 'Experiencia personal')}</span>
+        <span class="review-decorative-quote" aria-hidden="true">“</span><span class="review-topic">${escapeHTML(item.topic || 'Experiencia personal')}</span>
         <blockquote class="review-quote">“${escapeHTML(item.comment)}”</blockquote>
-        <figcaption class="review-author"><strong>${escapeHTML(item.name)}</strong>${item.location ? `<span>${escapeHTML(item.location)}</span>` : ''}</figcaption>
+        <figcaption class="review-author"><span class="review-author-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20c.5-4 3-6 6.5-6s6 2 6.5 6"/></svg></span><span class="review-author-details"><strong>${escapeHTML(item.name)}</strong>${item.location ? `<span>${escapeHTML(item.location)}</span>` : ''}</span></figcaption>
         <p class="review-source-note">${escapeHTML(item.sourceNote || 'Testimonio personal')}</p>
       </figure>`).join('')}
     </div>

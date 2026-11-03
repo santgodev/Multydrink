@@ -5,6 +5,7 @@ const paths = {
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
   box: '<path d="m12 3 9 5v9l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v9M7 5.8l10 5.5"/>',
+  'shopping-bag': '<path d="M4.5 8h15l1 12.5H3.5L4.5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/>',
   leaf: '<path d="M20 3C7 2 2 8 6 15s15 3 14-12Z"/><path d="M3 21 16 8"/>',
   flask: '<path d="M9 3h6M10 3v7L5 20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l-5-10V3M8 15h8"/>',
   glass: '<path d="m5 3 2 18h10l2-18ZM6 10c4-3 8 3 12 0"/>',

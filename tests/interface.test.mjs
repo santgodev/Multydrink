@@ -11,7 +11,7 @@ const configured = { ...commerce, orderEndpoint: '/test-orders', merchantName: '
 function setup(options = {}) {
   const win = new Window({ url: 'http://localhost:4173', settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
   win.document.write(html);
-  const app = initApp(win.document, win, options);
+  const app = initApp(win.document, win, options.commerce ? { ...options, turnstile: { mount: async () => {}, getToken: () => 'test-turnstile-token', reset: () => {} } } : options);
   return { win, doc: win.document, app, $: selector => win.document.querySelector(selector) };
 }
 function fill(ctx, id, value, event = 'input') {

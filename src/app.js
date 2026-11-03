@@ -98,7 +98,7 @@ export function initApp(doc = document, win = window, options = {}) {
     link.target = '_blank'; link.rel = 'noopener noreferrer';
     $('#registration').append(link);
   }
-  if (commerce.privacyPolicyUrl) {
+  if (commerce.privacyPolicyUrl && commerce.privacyPolicyUrl !== '#privacy-dialog') {
     $('#privacy-link').href = commerce.privacyPolicyUrl;
     $('#privacy-link').target = '_blank';
     $('#privacy-link').rel = 'noopener noreferrer';
@@ -110,6 +110,7 @@ export function initApp(doc = document, win = window, options = {}) {
     if (!privacyAnchor.isConnected) $('#privacy-dialog').append(privacyAnchor);
     privacyAnchor.href = commerce.privacyPolicyUrl; privacyAnchor.textContent = 'Leer la política del vendedor ↗';
   } else {
+    $('#privacy-help').textContent = 'Consulta quién recibe tus datos y cómo ejercer tus derechos.';
     $('#privacy-link').addEventListener('click', event => { event.preventDefault(); openDialog('privacy-dialog'); });
   }
   if (localDemo) {

@@ -1,4 +1,5 @@
 import { productMedia } from './media.js';
+import { approvedPrivacyPolicy } from './legal-config.js';
 // All commercial data lives here. Never put credentials in this public file.
 export const packages = Object.freeze([
   Object.freeze({ id: 'individual', name: 'Caja individual', boxes: 1, sachets: 21, price: 110000, referencePrice: 125000 }),
@@ -13,8 +14,8 @@ export const commerce = Object.freeze({
   turnstileSiteKey: '0x4AAAAAAFyHXmvZUx5W0ipy',
   orderEndpoint: null,
   merchantName: null,
-  privacyPolicyUrl: null,
-  privacyPolicyVersion: null,
+  privacyPolicyUrl: approvedPrivacyPolicy.url,
+  privacyPolicyVersion: approvedPrivacyPolicy.version,
   // null = not confirmed; 0 means explicitly confirmed free delivery.
   shippingFee: 0,
   shippingDescription: 'Envío incluido en ambos paquetes. La cobertura y el plazo se confirman para tu dirección. Pago contra entrega.',

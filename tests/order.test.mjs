@@ -127,3 +127,12 @@ test('HTTP errors and malformed receipts cannot produce a confirmed order', asyn
     await assert.rejects(createOrderClient(configured, async () => new Response(JSON.stringify(body))).submit(valid, 'test-turnstile-token'), { code: 'RECEIPT' });
   }
 });
+
+test('Approved policy version reaches the Worker contract through a mocked order only', async () => {
+  let payload;
+  const client=createOrderClient({...configured,privacyPolicyVersion:commerce.privacyPolicyVersion},async (_,request)=>{payload=JSON.parse(request.body);return new Response(JSON.stringify(receipt));});
+  await client.submit(valid,'test-turnstile-token');
+  assert.deepEqual(payload.consent,{accepted:true,policyVersion:'2026-11-03'});
+  assert.equal(isOrderingEnabled(commerce),false);
+  assert.equal(commerce.orderEndpoint,null);
+});

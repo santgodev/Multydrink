@@ -340,6 +340,7 @@ export function initApp(doc = document, win = window, options = {}) {
       confirmation.querySelector('h3').textContent = 'Simulación completada · no es un pedido real';
       $('#confirmation-detail').textContent = 'SIN PEDIDO REAL';
       $('#confirmation-total').textContent = `${money(totals.total)} COP · simulado`;
+      confirmation.querySelector('.confirmation-lead').textContent = 'No se enviaron ni guardaron datos. No se creó ningún pedido y no habrá entrega ni cobro.';
       checkout.classList.add('is-confirmed', 'is-demo-confirmation');
       $('#order-title').textContent = 'SIMULACIÓN DE PEDIDO';
       checkout.scrollTop = 0;

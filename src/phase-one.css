@@ -1823,3 +1823,37 @@ html.checkout-open { overflow:hidden; }
   .checkout-details{padding:14px}
   .checkout-dialog .field input,.checkout-dialog .field select{min-height:44px}
 }
+
+
+/* Order receipt is a separate post-submit state. Checkout content is untouched before submission. */
+.checkout-dialog.is-confirmed{max-width:720px}
+.checkout-dialog.is-confirmed .checkout-intro,
+.checkout-dialog.is-confirmed .purchase-steps,
+.checkout-dialog.is-confirmed .checkout-body>p:not(.checkout-intro),
+.checkout-dialog.is-confirmed #order-availability{display:none}
+.checkout-dialog.is-confirmed .checkout-body{padding:clamp(24px,4vw,44px)}
+.checkout-dialog.is-confirmed .checkout-header{border-bottom-color:#edf0eb}
+.checkout-dialog.is-confirmed .checkout-header h2{font-size:clamp(16px,2vw,20px);letter-spacing:-.02em}
+.checkout-dialog.is-confirmed .order-confirmation{padding:8px 0 10px;max-width:540px;margin-inline:auto;color:var(--checkout-ink)}
+.checkout-dialog.is-confirmed .confirmation-mark{display:grid;place-items:center;margin:0 auto 20px;width:62px;height:62px;border-radius:50%;background:#e3f8dc;color:#2d7529;font-size:34px;font-weight:700;line-height:1}
+.checkout-dialog.is-confirmed .confirmation-eyebrow{color:var(--checkout-green)!important;font-size:11px!important;letter-spacing:.12em;font-weight:700}
+.checkout-dialog.is-confirmed .order-confirmation h3{font-size:clamp(25px,4vw,34px);line-height:1.22;letter-spacing:-.04em;margin:9px 0 10px;color:var(--checkout-ink)}
+.checkout-dialog.is-confirmed .confirmation-lead{font-size:14px!important;color:var(--checkout-muted)!important}
+.checkout-dialog.is-confirmed .confirmation-receipt{margin:26px auto 22px;max-width:440px;padding:22px 24px;background:#f6f9f3;border:1px solid #dce7d6;border-radius:16px}
+.checkout-dialog.is-confirmed .confirmation-label{display:block;color:var(--checkout-muted);font-size:10px;letter-spacing:.12em;font-weight:700}
+.checkout-dialog.is-confirmed .confirmation-number{display:block;margin:8px 0 19px;color:var(--checkout-ink);font:700 clamp(21px,4vw,29px)/1.3 var(--heading);letter-spacing:.035em;overflow-wrap:anywhere}
+.checkout-dialog.is-confirmed .confirmation-total-row{border-top:1px solid #dae4d3;padding-top:15px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12px;text-align:left}
+.checkout-dialog.is-confirmed .confirmation-total-row strong{white-space:nowrap;font-size:16px;color:var(--checkout-ink)}
+.checkout-dialog.is-confirmed .confirmation-followup{display:grid;gap:10px;max-width:470px;margin:0 auto}
+.checkout-dialog.is-confirmed .confirmation-followup p{font-size:12px!important;color:var(--checkout-muted)!important;line-height:1.7}
+.checkout-dialog.is-confirmed .confirmation-followup strong{color:var(--checkout-ink)}
+.checkout-dialog.is-demo-confirmation .confirmation-mark{background:#edf1f5;color:#4b6172;font-family:var(--heading);font-size:30px;font-weight:600}
+.checkout-dialog.is-demo-confirmation .confirmation-eyebrow{color:#4b6172!important}
+.checkout-dialog.is-demo-confirmation .confirmation-receipt{background:#f7f8fa;border-color:#e0e5ea}
+.checkout-dialog.is-demo-confirmation .confirmation-followup{display:none}
+.checkout-dialog.is-demo-confirmation .confirmation-lead{font-size:12px!important}
+@media(max-width:560px){
+  .checkout-dialog.is-confirmed .checkout-body{padding:22px 18px max(28px,env(safe-area-inset-bottom))}
+  .checkout-dialog.is-confirmed .confirmation-receipt{padding:20px 16px;margin:22px auto 20px}
+  .checkout-dialog.is-confirmed .confirmation-total-row{flex-wrap:wrap}
+}

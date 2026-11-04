@@ -115,7 +115,9 @@ test('Menu supports opening, link dismissal and Escape; CTAs open checkout dialo
 });
 test('Missing service keeps submission disabled and blocks programmatic submission', async () => {
   let calls = 0;
-  const ctx = setup({ fetcher: async () => { calls++; } });
+  const unavailable = { ...configured, orderEndpoint: null };
+  const ctx = setup({ commerce: unavailable, fetcher: async () => { calls++; } });
+  fillValid(ctx);
   assert.equal(ctx.$('#submit-order').disabled, true);
   ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
   await settle();

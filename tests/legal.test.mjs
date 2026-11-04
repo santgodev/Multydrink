@@ -6,6 +6,8 @@ import { initLegalDrafts } from '../src/legal.js';
 import { commerce } from '../src/config.js';
 import { approvedPrivacyPolicy } from '../src/legal-config.js';
 
+// Legal rendering must preserve the current configuration, whether orders are configured or not.
+const commerceBefore = structuredClone(commerce);
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 function setup(url) {
   const win = new Window({ url, settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
@@ -46,7 +48,7 @@ test('Five local legal dialogs resolve footer links without changing checkout or
   }
   assert.equal(doc.querySelector('#pedido').outerHTML, checkout);
   assert.equal(doc.querySelector('#submit-order').disabled, true);
-  assert.equal(commerce.orderEndpoint, null);
+  assert.deepEqual(commerce, commerceBefore);
   assert.equal(doc.querySelector('a[href*="[" ]'), null);
   for (const dialog of doc.querySelectorAll('.legal-dialog')) assert.doesNotMatch(dialog.textContent, /\[[A-Z_]+\]/);
   assert.equal(doc.querySelectorAll('#conditions-dialog .legal-fields, #conditions-dialog .legal-products').length, 0);
@@ -95,7 +97,7 @@ test('Approved shipping policy preserves delivery, cancellation, warranty and co
     assert.doesNotMatch(dialog.textContent,/BORRADOR|pendiente de confirmar|undefined|No vigente/);
     assert.equal(doc.querySelector('#pedido').outerHTML,checkout);
     assert.equal(doc.querySelector('#submit-order').disabled,true);
-    assert.equal(commerce.orderEndpoint,null);
+    assert.deepEqual(commerce, commerceBefore);
     win.happyDOM.abort();
   }
 });
@@ -110,7 +112,7 @@ test('Approved purchase terms render locally and publicly without invented tax d
     assert.deepEqual([...dialog.querySelectorAll('h3')].map(h=>h.lastChild.textContent),['Información general','Productos y condiciones comerciales','Registro de pedidos','Condiciones de entrega y derechos del consumidor','Vigencia y aceptación']);
     for(const text of ['Dora Patricia Ortiz','pesos colombianos (COP)','el cliente recibirá un número de pedido como constancia de su registro.','Política de Tratamiento de Datos Personales','Política de Envíos y Entregas','garantía, retracto','sin perjuicio de sus derechos legales.'])assert.ok(dialog.textContent.includes(text),text);
     assert.doesNotMatch(dialog.textContent,/BORRADOR|pendiente de confirmar|TAX_IDENTIFICATION|Identificación tributaria|3 a 5 días|30 días/);
-    assert.equal(doc.querySelector('#pedido').outerHTML,checkout);assert.equal(doc.querySelector('#submit-order').disabled,true);assert.equal(commerce.orderEndpoint,null);
+    assert.equal(doc.querySelector('#pedido').outerHTML,checkout);assert.equal(doc.querySelector('#submit-order').disabled,true);assert.deepEqual(commerce, commerceBefore);
     win.happyDOM.abort();
   }
 });
@@ -137,7 +139,7 @@ test('Approved returns and contact preserve supplied rights, channels and SIC ac
     assert.ok(contact.querySelector('a[href="https://www.sic.gov.co/"]'));
     assert.equal(doc.querySelectorAll('.legal-dialog [data-policy-version]').length,5);
     assert.equal(doc.querySelector('#submit-order').disabled,true);
-    assert.equal(commerce.orderEndpoint,null);
+    assert.deepEqual(commerce, commerceBefore);
     win.happyDOM.abort();
   }
 });

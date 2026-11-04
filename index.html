@@ -245,7 +245,22 @@
           </div>
         </fieldset>
       </form>
-      <div id="order-confirmation" class="order-confirmation" role="status" tabindex="-1" hidden><span data-icon="check"></span><h3>Recibimos tu solicitud</h3><p id="confirmation-detail"></p><p>Conserva este número. El pago se realiza al recibir el pedido.</p></div>
+      <div id="order-confirmation" class="order-confirmation" role="status" tabindex="-1" hidden>
+        <div class="confirmation-mark" aria-hidden="true">✓</div>
+        <p class="confirmation-eyebrow">¡GRACIAS POR ELEGIR MULTYDRINK!</p>
+        <h3 id="confirmation-heading">Tu pedido quedó registrado</h3>
+        <p class="confirmation-lead">Recibimos tu solicitud correctamente.</p>
+        <div class="confirmation-receipt" aria-label="Comprobante de pedido">
+          <span class="confirmation-label">NÚMERO DE PEDIDO</span>
+          <strong id="confirmation-detail" class="confirmation-number"></strong>
+          <div class="confirmation-total-row"><span>Total a pagar al recibir</span><strong id="confirmation-total"></strong></div>
+        </div>
+        <div class="confirmation-followup">
+          <p>Conserva tu número de pedido para cualquier consulta.</p>
+          <p><strong>Mantente pendiente de tu WhatsApp</strong> por si necesitamos contactarte sobre alguna novedad.</p>
+          <p>El pago se realiza <strong>cuando recibas tu pedido</strong>. No hay pagos anticipados.</p>
+        </div>
+      </div>
     </div>
   </dialog>
   <dialog class="legal-dialog" id="privacy-dialog" aria-labelledby="privacy-title"><button type="button" class="dialog-close" aria-label="Cerrar" data-close>×</button><p class="eyebrow">TUS DATOS</p><h2 id="privacy-title">Privacidad</h2><p>La recepción de pedidos está deshabilitada hasta que el vendedor publique su política de tratamiento de datos, su identidad y los medios para ejercer tus derechos.</p><p>Esta versión no transmite ni almacena los datos que escribes en el formulario. No incluye herramientas de publicidad o seguimiento.</p><p>La política del fabricante puede consultarse en su sitio, pero no sustituye la política del vendedor responsable de este formulario.</p></dialog>

@@ -168,7 +168,10 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('#confirmation-total').textContent, '$425.000 COP');
   assert.equal(ctx.$('#order-title').textContent, 'PEDIDO REGISTRADO');
   assert.equal(ctx.$('#pedido').classList.contains('is-confirmed'), true);
-  assert.equal(ctx.$('.purchase-steps').getAttribute('aria-hidden'), null);
+  assert.equal(ctx.$('#checkout-preorder').hidden, true);
+  assert.equal(ctx.$('#order-title').textContent.includes('HAZ TU PEDIDO'), false);
+  assert.equal(ctx.$('#order-confirmation').contains(ctx.$('.purchase-steps')), false);
+  assert.equal(ctx.$('#checkout-preorder').contains(ctx.$('.purchase-steps')), true);
   assert.match(ctx.$('.confirmation-followup').textContent, /WhatsApp/);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
   ctx.win.happyDOM.abort();

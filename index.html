@@ -22,9 +22,9 @@
   <link rel="preload" href="assets/poppins-600.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/multydrink/optimized/hero-ingredientes-1254.webp" as="image" imagesrcset="assets/multydrink/optimized/hero-ingredientes-160.webp 160w, assets/multydrink/optimized/hero-ingredientes-480.webp 480w, assets/multydrink/optimized/hero-ingredientes-960.webp 960w, assets/multydrink/optimized/hero-ingredientes-1254.webp 1254w" imagesizes="(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px" fetchpriority="high">
   <link rel="stylesheet" href="src/styles.css">
-  <link rel="stylesheet" href="src/phase-one.css">
+  <link rel="stylesheet" href="src/phase-one.css?v=receipt-20261103">
   <link rel="stylesheet" href="src/product-hero.css">
-  <script type="module" src="src/app.js"></script>
+  <script type="module" src="src/app.js?v=receipt-20261103"></script>
   <script type="application/ld+json" id="product-schema">{}</script>
 </head>
 <body>
@@ -220,6 +220,7 @@
       <button type="button" class="checkout-close" aria-label="Cerrar pedido" data-close autofocus>×</button>
     </header>
     <div class="checkout-body">
+      <div id="checkout-preorder">
       <p class="checkout-intro">Pide Multydrink desde la comodidad de tu casa.</p><ol class="purchase-steps"><li><span aria-hidden="true">01</span><div><p>Completa tus datos en el formulario.</p></div></li><li><span aria-hidden="true">02</span><div><p>Confirmamos tu pedido y los datos de entrega.</p></div></li><li><span aria-hidden="true">03</span><div><p>Recibe tu producto y paga cuando llegue.</p></div></li></ol><p><em>Envíos sujetos a cobertura logística.</em></p>
       <div id="order-availability" class="availability-note" role="status">Los pedidos en línea aún no están habilitados. Puedes explorar las presentaciones; por ahora, este formulario no envía tus datos.</div>
       <form id="order-form" novalidate>
@@ -245,6 +246,7 @@
           </div>
         </fieldset>
       </form>
+      </div>
       <div id="order-confirmation" class="order-confirmation" role="status" tabindex="-1" hidden>
         <div class="confirmation-mark" aria-hidden="true">✓</div>
         <p class="confirmation-eyebrow">¡GRACIAS POR ELEGIR MULTYDRINK!</p>

@@ -344,6 +344,7 @@ export function initApp(doc = document, win = window, options = {}) {
       $('#confirmation-total').textContent = `${money(totals.total)} COP · simulado`;
       confirmation.querySelector('.confirmation-lead').textContent = 'No se enviaron ni guardaron datos. No se creó ningún pedido y no habrá entrega ni cobro.';
       checkout.classList.add('is-confirmed', 'is-demo-confirmation');
+      $('#checkout-preorder').hidden = true;
       $('#order-title').textContent = 'SIMULACIÓN DE PEDIDO';
       checkout.scrollTop = 0;
       $('#order-form').reset();
@@ -363,6 +364,7 @@ export function initApp(doc = document, win = window, options = {}) {
           confirmed = false;
           confirmation.hidden = true;
           checkout.classList.remove('is-confirmed', 'is-demo-confirmation');
+          $('#checkout-preorder').hidden = false;
           confirmation.querySelector('.confirmation-eyebrow').textContent = '¡GRACIAS POR ELEGIR MULTYDRINK!';
           confirmation.querySelector('.confirmation-mark').textContent = '✓';
           confirmation.querySelector('h3').textContent = 'Tu pedido quedó registrado';
@@ -398,6 +400,7 @@ export function initApp(doc = document, win = window, options = {}) {
       $('#confirmation-total').textContent = `${money(result.total)} COP`;
       $('#order-title').textContent = 'PEDIDO REGISTRADO';
       checkout.classList.add('is-confirmed');
+      $('#checkout-preorder').hidden = true;
       checkout.scrollTop = 0;
       $('#order-form').hidden = true;
       $('#order-availability').hidden = true;

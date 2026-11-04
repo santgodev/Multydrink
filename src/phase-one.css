@@ -1827,6 +1827,7 @@ html.checkout-open { overflow:hidden; }
 
 /* Order receipt is a separate post-submit state. Checkout content is untouched before submission. */
 .checkout-dialog.is-confirmed{max-width:720px}
+.checkout-dialog.is-confirmed #checkout-preorder{display:none!important}
 .checkout-dialog.is-confirmed .checkout-intro,
 .checkout-dialog.is-confirmed .purchase-steps,
 .checkout-dialog.is-confirmed .checkout-body>p:not(.checkout-intro),

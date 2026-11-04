@@ -165,5 +165,5 @@ test('Structured data uses exactly the approved offers and no fabricated ratings
   assert.deepEqual(data.offers.map(item => item.price), packages.map(item => item.price));
   assert.ok(data.offers.every(item => item.priceCurrency === 'COP'));
   assert.doesNotMatch(JSON.stringify(data), /aggregateRating|reviewCount|availability|priceValidUntil/);
-  assert.match(html, /name="robots" content="noindex, nofollow"/);
+  assert.match(html, /name="robots" content="index, follow"/);
 });

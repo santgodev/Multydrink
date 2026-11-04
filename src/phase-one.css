@@ -1847,6 +1847,9 @@ html.checkout-open { overflow:hidden; }
 .checkout-dialog.is-confirmed .confirmation-followup{display:grid;gap:10px;max-width:470px;margin:0 auto}
 .checkout-dialog.is-confirmed .confirmation-followup p{font-size:12px!important;color:var(--checkout-muted)!important;line-height:1.7}
 .checkout-dialog.is-confirmed .confirmation-followup strong{color:var(--checkout-ink)}
+.checkout-dialog.is-demo-confirmation .confirmation-mark{background:#edf1f5;color:#4b6172;font-family:var(--heading);font-size:30px;font-weight:600}
+.checkout-dialog.is-demo-confirmation .confirmation-eyebrow{color:#4b6172!important}
+.checkout-dialog.is-demo-confirmation .confirmation-receipt{background:#f7f8fa;border-color:#e0e5ea}
 .checkout-dialog.is-demo-confirmation .confirmation-followup{display:none}
 .checkout-dialog.is-demo-confirmation .confirmation-lead{font-size:12px!important}
 @media(max-width:560px){

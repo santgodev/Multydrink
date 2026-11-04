@@ -338,6 +338,8 @@ export function initApp(doc = document, win = window, options = {}) {
       const totals = calculateOrder(selected, quantity, commerce.shippingFee);
       const confirmation = $('#order-confirmation');
       confirmation.querySelector('h3').textContent = 'Simulación completada · no es un pedido real';
+      confirmation.querySelector('.confirmation-eyebrow').textContent = 'VISTA DE DEMOSTRACIÓN';
+      confirmation.querySelector('.confirmation-mark').textContent = 'i';
       $('#confirmation-detail').textContent = 'SIN PEDIDO REAL';
       $('#confirmation-total').textContent = `${money(totals.total)} COP · simulado`;
       confirmation.querySelector('.confirmation-lead').textContent = 'No se enviaron ni guardaron datos. No se creó ningún pedido y no habrá entrega ni cobro.';
@@ -361,6 +363,10 @@ export function initApp(doc = document, win = window, options = {}) {
           confirmed = false;
           confirmation.hidden = true;
           checkout.classList.remove('is-confirmed', 'is-demo-confirmation');
+          confirmation.querySelector('.confirmation-eyebrow').textContent = '¡GRACIAS POR ELEGIR MULTYDRINK!';
+          confirmation.querySelector('.confirmation-mark').textContent = '✓';
+          confirmation.querySelector('h3').textContent = 'Tu pedido quedó registrado';
+          confirmation.querySelector('.confirmation-lead').textContent = 'Recibimos tu solicitud correctamente.';
           $('#order-title').textContent = 'HAZ TU PEDIDO Y PAGA EN CASA';
           $('#order-form').hidden = false;
           updateSummary();

@@ -338,7 +338,11 @@ export function initApp(doc = document, win = window, options = {}) {
       const totals = calculateOrder(selected, quantity, commerce.shippingFee);
       const confirmation = $('#order-confirmation');
       confirmation.querySelector('h3').textContent = 'Simulación completada · no es un pedido real';
-      $('#confirmation-detail').textContent = `Total simulado: ${money(totals.total)} COP. No se enviaron ni guardaron datos, no se creó un pedido y no habrá entrega ni cobro.`;
+      $('#confirmation-detail').textContent = 'SIN PEDIDO REAL';
+      $('#confirmation-total').textContent = `${money(totals.total)} COP · simulado`;
+      checkout.classList.add('is-confirmed', 'is-demo-confirmation');
+      $('#order-title').textContent = 'SIMULACIÓN DE PEDIDO';
+      checkout.scrollTop = 0;
       $('#order-form').reset();
       touched.clear();
       confirmed = true;
@@ -355,6 +359,8 @@ export function initApp(doc = document, win = window, options = {}) {
         again.addEventListener('click', () => {
           confirmed = false;
           confirmation.hidden = true;
+          checkout.classList.remove('is-confirmed', 'is-demo-confirmation');
+          $('#order-title').textContent = 'HAZ TU PEDIDO Y PAGA EN CASA';
           $('#order-form').hidden = false;
           updateSummary();
           $('#fullName').focus();
@@ -381,7 +387,11 @@ export function initApp(doc = document, win = window, options = {}) {
     try {
       const result = await client.submit(data, verificationToken);
       confirmed = true;
-      $('#confirmation-detail').textContent = `Solicitud ${result.orderId}. Total confirmado: ${money(result.total)} COP.`;
+      $('#confirmation-detail').textContent = result.orderId;
+      $('#confirmation-total').textContent = `${money(result.total)} COP`;
+      $('#order-title').textContent = 'PEDIDO REGISTRADO';
+      checkout.classList.add('is-confirmed');
+      checkout.scrollTop = 0;
       $('#order-form').hidden = true;
       $('#order-availability').hidden = true;
       $('#order-confirmation').hidden = false;

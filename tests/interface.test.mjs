@@ -163,8 +163,13 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   await settle();
   assert.equal(ctx.$('#order-form').hidden, true);
   assert.equal(ctx.$('#order-confirmation').hidden, false);
-  assert.match(ctx.$('#confirmation-detail').textContent, /<test-123>/);
+  assert.equal(ctx.$('#confirmation-detail').textContent, '<test-123>');
   assert.equal(ctx.$('#confirmation-detail').children.length, 0);
+  assert.equal(ctx.$('#confirmation-total').textContent, '$425.000 COP');
+  assert.equal(ctx.$('#order-title').textContent, 'PEDIDO REGISTRADO');
+  assert.equal(ctx.$('#pedido').classList.contains('is-confirmed'), true);
+  assert.equal(ctx.$('.purchase-steps').getAttribute('aria-hidden'), null);
+  assert.match(ctx.$('.confirmation-followup').textContent, /WhatsApp/);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
   ctx.win.happyDOM.abort();
 });

@@ -22,6 +22,7 @@ existing controls and forms stay intact. */
   margin-top:15px
 }
 /* Editorial situations: quiet introduction, tactile left edge, narrative conclusion. */
+.story-surface { background:#fff; color:#171a14; --text:#171a14; --muted:#52584c; --line:#e3e5df; --accent:#4e6338; }
 .story { max-width:1120px; padding-block:48px 16px; text-align:center; }
 .story > h2 { font-size:clamp(24px,2.2vw,30px); font-weight:600; line-height:1.35; letter-spacing:-.4px; color:var(--text); margin:0 0 14px; }
 .story-question { margin-bottom:14px; }
@@ -29,10 +30,10 @@ existing controls and forms stay intact. */
 .story-intro { max-width:640px; margin:0 auto 24px; }
 .story-intro p { font-size:13px; line-height:1.7; }
 .story-situation + .story-situation { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
-.story-card { min-width:0; padding:22px 22px 24px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#141912; }
+.story-card { min-width:0; padding:22px 22px 24px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#f7f8f4; }
 .story-number { display:block; width:24px; height:24px; margin:0 0 14px; color:var(--accent); font-size:14px; font-weight:500; line-height:24px; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
 .story-card h3 { max-width:26ch; font-size:16px; font-weight:600; line-height:1.5; letter-spacing:-.15px; margin:0 0 10px; text-wrap:balance; }
-.story-card p { font-size:13px; line-height:1.7; color:#bec5b4; margin:0; text-wrap:pretty; }
+.story-card p { font-size:13px; line-height:1.7; color:var(--muted); margin:0; text-wrap:pretty; }
 .self-care { max-width:1120px; margin-top:24px; border-top:1px solid var(--line); padding-block:36px 12px; text-align:center; }
 .self-care-intro, .story-transition { max-width:760px; margin-inline:auto; }
 .self-care-intro p { font-size:14px; font-weight:600; line-height:1.5; margin:0; color:var(--accent); }
@@ -1851,4 +1852,18 @@ html.checkout-open { overflow:hidden; }
 @media(max-width:560px) {
   .checkout-dialog .order-confirmation { padding:0 18px max(24px,env(safe-area-inset-bottom)); }
   .confirmation-receipt { padding:18px 16px; }
+}
+
+/* Contact remains in document flow, clear of the fixed purchase bar. */
+.whatsapp-contact { display:flex; align-items:center; justify-content:space-between; gap:32px; padding-block:40px 48px; border-top:1px solid var(--line); }
+.whatsapp-contact-copy { max-width:620px; }
+.whatsapp-contact h2 { font-size:clamp(24px,2.4vw,32px); letter-spacing:-.8px; }
+.whatsapp-contact p { margin-top:12px; max-width:58ch; line-height:1.75; }
+.whatsapp-contact .button { flex-shrink:0; gap:12px; font-size:12px; }
+.whatsapp-contact svg { width:22px; height:22px; flex:none; }
+@media(max-width:800px) {
+  .whatsapp-contact { align-items:flex-start; flex-direction:column; gap:24px; padding-block:32px 40px; }
+}
+@media(max-width:560px) {
+  .whatsapp-contact .button { width:100%; }
 }

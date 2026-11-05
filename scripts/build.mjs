@@ -23,6 +23,9 @@ for (const file of doctorFiles) { await stat(file); configuredImageFiles.add(fil
 // Exact approved Origen photograph, referenced directly by its chapter markup.
 configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
 for (const file of approvedVideoFiles) await stat(file);
+// Brand-supplied research bank: copy the original PDF without transforming it.
+const researchPdf = 'assets/multydrink/investigacion/investigaciones-multydrink.pdf';
+if (!(await readFile(researchPdf)).subarray(0, 5).equals(Buffer.from('%PDF-'))) throw new Error('Invalid research PDF');
 
 const output = path.resolve('dist');
 if (output !== path.join(process.cwd(), 'dist')) throw new Error('Unexpected build target');
@@ -44,6 +47,8 @@ for (const file of configuredImageFiles) {
   await mkdir(path.dirname(destination), { recursive: true });
   await cp(file, destination);
 }
+await mkdir(path.dirname(path.join('dist', researchPdf)), { recursive: true });
+await cp(researchPdf, path.join('dist', researchPdf));
 // The approved production hostname is the canonical destination.
 const siteUrl = 'https://multydrincolombia.com/';
 await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${siteUrl}sitemap.xml\n`);

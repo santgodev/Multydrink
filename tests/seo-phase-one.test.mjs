@@ -57,7 +57,7 @@ test('Offer package contents stay in descriptions, not order eligibility restric
   }
 });
 
-test('Research links expose the three maintained publications with distinct accessible names', async () => {
+test('Research preserves the timeline and links directly to the approved research bank pages', async () => {
   const win = new Window();
   try {
     win.document.body.innerHTML = renderResearch();
@@ -65,8 +65,14 @@ test('Research links expose the three maintained publications with distinct acce
     assert.equal(articles.length, 3);
     for (const [i, article] of articles.entries()) {
       assert.equal(article.querySelector('p').textContent, research[i].description);
-      assert.equal(article.querySelector('a').href, research[i].url);
-      assert.match(article.querySelector('a').href, /^https:\/\/pubmed\.ncbi\.nlm\.nih\.gov\/\d+\/$/);
+      assert.equal(article.querySelector('.research-year').textContent, ['2011', '2014', '2021'][i]);
+      const link = article.querySelector('a');
+      assert.equal(research[i].pdf, `assets/multydrink/investigacion/investigaciones-multydrink.pdf#page=${[1, 4, 5][i]}`);
+      assert.equal(link.getAttribute('href'), research[i].pdf);
+      assert.ok((await readFile(new URL('../' + research[i].pdf.split('#')[0], import.meta.url))).subarray(0, 5).equals(Buffer.from('%PDF-')));
+      assert.equal(link.target, '_blank');
+      assert.ok(link.relList.contains('noopener'));
+      assert.equal(link.textContent, 'Consultar publicación');
       assert.ok(article.querySelector('a').getAttribute('aria-label').includes(research[i].label));
     }
   } finally { await win.happyDOM.abort(); }

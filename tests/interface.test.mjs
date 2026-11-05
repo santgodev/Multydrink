@@ -98,16 +98,16 @@ test('Product reading order introduces the product and purchase before supplemen
   assert.equal(ctx.doc.querySelectorAll('h1').length, 1);
   ctx.win.happyDOM.abort();
 });
-test('Menu supports opening, link dismissal and Escape; CTAs open checkout dialog', () => {
+test('Empty header navigation stays hidden, content sections remain and purchase CTAs open checkout', () => {
   const ctx = setup();
-  const menu = ctx.$('.menu-toggle');
-  menu.click(); assert.equal(menu.getAttribute('aria-expanded'), 'true');
-  ctx.doc.dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-  assert.equal(menu.getAttribute('aria-expanded'), 'false');
-  assert.equal(ctx.doc.activeElement, menu);
-  menu.click(); ctx.$('#navigation a').click();
-  assert.equal(menu.getAttribute('aria-expanded'), 'false');
-  ctx.$('.main-cta').click();
+  assert.equal(ctx.$('#navigation').hidden, true);
+  assert.equal(ctx.$('.menu-toggle').hidden, true);
+  for (const id of ['producto', 'ingredientes', 'confianza', 'preguntas']) {
+    assert.equal(ctx.$(`header a[href="#${id}"]`), null);
+    assert.ok(ctx.$(`main #${id}`));
+  }
+  assert.ok(ctx.$('header .brand img'));
+  ctx.$('.nav-purchase').click();
   assert.equal(ctx.$('#pedido').open, true);
   assert.equal(ctx.$('main #order-form'), null);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-title'));

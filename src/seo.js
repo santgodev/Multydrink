@@ -12,7 +12,7 @@ export function productStructuredData() {
     image: [productMedia.individual?.src || 'assets/family.webp', 'assets/family.webp'],
     offers: packages.map(item => ({
       '@type': 'Offer', name: item.name,
-      description: `${item.boxes} ${item.boxes === 1 ? 'caja' : 'cajas'}, ${item.sachets} sobres. Envío incluido. Pago contra entrega. Recepción de pedidos pendiente de habilitación.`,
+      description: `${item.boxes} ${item.boxes === 1 ? 'caja' : 'cajas'}, ${item.sachets} sobres. Envío incluido. Pago contra entrega.`,
       price: item.price, priceCurrency: 'COP',
       eligibleQuantity: { '@type': 'QuantitativeValue', value: item.boxes, unitText: 'cajas' },
     })),

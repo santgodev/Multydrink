@@ -133,7 +133,7 @@ export const ingredientGroups = [
   { title: 'El toque del agave azul.', name: 'Miel de agave azul', images: ['agave'], text: 'Completa los cinco grupos de ingredientes. La etiqueta declara 0,2 g de azúcares añadidos por porción de 10 g.' },
 ];
 export const research = [
-  { year: '2013', label: 'Polifenoles de la uva', source: 'Ensayo clínico · Cardiovascular Drugs and Therapy', url: 'https://pubmed.ncbi.nlm.nih.gov/23224687/', description: 'En 75 personas con enfermedad coronaria, un extracto de uva enriquecido con resveratrol se estudió por sus efectos sobre biomarcadores inflamatorios.' },
+  { year: '2011', label: 'Ganoderma lucidum', source: 'Revisión científica · The American Journal of Chinese Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/21213395/', description: 'Estudios científicos han investigado los compuestos del Ganoderma lucidum y su capacidad para modular la actividad de las células de defensa del sistema inmunológico.' },
+  { year: '2021', label: 'Mucílago de café', source: 'Estudio de laboratorio · Food Chemistry', url: 'https://pubmed.ncbi.nlm.nih.gov/33516995/', description: 'Durante una digestión simulada, un extracto de pulpa de café mostró disminución de algunos compuestos bioactivos y de su actividad antioxidante.' },
   { year: '2014', label: 'Té negro', source: 'Metaanálisis · PLOS ONE', url: 'https://pubmed.ncbi.nlm.nih.gov/25079225/', description: 'Un análisis de 11 estudios controlados con 378 participantes observó pequeñas reducciones promedio de presión arterial al consumir té negro.' },
-  { year: '2021', label: 'Pulpa de café', source: 'Estudio de laboratorio · Food Chemistry', url: 'https://pubmed.ncbi.nlm.nih.gov/33516995/', description: 'Durante una digestión simulada, un extracto de pulpa de café mostró disminución de algunos compuestos bioactivos y de su actividad antioxidante.' },
 ];

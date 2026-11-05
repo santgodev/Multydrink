@@ -22,17 +22,17 @@ existing controls and forms stay intact. */
   margin-top:15px
 }
 /* Editorial situations: quiet introduction, tactile left edge, narrative conclusion. */
-.story-surface { background:#fff; color:#171a14; --text:#171a14; --muted:#52584c; --line:#e3e5df; --accent:#347c2a; }
+.story-surface { background:#fff; color:#171a14; --text:#171a14; --muted:#52584c; --line:#e3e5df; --accent:#4e6338; }
 .story { max-width:1120px; padding-block:48px 16px; text-align:center; }
-.story > h2 { font-size:clamp(24px,2.2vw,30px); font-weight:600; line-height:1.35; letter-spacing:-.4px; color:#225a20; margin:0 0 14px; }
-.story-question { margin-bottom:14px; color:#317b28; }
+.story > h2 { font-size:clamp(24px,2.2vw,30px); font-weight:600; line-height:1.35; letter-spacing:-.4px; color:var(--text); margin:0 0 14px; }
+.story-question { margin-bottom:14px; color:var(--accent); }
 .story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; text-align:left; }
 .story-intro { max-width:640px; margin:0 auto 24px; }
 .story-intro p { font-size:13px; line-height:1.7; }
 .story-situation + .story-situation { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
 .story-card { min-width:0; padding:22px 22px 24px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#f7f8f4; }
-.story-number { display:block; width:24px; height:24px; margin:0 0 14px; color:#317b28; font-size:14px; font-weight:500; line-height:24px; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
-.story-card h3 { max-width:26ch; font-size:16px; font-weight:600; line-height:1.5; letter-spacing:-.15px; margin:0 0 10px; text-wrap:balance; color:#286626; }
+.story-number { display:block; width:24px; height:24px; margin:0 0 14px; color:var(--accent); font-size:14px; font-weight:500; line-height:24px; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
+.story-card h3 { max-width:26ch; font-size:16px; font-weight:600; line-height:1.5; letter-spacing:-.15px; margin:0 0 10px; text-wrap:balance; color:var(--accent); }
 .story-card p { font-size:13px; line-height:1.7; color:var(--muted); margin:0; text-wrap:pretty; }
 .self-care { max-width:1120px; margin-top:24px; border-top:1px solid var(--line); padding-block:36px 12px; text-align:center; }
 .self-care-intro, .story-transition { max-width:760px; margin-inline:auto; }

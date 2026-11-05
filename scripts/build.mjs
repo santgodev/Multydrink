@@ -53,5 +53,5 @@ async function directorySize(directory) {
   return size;
 }
 const total = await directorySize('dist/assets');
-for (const match of index.matchAll(/(?:src|href)="((?:assets|src)\/[^"#]+)"/g)) await stat(path.join('dist', match[1]));
+for (const match of index.matchAll(/(?:src|href)="((?:assets|src)\/[^"#]+)"/g)) await stat(path.join('dist', match[1].split('?')[0]));
 console.log(`Build OK: dist/index.html; assets ${(total / 1024).toFixed(0)} KB. No runtime dependencies.`);

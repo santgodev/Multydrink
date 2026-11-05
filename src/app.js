@@ -236,6 +236,15 @@ export function initApp(doc = document, win = window, options = {}) {
   doc.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') { closeMenu(); menu.focus(); } });
   doc.addEventListener('click', event => { if (!event.target.closest('.nav-inner')) closeMenu(); });
   const checkout = $('#pedido');
+  function setReceiptVisible(visible) {
+    $('#order-entry').hidden = visible;
+    $('#order-entry').inert = visible;
+    $('#order-form').hidden = visible;
+    $('#order-confirmation').hidden = !visible;
+    checkout.classList.toggle('is-confirmed', visible);
+    checkout.setAttribute('aria-labelledby', visible ? 'confirmation-heading' : 'order-title');
+    checkout.scrollTop = 0;
+  }
   let checkoutTrigger = null;
   let checkoutScroll = 0;
   let savedBodyStyle = null;
@@ -248,9 +257,9 @@ export function initApp(doc = document, win = window, options = {}) {
     Object.assign(doc.body.style, { position: 'fixed', top: `-${checkoutScroll}px`, width: '100%', overflow: 'hidden' });
     doc.documentElement.classList.add('checkout-open');
     checkout.scrollTop = 0;
-    $('#order-title').focus({ preventScroll: true });
+    $(confirmed ? '#order-confirmation' : '#order-title').focus({ preventScroll: true });
     updateStickyVisibility();
-    if (turnstile) turnstile.mount().catch(() => {
+    if (turnstile && !confirmed) turnstile.mount().catch(() => {
       $('#turnstile-status').textContent = 'No se pudo iniciar la verificación. Revisa tu conexión y abre nuevamente el pedido.';
     });
   }
@@ -268,8 +277,9 @@ export function initApp(doc = document, win = window, options = {}) {
     const controls = [...checkout.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
       .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') && element.getClientRects().length);
     const first = controls[0], last = controls.at(-1);
-    if (!first) { event.preventDefault(); $('#order-title').focus(); return; }
-    if (event.shiftKey && (doc.activeElement === first || doc.activeElement === $('#order-title'))) {
+    const focusTarget = $(confirmed ? '#order-confirmation' : '#order-title');
+    if (!first) { event.preventDefault(); focusTarget.focus(); return; }
+    if (event.shiftKey && (doc.activeElement === first || doc.activeElement === focusTarget)) {
       event.preventDefault(); last.focus();
     } else if (!event.shiftKey && doc.activeElement === last) {
       event.preventDefault(); first.focus();
@@ -308,7 +318,7 @@ export function initApp(doc = document, win = window, options = {}) {
   function openDialog(id) { const dialog = doc.getElementById(id); if (dialog && !dialog.open) dialog.showModal(); }
   $$('[data-dialog]').forEach(button => button.addEventListener('click', () => openDialog(button.dataset.dialog)));
   $$('dialog').forEach(dialog => {
-    dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => dialog.close()));
     dialog.addEventListener('click', event => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); } });
   });
   function values() {
@@ -343,15 +353,12 @@ export function initApp(doc = document, win = window, options = {}) {
       $('#confirmation-detail').textContent = 'SIN PEDIDO REAL';
       $('#confirmation-total').textContent = `${money(totals.total)} COP · simulado`;
       confirmation.querySelector('.confirmation-lead').textContent = 'No se enviaron ni guardaron datos. No se creó ningún pedido y no habrá entrega ni cobro.';
-      checkout.classList.add('is-confirmed', 'is-demo-confirmation');
-      $('#order-title').textContent = 'SIMULACIÓN DE PEDIDO';
-      checkout.scrollTop = 0;
+      checkout.classList.add('is-demo-confirmation');
       $('#order-form').reset();
       touched.clear();
       confirmed = true;
       updateSummary();
-      $('#order-form').hidden = true;
-      confirmation.hidden = false;
+      setReceiptVisible(true);
       confirmation.tabIndex = -1;
       if (!confirmation.querySelector('[data-demo-reset]')) {
         const again = doc.createElement('button');
@@ -361,14 +368,12 @@ export function initApp(doc = document, win = window, options = {}) {
         again.textContent = 'HACER OTRA SIMULACIÓN';
         again.addEventListener('click', () => {
           confirmed = false;
-          confirmation.hidden = true;
-          checkout.classList.remove('is-confirmed', 'is-demo-confirmation');
+          setReceiptVisible(false);
+          checkout.classList.remove('is-demo-confirmation');
           confirmation.querySelector('.confirmation-eyebrow').textContent = '¡GRACIAS POR ELEGIR MULTYDRINK!';
           confirmation.querySelector('.confirmation-mark').textContent = '✓';
           confirmation.querySelector('h3').textContent = 'Tu pedido quedó registrado';
           confirmation.querySelector('.confirmation-lead').textContent = 'Recibimos tu solicitud correctamente.';
-          $('#order-title').textContent = 'HAZ TU PEDIDO Y PAGA EN CASA';
-          $('#order-form').hidden = false;
           updateSummary();
           $('#fullName').focus();
         });
@@ -396,12 +401,7 @@ export function initApp(doc = document, win = window, options = {}) {
       confirmed = true;
       $('#confirmation-detail').textContent = result.orderId;
       $('#confirmation-total').textContent = `${money(result.total)} COP`;
-      $('#order-title').textContent = 'PEDIDO REGISTRADO';
-      checkout.classList.add('is-confirmed');
-      checkout.scrollTop = 0;
-      $('#order-form').hidden = true;
-      $('#order-availability').hidden = true;
-      $('#order-confirmation').hidden = false;
+      setReceiptVisible(true);
       $('#order-confirmation').focus();
     } catch (error) {
       turnstile?.reset();

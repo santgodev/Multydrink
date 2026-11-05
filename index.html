@@ -22,9 +22,9 @@
   <link rel="preload" href="assets/poppins-600.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/multydrink/optimized/hero-ingredientes-1254.webp" as="image" imagesrcset="assets/multydrink/optimized/hero-ingredientes-160.webp 160w, assets/multydrink/optimized/hero-ingredientes-480.webp 480w, assets/multydrink/optimized/hero-ingredientes-960.webp 960w, assets/multydrink/optimized/hero-ingredientes-1254.webp 1254w" imagesizes="(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px" fetchpriority="high">
   <link rel="stylesheet" href="src/styles.css">
-  <link rel="stylesheet" href="src/phase-one.css">
+  <link rel="stylesheet" href="src/phase-one.css?v=receipt-20261104">
   <link rel="stylesheet" href="src/product-hero.css">
-  <script type="module" src="src/app.js"></script>
+  <script type="module" src="src/app.js?v=receipt-20261104"></script>
   <script type="application/ld+json" id="product-schema">{}</script>
 </head>
 <body>
@@ -215,6 +215,7 @@
   <aside class="sticky-purchase is-hidden" aria-label="Compra rápida" aria-hidden="true" inert><div class="container sticky-inner"><img src="assets/multydrink/optimized/pack-familiar-aprobado-840.webp" width="54" height="54" alt=""><div class="sticky-product"><strong>MULTYDRINK</strong><span id="sticky-package">Pack familiar · 126 sobres</span></div><div class="sticky-price"><del id="sticky-reference"></del><strong id="sticky-price"></strong><small>por paquete · COP</small></div><a class="button button-primary" href="#pedido"><span data-icon="shopping-bag"></span><span class="sticky-label-desktop">PEDIR Y PAGAR EN CASA</span><span class="sticky-label-mobile">PEDIR AHORA</span><span data-icon="arrow"></span></a></div></aside>
 
   <dialog id="pedido" class="checkout-dialog" aria-labelledby="order-title">
+    <div id="order-entry">
     <header class="checkout-header">
       <div><h2 id="order-title" tabindex="-1">HAZ TU PEDIDO Y PAGA EN CASA</h2></div>
       <button type="button" class="checkout-close" aria-label="Cerrar pedido" data-close autofocus>×</button>
@@ -245,7 +246,10 @@
           </div>
         </fieldset>
       </form>
+    </div>
+    </div>
       <div id="order-confirmation" class="order-confirmation" role="status" tabindex="-1" hidden>
+        <div class="confirmation-controls"><button type="button" class="checkout-close" aria-label="Cerrar confirmación" data-close>×</button></div>
         <div class="confirmation-mark" aria-hidden="true">✓</div>
         <p class="confirmation-eyebrow">¡GRACIAS POR ELEGIR MULTYDRINK!</p>
         <h3 id="confirmation-heading">Tu pedido quedó registrado</h3>
@@ -253,15 +257,14 @@
         <div class="confirmation-receipt" aria-label="Comprobante de pedido">
           <span class="confirmation-label">NÚMERO DE PEDIDO</span>
           <strong id="confirmation-detail" class="confirmation-number"></strong>
-          <div class="confirmation-total-row"><span>Total a pagar al recibir</span><strong id="confirmation-total"></strong></div>
+          <div class="confirmation-total-row"><span>Total a pagar al recibir:</span><strong id="confirmation-total"></strong></div>
         </div>
         <div class="confirmation-followup">
-          <p>Conserva tu número de pedido para cualquier consulta.</p>
+          <p>Conserva este número para cualquier consulta.</p>
           <p><strong>Mantente pendiente de tu WhatsApp</strong> por si necesitamos contactarte sobre alguna novedad.</p>
-          <p>El pago se realiza <strong>cuando recibas tu pedido</strong>. No hay pagos anticipados.</p>
+          <p>El pago se realiza <strong>cuando recibas tu pedido</strong>. Sin pagos anticipados.</p>
         </div>
       </div>
-    </div>
   </dialog>
   <dialog class="legal-dialog" id="privacy-dialog" aria-labelledby="privacy-title"><button type="button" class="dialog-close" aria-label="Cerrar" data-close>×</button><p class="eyebrow">TUS DATOS</p><h2 id="privacy-title">Privacidad</h2><p>La recepción de pedidos está deshabilitada hasta que el vendedor publique su política de tratamiento de datos, su identidad y los medios para ejercer tus derechos.</p><p>Esta versión no transmite ni almacena los datos que escribes en el formulario. No incluye herramientas de publicidad o seguimiento.</p><p>La política del fabricante puede consultarse en su sitio, pero no sustituye la política del vendedor responsable de este formulario.</p></dialog>
   <dialog class="legal-dialog" id="shipping-dialog" aria-labelledby="shipping-title"><button type="button" class="dialog-close" aria-label="Cerrar" data-close>×</button><p class="eyebrow">ENVÍOS Y ENTREGAS</p><h2 id="shipping-title">Política de envíos</h2><p>El envío está incluido en los precios publicados. La cobertura, el tiempo estimado de entrega y la disponibilidad se confirmarán para la dirección indicada.</p><p>La recepción de pedidos permanece deshabilitada hasta que el vendedor establezca y publique las condiciones completas de despacho, seguimiento e incidencias.</p></dialog>

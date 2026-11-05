@@ -17,6 +17,12 @@ try {
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/html/);
   const html = await response.text();
+  // Check the actual versioned entry URLs as well as the files in dist.
+  for (const match of html.matchAll(/(?:src|href)="(src\/[^"#]+)"/g)) {
+    const entry = await fetch(new URL(match[1], base));
+    assert.equal(entry.status, 200, match[1]);
+    assert.ok((await entry.arrayBuffer()).byteLength > 0, match[1]);
+  }
   assert.match(html, /lang="es-CO"/);
   const schema = JSON.parse(html.match(/id="product-schema">([^<]+)<\/script>/)[1]);
   assert.equal(schema['@type'], 'Product');

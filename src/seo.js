@@ -14,7 +14,6 @@ export function productStructuredData() {
       '@type': 'Offer', name: item.name,
       description: `${item.boxes} ${item.boxes === 1 ? 'caja' : 'cajas'}, ${item.sachets} sobres. Envío incluido. Pago contra entrega.`,
       price: item.price, priceCurrency: 'COP',
-      eligibleQuantity: { '@type': 'QuantitativeValue', value: item.boxes, unitText: 'cajas' },
     })),
   };
 }

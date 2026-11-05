@@ -3,6 +3,7 @@ import path from 'node:path';
 import { serializeStructuredData } from '../src/seo.js';
 import { productMedia, comparisonMedia, videoTestimonials } from '../src/media.js';
 import { eligibleVideos } from '../src/editorial.js';
+import { versionAssets } from './version-assets.mjs';
 
 const videos = eligibleVideos(videoTestimonials);
 const approvedVideoFiles = new Set(videos.flatMap(item => [item.videoSrc, item.captionsSrc]));
@@ -28,9 +29,12 @@ if (output !== path.join(process.cwd(), 'dist')) throw new Error('Unexpected bui
 // Rebuild only this project's known output directory; stale assets must not ship.
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
-const index = (await readFile('index.html', 'utf8')).replace('<script type="application/ld+json" id="product-schema">{}</script>', `<script type="application/ld+json" id="product-schema">${serializeStructuredData()}</script>`);
+const sources = Object.fromEntries(await Promise.all((await readdir('src')).map(async name => [name, await readFile(path.join('src', name), 'utf8')])));
+const versioned = versionAssets(sources, (await readFile('index.html', 'utf8')).replace('<script type="application/ld+json" id="product-schema">{}</script>', `<script type="application/ld+json" id="product-schema">${serializeStructuredData()}</script>`));
+const index = versioned.html;
 await writeFile('dist/index.html', index);
-await cp('src', 'dist/src', { recursive: true });
+await mkdir('dist/src', { recursive: true });
+for (const [name, content] of Object.entries(versioned.files)) await writeFile(path.join('dist/src', name), content);
 await mkdir('dist/assets', { recursive: true });
 for (const name of await readdir('assets')) {
   if (/\.(webp|ttf|svg)$/.test(name) || approvedVideoFiles.has('assets/' + name) || name === 'favicon.png' || name.endsWith('-LICENSE.txt')) await cp(path.join('assets', name), path.join('dist/assets', name));

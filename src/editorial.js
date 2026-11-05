@@ -8,7 +8,7 @@ export function renderEditorialIngredients() {
   return ingredientGroups.map((item, index) => `<article class="editorial-ingredient"><div class="editorial-image ${item.images.length > 1 ? 'paired-images' : ''}">${item.images.map(name => `<img src="assets/${name}.webp" alt="${esc(name === 'tea' ? 'Té negro' : item.name)}" width="800" height="467" loading="lazy">`).join('')}</div><span class="editorial-index">0${index + 1} / ${esc(item.name)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join('');
 }
 export function renderResearch() {
-  return research.map(item => `<article><strong class="research-year">${esc(item.year)}</strong><h3>${esc(item.label)}</h3><p>${esc(item.description)}</p></article>`).join('');
+  return research.map(item => `<article><strong class="research-year">${esc(item.year)}</strong><h3>${esc(item.label)}</h3><p>${esc(item.description)}</p><a href="${esc(item.url)}" aria-label="Consultar publicación sobre ${esc(item.label)}">Consultar publicación</a></article>`).join('');
 }
 export function renderNutrition() {
   const label = productMedia.nutritionLabel;

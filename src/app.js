@@ -29,7 +29,10 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#order-turnstile').hidden = false;
     $('#turnstile-status').hidden = false;
   }
-  $('#product-schema').textContent = serializeStructuredData();
+  // Production HTML already contains the authoritative build-time schema.
+  // Populate only the empty source-preview placeholder; never overwrite it.
+  const schema = $('#product-schema');
+  if (!schema.textContent.trim() || schema.textContent.trim() === '{}') schema.textContent = serializeStructuredData();
   $('#package-selector').insertAdjacentHTML('beforeend', renderPackages(selected));
   $('#gallery-thumbs').innerHTML = renderGallery();
   $('#ingredients-grid').innerHTML = renderEditorialIngredients();

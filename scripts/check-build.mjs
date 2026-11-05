@@ -44,6 +44,13 @@ try {
   }
   const assets = await listFiles('dist/assets');
   const modules = await readdir('dist/src');
+  for (const name of modules) {
+    assert.match(name, /\.[a-f0-9]{16}\.(js|css)$/, 'Build sources must be fingerprinted');
+    if (!name.endsWith('.js')) continue;
+    const source = await readFile('dist/src/' + name, 'utf8');
+    for (const [, dependency] of source.matchAll(/['"]\.\/([\w.-]+\.js)['"]/g)) assert.ok(modules.includes(dependency), `Resolvable versioned import: ${name} -> ${dependency}`);
+  }
+  assert.ok(schema.offers.every(offer => !('eligibleQuantity' in offer)));
   for (const file of [...assets.map(name => '/assets/' + name), ...modules.map(name => '/src/' + name)]) {
     const asset = await fetch(base + file);
     assert.equal(asset.status, 200, file);

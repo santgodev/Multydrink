@@ -9,7 +9,7 @@ import { renderTestimonials, bindTestimonials } from '../src/components.js';
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const configured = { ...commerce, orderEndpoint: '/test-orders', merchantName: 'Test merchant', privacyPolicyUrl: '/test-policy', privacyPolicyVersion: 'test-v1', shippingFee: 0, shippingDescription: 'Test delivery' };
 function setup(options = {}) {
-  const win = new Window({ url: 'http://localhost:4173', settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
+  const win = new Window({ url: options.url || 'http://localhost:4173', settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
   win.document.write(html);
   const app = initApp(win.document, win, options.commerce ? { ...options, turnstile: { mount: async () => {}, getToken: () => 'test-turnstile-token', reset: () => {} } } : options);
   return { win, doc: win.document, app, $: selector => win.document.querySelector(selector) };
@@ -152,6 +152,11 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   let resolveRequest;
   let calls = 0;
   const ctx = setup({ commerce: configured, fetcher: () => { calls++; return new Promise(resolve => { resolveRequest = resolve; }); } });
+  assert.equal(ctx.$('#order-entry').hidden, false);
+  assert.equal(ctx.$('#order-entry').inert, false);
+  const originalTitle = ctx.$('#order-title').textContent;
+  const originalIntro = ctx.$('.checkout-intro').outerHTML;
+  const originalSteps = ctx.$('.purchase-steps').outerHTML;
   fillValid(ctx);
   const submit = () => ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
   submit(); submit();
@@ -166,11 +171,28 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('#confirmation-detail').textContent, '<test-123>');
   assert.equal(ctx.$('#confirmation-detail').children.length, 0);
   assert.equal(ctx.$('#confirmation-total').textContent, '$425.000 COP');
-  assert.equal(ctx.$('#order-title').textContent, 'PEDIDO REGISTRADO');
+  assert.equal(ctx.$('#order-title').textContent, originalTitle);
+  assert.equal(ctx.$('.checkout-intro').outerHTML, originalIntro);
+  assert.equal(ctx.$('.purchase-steps').outerHTML, originalSteps);
   assert.equal(ctx.$('#pedido').classList.contains('is-confirmed'), true);
+  assert.equal(ctx.$('#pedido').getAttribute('aria-labelledby'), 'confirmation-heading');
+  assert.equal(ctx.$('#order-entry').hidden, true);
+  assert.equal(ctx.$('#order-entry').inert, true);
+  for (const selector of ['.checkout-header', '.checkout-intro', '.purchase-steps', '.checkout-body > p', '#order-availability', '#shipping-note', '#order-form', '#privacy', '#order-turnstile', '#submit-order']) {
+    assert.ok(ctx.$(selector).closest('[hidden]'), `${selector} must be hidden without relying on receipt CSS`);
+  }
+  assert.equal(ctx.$('#order-confirmation').closest('#order-entry'), null);
+  assert.equal(ctx.$('#order-confirmation').textContent.split('<test-123>').length - 1, 1);
+  submit(); await settle(); assert.equal(calls, 1, 'Confirmed orders cannot be resubmitted');
   assert.equal(ctx.$('.purchase-steps').getAttribute('aria-hidden'), null);
   assert.match(ctx.$('.confirmation-followup').textContent, /WhatsApp/);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
+  ctx.$('.main-cta').click();
+  assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
+  ctx.$('#order-confirmation [data-close]').click();
+  await settle();
+  assert.equal(ctx.$('#pedido').open, false);
+  assert.equal(ctx.doc.activeElement, ctx.$('.main-cta'));
   ctx.win.happyDOM.abort();
 });
 test('Submission failure retains customer data and unlocks retry without success', async () => {
@@ -179,6 +201,8 @@ test('Submission failure retains customer data and unlocks retry without success
   ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
   await settle();
   assert.equal(ctx.$('#order-confirmation').hidden, true);
+  assert.equal(ctx.$('#order-entry').hidden, false);
+  assert.equal(ctx.$('#order-entry').inert, false);
   assert.equal(ctx.$('#order-fields').disabled, false);
   assert.equal(ctx.$('#submit-order').disabled, false);
   assert.equal(ctx.$('#fullName').value, 'María Pérez');
@@ -334,4 +358,32 @@ test('Checkout modal preserves selection, totals and form values across openings
   assert.equal(ctx.$('#quantity').value, '2');
   assert.equal(ctx.$('#summary-total').textContent, '$850.000');
   ctx.win.happyDOM.abort();
+});
+
+
+test('Loopback demo clearly disclaims a real order and restores the complete checkout on reset', async () => {
+  let calls = 0;
+  const ctx = setup({ url: 'http://localhost:4173/?pedido-demo=1', commerce: configured, fetcher: async () => { calls++; } });
+  ctx.$('.main-cta').click();
+  fillValid(ctx);
+  ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
+  await settle();
+  assert.equal(calls, 0);
+  assert.equal(ctx.$('#order-entry').hidden, true);
+  assert.equal(ctx.$('#order-entry').inert, true);
+  assert.match(ctx.$('#confirmation-heading').textContent, /no es un pedido real/);
+  assert.match(ctx.$('.confirmation-lead').textContent, /No se enviaron ni guardaron datos/);
+  assert.equal(ctx.$('#confirmation-detail').textContent, 'SIN PEDIDO REAL');
+  assert.match(ctx.$('#confirmation-total').textContent, /simulado/);
+  assert.equal(ctx.$('#pedido').classList.contains('is-demo-confirmation'), true);
+  ctx.$('[data-demo-reset]').click();
+  assert.equal(ctx.$('#order-entry').hidden, false);
+  assert.equal(ctx.$('#order-entry').inert, false);
+  assert.equal(ctx.$('#order-form').hidden, false);
+  assert.equal(ctx.$('#order-confirmation').hidden, true);
+  assert.equal(ctx.$('#pedido').getAttribute('aria-labelledby'), 'order-title');
+  assert.equal(ctx.$('#pedido').classList.contains('is-confirmed'), false);
+  assert.equal(ctx.doc.activeElement, ctx.$('#fullName'));
+  assert.equal(ctx.app.getState().confirmed, false);
+  await ctx.win.happyDOM.abort();
 });

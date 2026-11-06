@@ -119,7 +119,7 @@ export function bindComparison(root) {
 }
 
 export function eligibleVideos(items) {
-  return items.filter(item => item.approved === true && item.publicationRightsConfirmed === true && item.name && item.excerpt && item.poster?.src && item.sourceUrl && item.transcript && /^assets\/[\w.-]+\.vtt$/.test(item.captionsSrc) && /^assets\/[\w.-]+\.(mp4|webm)$/.test(item.videoSrc));
+  return items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc);
 }
 function reviewableVideos(items, localReview) {
   return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc) : eligibleVideos(items);

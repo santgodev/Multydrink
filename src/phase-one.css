@@ -1753,7 +1753,8 @@ html.checkout-open { overflow:hidden; }
   background:#fff;
   border-bottom-color:var(--checkout-line);
 }
-.checkout-header h2{margin:0;font-size:clamp(20px,2vw,25px);line-height:1.3;letter-spacing:-.045em;color:var(--checkout-ink)}
+.checkout-header h2{margin:0;font-size:clamp(21px,2.25vw,28px);line-height:1.28;letter-spacing:-.045em;color:var(--checkout-ink)}
+.checkout-dialog .checkout-subtitle{margin:8px 0 0;font-size:13px;line-height:1.5;font-weight:600;letter-spacing:.025em;color:var(--checkout-green)}
 .checkout-close{background:#f5f8f2;color:var(--checkout-ink);border-color:var(--checkout-line)}
 .checkout-close:hover{background:#eaf4e3}
 .checkout-body{padding:18px 24px 24px}

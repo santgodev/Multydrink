@@ -1876,3 +1876,23 @@ html.checkout-open { overflow:hidden; }
 @media (prefers-reduced-motion:reduce) {
   .floating-whatsapp {transition:none;}
 }
+
+
+/* C08: video-only testimonial cards, inspired by the brand's vertical video presentation. */
+.video-testimonials{background:linear-gradient(145deg,#0b3024 0%,#0d4733 58%,#0b3024 100%);border-top:1px solid #315444}
+.video-testimonials .container{max-width:1280px}
+.video-testimonials .carousel-heading{position:relative;justify-content:center;text-align:center;align-items:center;margin-bottom:42px}
+.video-testimonials .carousel-heading>div:first-child{max-width:780px}
+.video-testimonials .carousel-heading h2{font-size:clamp(29px,3.5vw,46px)}
+.video-testimonials .video-intro{max-width:58ch;margin:14px auto 0;font-size:clamp(13px,1.3vw,16px)}
+.video-testimonials .carousel-controls{position:absolute;right:0;bottom:0}
+.video-testimonials .carousel-controls button{background:#174c39;border-color:#39745b;color:var(--accent)}
+.video-testimonials .video-track{gap:24px;padding:4px 4px 24px;scrollbar-color:#80ca69 #164b38}
+.video-testimonials .video-card{flex:0 0 calc((100% - 48px)/3);padding:18px;border:1px solid #45836b;border-radius:22px;background:#245e49;box-shadow:0 18px 42px #051d1533}
+.video-testimonials .video-card>button{aspect-ratio:4/5;border-radius:17px;background:#07130f}
+.video-testimonials .video-card .video-poster{object-fit:contain}
+.video-testimonials .video-card .video-card-backdrop{opacity:.55}
+.video-testimonials .video-play{width:60px;height:60px}
+.video-testimonials .video-watch{bottom:15px}
+@media(max-width:800px){.video-testimonials .carousel-heading{padding-bottom:56px;margin-bottom:24px}.video-testimonials .carousel-controls{right:0;bottom:0}.video-testimonials .video-card{flex-basis:calc((100% - 24px)/2)}}
+@media(max-width:560px){.video-testimonials .carousel-heading{align-items:center}.video-testimonials .carousel-heading h2{font-size:clamp(26px,7vw,33px)}.video-testimonials .video-card{flex-basis:85%;padding:12px;border-radius:18px}.video-testimonials .video-card>button{border-radius:13px}}

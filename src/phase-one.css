@@ -854,7 +854,7 @@ html:has(.video-dialog[open]),body:has(.video-dialog[open]) { overflow:hidden; }
 /* Final offer cards: clear pricing hierarchy on the approved white section. */
 .final-offers { align-items:stretch; gap:clamp(24px,4vw,54px); }
 .final-offer { display:flex; flex-direction:column; border:1px solid #e5e9de; border-radius:18px; background:#fff; overflow:hidden; }
-.final-offer-family { border-color:#b88a2b; box-shadow:0 10px 34px #75520d18; }
+.final-offer-family { border-color:#c2a15e; box-shadow:0 10px 34px #735a2718; }
 .final-offer .offer-photo { flex-shrink:0; height:320px; margin:0; background:#f7f8f4; }
 .final-offer .offer-photo img { max-width:100%; max-height:100%; object-fit:contain; }
 .final-offer .offer-copy { display:flex; flex-direction:column; flex:1; min-width:0; padding:25px 27px 27px; }
@@ -868,9 +868,9 @@ html:has(.video-dialog[open]),body:has(.video-dialog[open]) { overflow:hidden; }
 .final-offer .offer-price strong small { font:500 12px/1.5 var(--body); letter-spacing:0; }
 .final-offer .offer-price del { color:#7a8075; font-size:14px; opacity:1; }
 .final-offer .offer-copy .offer-saving { margin:11px 0 0; color:#34531c; font-size:12px; line-height:1.6; font-weight:400; }
-.final-offer .offer-saving strong { display:table; margin-bottom:6px; border-radius:6px; background:#f7eccd; color:#5a410f; font-weight:700; padding:6px 11px; }
-.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:#b88a2b; color:#241b0b; border-radius:32px; }
-.final-offer-family .offer-copy .button { background:#b88a2b; color:#241b0b; }
+.final-offer .offer-saving strong { display:table; margin-bottom:6px; border-radius:6px; background:#f5eddb; color:#57441e; font-weight:700; padding:6px 11px; }
+.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:#c2a15e; color:#292113; border-radius:32px; }
+.final-offer-family .offer-copy .button { background:#c2a15e; color:#292113; }
 @media (max-width:800px) {
   .final-offers { gap:22px; }
   .final-offer .offer-photo { height:260px; }

@@ -181,7 +181,7 @@
 @media (max-width: 560px) {
   #producto { width: calc(100% - 36px); gap: 20px; }
   #producto h1 { font-size: 29px; margin: 7px 0 10px; }
-  .product-headline { font-size: 17px; }
+  .product-headline { font-size: 17px; text-align: center; }
   .gallery-controls { padding-inline: 8px; }
   .gallery-thumbs { gap: 5px; margin-top: 8px; justify-content: flex-start; }
   .gallery-thumb { flex-basis: 48px; width: 48px; height: 50px; padding: 3px; }

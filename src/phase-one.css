@@ -21,44 +21,35 @@ existing controls and forms stay intact. */
 .centered-heading>p:not(.eyebrow) {
   margin-top:15px
 }
-/* Editorial situations: quiet introduction, tactile left edge, narrative conclusion. */
+/* Editorial situations: three balanced cards in the approved light palette. */
 .story-surface { background:#fff; color:#171a14; --text:#171a14; --muted:#52584c; --line:#e3e5df; --accent:#4e6338; }
 .story { max-width:1120px; padding-block:48px 16px; text-align:center; }
-.story > h2 { font-size:clamp(24px,2.2vw,30px); font-weight:600; line-height:1.35; letter-spacing:-.4px; color:var(--text); margin:0 0 14px; }
-.story-question { margin-bottom:14px; color:var(--accent); }
-.story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; text-align:left; }
-.story-intro { max-width:640px; margin:0 auto 24px; }
-.story-intro p { font-size:13px; line-height:1.7; }
-.story-situation + .story-situation { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
-.story-card { min-width:0; padding:22px 22px 24px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#f7f8f4; }
-.story-number { display:block; width:24px; height:24px; margin:0 0 14px; color:var(--accent); font-size:14px; font-weight:500; line-height:24px; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
-.story-card h3 { max-width:26ch; font-size:16px; font-weight:600; line-height:1.5; letter-spacing:-.15px; margin:0 0 10px; text-wrap:balance; color:var(--accent); }
-.story-card p { font-size:13px; line-height:1.7; color:var(--muted); margin:0; text-wrap:pretty; }
+.story > h2 { font-size:clamp(24px,2.2vw,30px); font-weight:600; line-height:1.35; letter-spacing:-.4px; color:var(--text); margin:0 0 30px; }
+.story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-auto-rows:1fr; gap:20px; text-align:left; }
+.story-card { min-width:0; padding:28px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#f7f8f4; }
+.story-icon { display:block; width:32px; height:32px; margin-bottom:22px; color:var(--accent); }
+.story-card-copy { min-width:0; }
+.story-card h3 { font-size:clamp(18px,1.6vw,21px); font-weight:600; line-height:1.4; letter-spacing:-.25px; margin:0; text-wrap:balance; color:var(--text); }
+.story-card p { font-size:14px; line-height:1.75; color:var(--muted); margin:14px 0 0; text-wrap:pretty; }
 .self-care { max-width:1120px; margin-top:24px; border-top:1px solid var(--line); padding-block:36px 12px; text-align:center; }
 .self-care-intro, .story-transition { max-width:760px; margin-inline:auto; }
 .self-care-intro p { font-size:14px; font-weight:600; line-height:1.5; margin:0; color:var(--accent); }
 .story-transition h2 { font-size:36px; font-weight:600; line-height:1.3; letter-spacing:-.5px; margin:18px 0 0; text-wrap:balance; }
 .self-care-closing { max-width:1120px; padding-block:12px 12px; font-size:22px; line-height:1.45; margin-block:0; margin-inline:auto; text-align:center; color:var(--accent); text-wrap:balance; }
 .self-care-closing strong { font-weight:500; }
-@media(min-width:801px) {
-  @supports (grid-template-rows:subgrid) {
-    .story-card { display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
-    .story-card-copy { display:contents; }
-  }
-}
 @media(max-width:800px) {
   .story { max-width:680px; }
   .story-grid { grid-template-columns:minmax(0,1fr); gap:14px; }
-  .story-card { display:grid; grid-template-columns:24px minmax(0,1fr); gap:16px; padding:20px 22px; }
-  .story-number { margin:2px 0 0; }
-  .story-card h3 { max-width:none; margin-bottom:7px; text-wrap:pretty; }
+  .story-card { display:grid; grid-template-columns:32px minmax(0,1fr); align-content:start; gap:20px; padding:26px; }
+  .story-icon { margin:0; }
+  .story-card h3 { text-wrap:pretty; }
   .self-care { max-width:680px; }
   .story-transition h2 { font-size:32px; }
 }
 @media(max-width:560px) {
   .story { padding-block:36px 16px; }
-  .story > h2 { font-size:24px; letter-spacing:-.4px; margin-bottom:14px; }
-  .story-card { padding:18px 16px; gap:12px; }
+  .story > h2 { font-size:24px; letter-spacing:-.4px; margin-bottom:24px; }
+  .story-card { padding:24px 20px; gap:16px; }
   .self-care { margin-top:20px; padding-block:28px 12px; }
   .story-transition h2 { font-size:28px; }
   .self-care-closing { font-size:20px; }

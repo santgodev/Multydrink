@@ -90,7 +90,6 @@ export function initApp(doc = document, win = window, options = {}) {
     renderField({ name: 'email', label: 'Correo electrónico', type: 'email', autocomplete: 'email', placeholder: 'nombre@correo.com', optional: true, full: true, maxLength: 254 }),
   ].join('');
   $('#packageId').innerHTML = packages.map(item => `<option value="${item.id}">${item.name} · ${item.sachets} sobres</option>`).join('');
-  $('#offer-quantity').max = String(commerce.maxQuantity);
   $$('[data-icon]').forEach(element => { element.innerHTML = icon(element.dataset.icon); });
   $('#year').textContent = String(new Date().getFullYear());
   if (commerce.sanitaryRegistration && commerce.sanitarySourceUrl) {
@@ -138,25 +137,10 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#quantity').value = String(quantity);
     $('#quantity-less').disabled = quantity <= 1 || sending || confirmed;
     $('#quantity-more').disabled = quantity >= commerce.maxQuantity || sending || confirmed;
-    $('#offer-quantity').value = String(quantity);
-    $('#offer-quantity').disabled = sending || confirmed;
-    $('#offer-less').disabled = quantity <= 1 || sending || confirmed;
-    $('#offer-more').disabled = quantity >= commerce.maxQuantity || sending || confirmed;
-    $('#offer-description').textContent = `${item.sachets} sobres`;
-    $('#offer-saving').hidden = item.id !== 'familiar';
-    $('#offer-saving').textContent = item.id === 'familiar' ? `AHORRAS ${money(item.referencePrice - item.price)}` : '';
-    $('#offer-total').textContent = `Total: COP ${money(totals.subtotal)}`;
-    $('.purchase-offer').dataset.package = selected;
     $('#sticky-package').textContent = `${item.name} · ${item.sachets} sobres`;
     $('#sticky-price').textContent = money(item.price);
     $('#sticky-reference').textContent = money(item.referencePrice);
-    $('#selected-package-name').textContent = item.id === 'familiar' ? 'Pack familiar · 6 cajas' : item.name;
-    $('#selected-package-price').textContent = money(item.price);
     const selectedPhoto = item.id === 'individual' ? productMedia.individual : productMedia.family;
-    if ($('#offer-image').dataset.package !== selected) {
-      applyImage($('#offer-image'), selectedPhoto, '(max-width: 560px) 160px, 250px');
-      $('#offer-image').dataset.package = selected;
-    }
     applyImage($('.sticky-inner > img'), { ...selectedPhoto, src: selectedPhoto.thumbnail || selectedPhoto.src, variants: undefined, alt: '' }, '54px');
     $('.sticky-inner > img').dataset.package = selected;
     applyImage($('.order-preview img'), selectedPhoto, '120px');
@@ -185,30 +169,24 @@ export function initApp(doc = document, win = window, options = {}) {
   }
   function showQuantityError(error) {
     showFieldError('quantity', error);
-    $('#offer-quantity').setAttribute('aria-invalid', String(Boolean(error)));
-    $('#offer-quantity-error').textContent = error;
   }
   $('#quantity-less').addEventListener('click', () => setQuantity(quantity - 1));
   $('#quantity-more').addEventListener('click', () => setQuantity(quantity + 1));
-  $('#offer-less').addEventListener('click', () => setQuantity(quantity - 1));
-  $('#offer-more').addEventListener('click', () => setQuantity(quantity + 1));
   function handleQuantityInput(event) {
     if (sending || confirmed) return;
-    const error = validateField('quantity', event.target.value);
-    $('#quantity').value = event.target.value;
-    $('#offer-quantity').value = event.target.value;
+    const value = event.target.value;
+    const error = validateField('quantity', value);
+    $('#quantity').value = value;
     showQuantityError(error);
-    if (!error) { quantity = Number(event.target.value); updateSummary(); }
+    if (!error) { quantity = Number(value); updateSummary(); }
     else {
       $('#summary-total').textContent = 'Revisa la cantidad';
       $('#summary-subtotal').textContent = '—';
       $('#summary-savings').textContent = '—';
       $('#summary-count').textContent = 'Selecciona una cantidad válida para calcular tu pedido.';
-      $('#offer-total').textContent = 'Revisa la cantidad';
     }
   }
   $('#quantity').addEventListener('input', handleQuantityInput);
-  $('#offer-quantity').addEventListener('input', handleQuantityInput);
   function displayGallery(index) {
     galleryIndex = (index + gallery.length) % gallery.length;
     const item = gallery[galleryIndex];
@@ -298,12 +276,12 @@ export function initApp(doc = document, win = window, options = {}) {
     });
   });
   const sticky = $('.sticky-purchase');
-  const primaryPurchaseCta = $('.main-cta');
+  const primaryPurchaseCtas = $$('.package-cta');
   const footer = $('.footer');
   // The sticky purchase prompt appears only once the in-page purchase CTA has
   // passed above the viewport. It must never obscure the initial hero.
   function updateStickyVisibility() {
-    const pastPurchaseCta = primaryPurchaseCta.getBoundingClientRect().bottom <= 0;
+    const pastPurchaseCta = primaryPurchaseCtas.every(cta => cta.getBoundingClientRect().bottom <= 0);
     const footerRect = footer.getBoundingClientRect();
     const atFooter = footerRect.top < win.innerHeight && footerRect.bottom > 0;
     const hide = !pastPurchaseCta || checkout.open || atFooter;

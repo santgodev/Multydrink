@@ -1878,18 +1878,20 @@ html.checkout-open { overflow:hidden; }
 }
 
 
-/* C08: video-only testimonial cards, inspired by the brand's vertical video presentation. */
-.video-testimonials{background:linear-gradient(145deg,#0b3024 0%,#0d4733 58%,#0b3024 100%);border-top:1px solid #315444}
+/* C08: approved light testimonial-video presentation; keep existing videos and carousel. */
+.video-testimonials{background:#fff;border-top:1px solid #e1e7de;color:#162016}
 .video-testimonials .container{max-width:1280px}
 .video-testimonials .carousel-heading{position:relative;justify-content:center;text-align:center;align-items:center;margin-bottom:42px}
 .video-testimonials .carousel-heading>div:first-child{max-width:780px}
-.video-testimonials .carousel-heading h2{font-size:clamp(29px,3.5vw,46px)}
-.video-testimonials .video-intro{max-width:58ch;margin:14px auto 0;font-size:clamp(13px,1.3vw,16px)}
+.video-testimonials .carousel-heading .eyebrow{color:#477e34}
+.video-testimonials .carousel-heading h2{font-size:clamp(29px,3.5vw,46px);color:#162016}
+.video-testimonials .video-intro{max-width:58ch;margin:14px auto 0;font-size:clamp(13px,1.3vw,16px);color:#667064}
 .video-testimonials .carousel-controls{position:absolute;right:0;bottom:0}
-.video-testimonials .carousel-controls button{background:#174c39;border-color:#39745b;color:var(--accent)}
-.video-testimonials .video-track{gap:24px;padding:4px 4px 24px;scrollbar-color:#80ca69 #164b38}
-.video-testimonials .video-card{flex:0 0 calc((100% - 48px)/3);padding:18px;border:1px solid #45836b;border-radius:22px;background:#245e49;box-shadow:0 18px 42px #051d1533}
-.video-testimonials .video-card>button{aspect-ratio:4/5;border-radius:17px;background:#07130f}
+.video-testimonials .carousel-controls button{background:#f8faf6;border-color:#a6ba9a;color:#477e34}
+.video-testimonials .carousel-controls button:hover:not(:disabled){background:#e9f2e5}
+.video-testimonials .video-track{gap:24px;padding:4px 4px 24px;scrollbar-color:#a6ba9a #edf2ea}
+.video-testimonials .video-card{flex:0 0 calc((100% - 48px)/3);padding:18px;border:1px solid #a6ba9a;border-radius:22px;background:#f8faf6;box-shadow:0 12px 30px #1620160d}
+.video-testimonials .video-card>button{aspect-ratio:4/5;border-radius:17px;background:#101b15}
 .video-testimonials .video-card .video-poster{object-fit:contain}
 .video-testimonials .video-card .video-card-backdrop{opacity:.55}
 .video-testimonials .video-play{width:60px;height:60px}

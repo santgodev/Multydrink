@@ -1864,6 +1864,8 @@ html.checkout-open { overflow:hidden; }
 .floating-whatsapp svg { width:31px;height:31px;display:block;stroke:currentColor; }
 .floating-whatsapp:hover { transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.26),0 6px 18px rgba(37,211,102,.24); }
 .floating-whatsapp:focus-visible { outline:3px solid #fff;outline-offset:4px;box-shadow:0 0 0 7px #14532d; }
+.floating-whatsapp.is-obscured { opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px); }
+
 @media (max-width:768px) {
   .floating-whatsapp {
     width:54px;

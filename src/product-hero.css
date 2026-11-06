@@ -180,7 +180,8 @@
 }
 @media (max-width: 560px) {
   #producto { width: calc(100% - 36px); gap: 20px; }
-  #producto h1 { font-size: 29px; margin: 7px 0 10px; }
+  .hero-stars { text-align: center; }
+  #producto h1 { font-size: 29px; margin: 7px 0 10px; text-align: center; }
   .product-headline { font-size: 17px; text-align: center; }
   .gallery-controls { padding-inline: 8px; }
   .gallery-thumbs { gap: 5px; margin-top: 8px; justify-content: flex-start; }

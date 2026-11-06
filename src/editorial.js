@@ -8,7 +8,7 @@ export function renderEditorialIngredients() {
   return ingredientGroups.map((item, index) => `<article class="editorial-ingredient"><div class="editorial-image ${item.images.length > 1 ? 'paired-images' : ''}">${item.images.map(name => `<img src="assets/${name}.webp" alt="${esc(name === 'tea' ? 'Té negro' : item.name)}" width="800" height="467" loading="lazy">`).join('')}</div><span class="editorial-index">0${index + 1} / ${esc(item.name)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join('');
 }
 export function renderResearch() {
-  return research.map(item => `<article><strong class="research-year">${esc(item.year)}</strong><h3>${esc(item.label)}</h3><p>${esc(item.description)}</p></article>`).join('');
+  return research.map(item => `<article><strong class="research-year">${esc(item.year)}</strong><h3>${esc(item.label)}</h3><p>${esc(item.description)}</p><a href="${esc(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Consultar publicación sobre ${esc(item.label)} en el banco de investigaciones de MultyDrink (PDF, abre una pestaña nueva)">Consultar publicación</a></article>`).join('');
 }
 export function renderNutrition() {
   const label = productMedia.nutritionLabel;
@@ -119,7 +119,7 @@ export function bindComparison(root) {
 }
 
 export function eligibleVideos(items) {
-  return items.filter(item => item.approved === true && item.publicationRightsConfirmed === true && item.name && item.excerpt && item.poster?.src && item.sourceUrl && item.transcript && /^assets\/[\w.-]+\.vtt$/.test(item.captionsSrc) && /^assets\/[\w.-]+\.(mp4|webm)$/.test(item.videoSrc));
+  return items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc);
 }
 function reviewableVideos(items, localReview) {
   return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc) : eligibleVideos(items);
@@ -127,7 +127,7 @@ function reviewableVideos(items, localReview) {
 export function renderVideoCarousel(items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return '';
-  return `<div class="carousel-heading"><div><p class="eyebrow">EXPERIENCIAS REALES</p><h2 id="video-title">Conoce sus experiencias.</h2><p class="video-intro">Personas que comparten cómo incorporan MultyDrink a su rutina.</p></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${item.poster.width > item.poster.height ? `<img class="video-card-backdrop" src="${esc(item.poster.src)}" alt="" aria-hidden="true" loading="lazy" decoding="async">` : ''}${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 380px')}<span class="video-play" aria-hidden="true">▶</span><span class="video-watch" aria-hidden="true">Ver experiencia</span></button><div class="video-card-copy"><p>${esc(item.name)}</p>${item.excerpt ? `<blockquote>${esc(item.excerpt)}</blockquote>` : ''}</div></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
+  return `<div class="carousel-heading"><div><p class="eyebrow">HISTORIAS REALES</p><h2 id="video-title">MultyDrink en su día a día.</h2><p class="video-intro">Conoce cómo distintas personas incorporan MultyDrink a su rutina.</p></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${item.poster.width > item.poster.height ? `<img class="video-card-backdrop" src="${esc(item.poster.src)}" alt="" aria-hidden="true" loading="lazy" decoding="async">` : ''}${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 380px')}<span class="video-play" aria-hidden="true">▶</span><span class="video-watch" aria-hidden="true">Ver video</span></button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
 }
 export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);

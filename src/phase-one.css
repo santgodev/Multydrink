@@ -21,46 +21,37 @@ existing controls and forms stay intact. */
 .centered-heading>p:not(.eyebrow) {
   margin-top:15px
 }
-/* Editorial situations: quiet introduction, tactile left edge, narrative conclusion. */
-.story { max-width:1120px; padding-block:48px 16px; text-align:center; }
-.story > h2 { font-size:clamp(24px,2.2vw,30px); font-weight:600; line-height:1.35; letter-spacing:-.4px; color:var(--text); margin:0 0 14px; }
-.story-question { margin-bottom:14px; }
-.story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; text-align:left; }
-.story-intro { max-width:640px; margin:0 auto 24px; }
-.story-intro p { font-size:13px; line-height:1.7; }
-.story-situation + .story-situation { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
-.story-card { min-width:0; padding:22px 22px 24px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#141912; }
-.story-number { display:block; width:24px; height:24px; margin:0 0 14px; color:var(--accent); font-size:14px; font-weight:500; line-height:24px; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
-.story-card h3 { max-width:26ch; font-size:16px; font-weight:600; line-height:1.5; letter-spacing:-.15px; margin:0 0 10px; text-wrap:balance; }
-.story-card p { font-size:13px; line-height:1.7; color:#bec5b4; margin:0; text-wrap:pretty; }
-.self-care { max-width:1120px; margin-top:24px; border-top:1px solid var(--line); padding-block:36px 12px; text-align:center; }
-.self-care-intro, .story-transition { max-width:760px; margin-inline:auto; }
-.self-care-intro p { font-size:14px; font-weight:600; line-height:1.5; margin:0; color:var(--accent); }
-.story-transition h2 { font-size:36px; font-weight:600; line-height:1.3; letter-spacing:-.5px; margin:18px 0 0; text-wrap:balance; }
-.self-care-closing { max-width:1120px; padding-block:12px 12px; font-size:22px; line-height:1.45; margin-block:0; margin-inline:auto; text-align:center; color:var(--accent); text-wrap:balance; }
-.self-care-closing strong { font-weight:500; }
-@media(min-width:801px) {
-  @supports (grid-template-rows:subgrid) {
-    .story-card { display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
-    .story-card-copy { display:contents; }
-  }
-}
+/* Cohesive light editorial chapter for C05 and C06. */
+.story-surface { background:#fff; color:#171a14; --text:#171a14; --muted:#52584c; --line:#e3e5df; --accent:#4e6338; border-top:10px solid #e8ebe4; border-bottom:10px solid #e8ebe4; }
+.story { max-width:1120px; padding-block:52px 18px; text-align:center; }
+.story > h2 { font-size:15px; font-weight:700; line-height:1.4; letter-spacing:.12em; color:var(--accent); margin:0 0 28px; }
+.story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-auto-rows:1fr; gap:20px; text-align:left; }
+.story-card { min-width:0; padding:28px; border:0; border-left:2px solid var(--accent); border-radius:8px; background:#f7f8f4; }
+.story-icon { display:block; width:32px; height:32px; margin-bottom:22px; color:var(--accent); }
+.story-card-copy { min-width:0; }
+.story-card h3 { font-size:clamp(17px,1.35vw,19px); font-weight:600; line-height:1.45; letter-spacing:-.2px; margin:0; text-wrap:balance; color:var(--text); }
+.story-card p { font-size:14px; line-height:1.75; color:var(--muted); margin:14px 0 0; text-wrap:pretty; }
+.story-message { max-width:1120px; padding-block:44px 68px; text-align:center; }
+.story-message::before { content:""; display:block; height:1px; max-width:860px; margin:0 auto 42px; background:var(--line); }
+.story-message-kicker { color:var(--accent); font-size:11px; font-weight:700; letter-spacing:.13em; line-height:1.5; margin:0 0 14px; }
+.story-message h2 { max-width:780px; margin:0 auto 16px; color:var(--text); font-size:clamp(25px,3.2vw,38px); font-weight:600; line-height:1.25; letter-spacing:-.025em; text-wrap:balance; }
+.story-message-description { max-width:735px; margin:0 auto; color:var(--muted); font-size:clamp(14px,1.35vw,16px); line-height:1.8; text-wrap:pretty; }
 @media(max-width:800px) {
   .story { max-width:680px; }
   .story-grid { grid-template-columns:minmax(0,1fr); gap:14px; }
-  .story-card { display:grid; grid-template-columns:24px minmax(0,1fr); gap:16px; padding:20px 22px; }
-  .story-number { margin:2px 0 0; }
-  .story-card h3 { max-width:none; margin-bottom:7px; text-wrap:pretty; }
-  .self-care { max-width:680px; }
-  .story-transition h2 { font-size:32px; }
+  .story-card { display:grid; grid-template-columns:32px minmax(0,1fr); align-content:start; gap:20px; padding:26px; }
+  .story-icon { margin:0; }
+  .story-card h3 { text-wrap:pretty; }
+  .story-message { max-width:680px; padding-block:32px 52px; }
+  .story-message::before { margin-bottom:32px; }
 }
 @media(max-width:560px) {
-  .story { padding-block:36px 16px; }
-  .story > h2 { font-size:24px; letter-spacing:-.4px; margin-bottom:14px; }
-  .story-card { padding:18px 16px; gap:12px; }
-  .self-care { margin-top:20px; padding-block:28px 12px; }
-  .story-transition h2 { font-size:28px; }
-  .self-care-closing { font-size:20px; }
+  .story-surface { border-top-width:6px; border-bottom-width:6px; }
+  .story { padding-block:38px 16px; }
+  .story > h2 { font-size:13px; margin-bottom:24px; }
+  .story-card { padding:24px 20px; gap:16px; }
+  .story-message { padding-block:24px 44px; }
+  .story-message h2 { font-size:26px; }
 }
 .comparison-section {
   position:relative;
@@ -379,6 +370,8 @@ existing controls and forms stay intact. */
 }
 .research-grid a {
   display:block;
+  min-height:44px;
+  align-content:center;
   color:var(--accent);
   font-size:10px;
   margin-top:18px;
@@ -861,7 +854,7 @@ html:has(.video-dialog[open]),body:has(.video-dialog[open]) { overflow:hidden; }
 /* Final offer cards: clear pricing hierarchy on the approved white section. */
 .final-offers { align-items:stretch; gap:clamp(24px,4vw,54px); }
 .final-offer { display:flex; flex-direction:column; border:1px solid #e5e9de; border-radius:18px; background:#fff; overflow:hidden; }
-.final-offer-family { border-color:var(--accent); box-shadow:0 10px 34px #203a1510; }
+.final-offer-family { border-color:#b88a2b; box-shadow:0 10px 34px #75520d18; }
 .final-offer .offer-photo { flex-shrink:0; height:320px; margin:0; background:#f7f8f4; }
 .final-offer .offer-photo img { max-width:100%; max-height:100%; object-fit:contain; }
 .final-offer .offer-copy { display:flex; flex-direction:column; flex:1; min-width:0; padding:25px 27px 27px; }
@@ -875,9 +868,9 @@ html:has(.video-dialog[open]),body:has(.video-dialog[open]) { overflow:hidden; }
 .final-offer .offer-price strong small { font:500 12px/1.5 var(--body); letter-spacing:0; }
 .final-offer .offer-price del { color:#7a8075; font-size:14px; opacity:1; }
 .final-offer .offer-copy .offer-saving { margin:11px 0 0; color:#34531c; font-size:12px; line-height:1.6; font-weight:400; }
-.final-offer .offer-saving strong { display:table; margin-bottom:6px; border-radius:6px; background:#eaf3db; font-weight:700; padding:6px 11px; }
-.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:#151a13; color:#fff; border-radius:32px; }
-.final-offer-family .offer-copy .button { background:#34452d; color:#fff; }
+.final-offer .offer-saving strong { display:table; margin-bottom:6px; border-radius:6px; background:#f7eccd; color:#5a410f; font-weight:700; padding:6px 11px; }
+.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:#b88a2b; color:#241b0b; border-radius:32px; }
+.final-offer-family .offer-copy .button { background:#b88a2b; color:#241b0b; }
 @media (max-width:800px) {
   .final-offers { gap:22px; }
   .final-offer .offer-photo { height:260px; }
@@ -1685,12 +1678,12 @@ html.checkout-open { overflow:hidden; }
 
 
 /* Dra. Erika Piedrahita: use the existing MultyDrink light-editorial language. */
-.doctor-section{--doctor-ink:#171a14;--doctor-muted:#52584c;--doctor-line:#e3e5df;background:#fff;color:var(--doctor-ink);color-scheme:light;border:0}
+.doctor-section{--doctor-accent:#4e6338;--doctor-ink:#171a14;--doctor-muted:#52584c;--doctor-line:#e3e5df;background:#fff;color:var(--doctor-ink);color-scheme:light;border:0}
 .doctor-shell{max-width:1120px}
 .doctor-intro{max-width:800px;margin:0 auto 36px;text-align:center}
-.doctor-intro .eyebrow{color:#4e6338;font-size:11px;font-weight:700;letter-spacing:.085em}
+.doctor-intro .eyebrow{color:var(--doctor-accent);font-size:11px;font-weight:700;letter-spacing:.085em}
 .doctor-intro h2{font-family:var(--heading);font-size:clamp(24px,2.45vw,35px);font-weight:600;line-height:1.35;letter-spacing:-.025em;margin:12px 0 16px}
-.doctor-intro h2 span{color:var(--accent)}
+.doctor-intro h2 span{color:var(--doctor-accent)}
 .doctor-intro>p:last-child{font-size:13px;line-height:1.75;color:var(--doctor-muted);max-width:670px;margin-inline:auto}
 .doctor-profile{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(26px,4vw,54px);align-items:center}
 .doctor-portrait{aspect-ratio:4/3;overflow:hidden;border-radius:12px;background:#f7f8f4}
@@ -1709,7 +1702,7 @@ html.checkout-open { overflow:hidden; }
 .doctor-video-area{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(28px,5vw,70px);align-items:center;margin-top:42px;padding:34px 0 0;background:transparent;border:0;border-top:1px solid var(--doctor-line);border-radius:0}
 .doctor-video-copy h3{font:600 clamp(23px,2.5vw,32px)/1.35 var(--heading);letter-spacing:-.025em;margin:11px 0 16px}
 .doctor-video-copy>p:not(.doctor-kicker){font-size:13px;color:var(--doctor-muted);line-height:1.75}
-.doctor-video-copy h3 span{color:var(--accent);display:block}
+.doctor-video-copy h3 span{color:var(--doctor-accent);display:block}
 .doctor-video-copy .doctor-closing{font-weight:600;color:var(--doctor-ink)!important;margin-top:20px}
 .doctor-video-frame{max-width:245px;justify-self:center;width:100%;aspect-ratio:9/16;background:#10110e;border-radius:12px;overflow:hidden}
 .doctor-video-frame video{display:block;width:100%;height:100%;object-fit:contain}
@@ -1760,7 +1753,8 @@ html.checkout-open { overflow:hidden; }
   background:#fff;
   border-bottom-color:var(--checkout-line);
 }
-.checkout-header h2{margin:0;font-size:clamp(20px,2vw,25px);line-height:1.3;letter-spacing:-.045em;color:var(--checkout-ink)}
+.checkout-header h2{margin:0;font-size:clamp(21px,2.25vw,28px);line-height:1.28;letter-spacing:-.045em;color:var(--checkout-ink)}
+.checkout-dialog .checkout-subtitle{margin:8px 0 0;font-size:13px;line-height:1.5;font-weight:600;letter-spacing:.025em;color:var(--checkout-green)}
 .checkout-close{background:#f5f8f2;color:var(--checkout-ink);border-color:var(--checkout-line)}
 .checkout-close:hover{background:#eaf4e3}
 .checkout-body{padding:18px 24px 24px}
@@ -1850,3 +1844,60 @@ html.checkout-open { overflow:hidden; }
   .checkout-dialog .order-confirmation { padding:0 18px max(24px,env(safe-area-inset-bottom)); }
   .confirmation-receipt { padding:18px 16px; }
 }
+
+/* Floating WhatsApp contact stays above the fixed purchase bar. */
+.floating-whatsapp {
+  position:fixed;
+  right:20px;
+  bottom:calc(112px + env(safe-area-inset-bottom, 0px));
+  width:60px;
+  height:60px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#25d366;
+  color:#fff;
+  box-shadow:0 8px 24px rgba(0,0,0,.24),0 4px 16px rgba(37,211,102,.18);
+  z-index:80;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.floating-whatsapp svg { width:31px;height:31px;display:block;stroke:currentColor; }
+.floating-whatsapp:hover { transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.26),0 6px 18px rgba(37,211,102,.24); }
+.floating-whatsapp:focus-visible { outline:3px solid #fff;outline-offset:4px;box-shadow:0 0 0 7px #14532d; }
+.floating-whatsapp.is-obscured { opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px); }
+
+@media (max-width:768px) {
+  .floating-whatsapp {
+    width:54px;
+    height:54px;
+    right:16px;
+    bottom:calc(104px + env(safe-area-inset-bottom, 0px));
+  }
+  .floating-whatsapp svg {width:28px;height:28px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .floating-whatsapp {transition:none;}
+}
+
+
+/* C08: dark testimonial-video presentation; keep existing videos and carousel. */
+.video-testimonials{background:#07110c;border-top:1px solid var(--line);color:var(--text)}
+.video-testimonials .container{max-width:1280px}
+.video-testimonials .carousel-heading{position:relative;justify-content:center;text-align:center;align-items:center;margin-bottom:42px}
+.video-testimonials .carousel-heading>div:first-child{max-width:780px}
+.video-testimonials .carousel-heading .eyebrow{color:var(--accent)}
+.video-testimonials .carousel-heading h2{font-size:clamp(29px,3.5vw,46px);color:var(--text)}
+.video-testimonials .video-intro{max-width:58ch;margin:14px auto 0;font-size:clamp(13px,1.3vw,16px);color:var(--muted)}
+.video-testimonials .carousel-controls{position:absolute;right:0;bottom:0}
+.video-testimonials .carousel-controls button{background:#0d1712;border-color:rgba(126,156,108,.45);color:var(--accent)}
+.video-testimonials .carousel-controls button:hover:not(:disabled){background:#182014}
+.video-testimonials .video-track{gap:24px;padding:4px 4px 24px;scrollbar-color:rgba(126,156,108,.45) #0d1712}
+.video-testimonials .video-card{flex:0 0 calc((100% - 48px)/3);padding:18px;border:1px solid rgba(126,156,108,.45);border-radius:22px;background:#0d1712;box-shadow:0 12px 30px #0002}
+.video-testimonials .video-card:hover,.video-testimonials .video-card:focus-within{border-color:rgba(126,156,108,.65);box-shadow:0 0 16px var(--accent-glow)}
+.video-testimonials .video-card>button{aspect-ratio:4/5;border-radius:17px;background:#101b15}
+.video-testimonials .video-card .video-poster{object-fit:contain}
+.video-testimonials .video-card .video-card-backdrop{opacity:.55}
+.video-testimonials .video-play{width:60px;height:60px}
+.video-testimonials .video-watch{bottom:15px;background:#080c07e8;color:var(--text)}
+@media(max-width:800px){.video-testimonials .carousel-heading{padding-bottom:56px;margin-bottom:24px}.video-testimonials .carousel-controls{right:0;bottom:0}.video-testimonials .video-card{flex-basis:calc((100% - 24px)/2)}}
+@media(max-width:560px){.video-testimonials .carousel-heading{align-items:center}.video-testimonials .carousel-heading h2{font-size:clamp(26px,7vw,33px)}.video-testimonials .video-card{flex-basis:85%;padding:12px;border-radius:18px}.video-testimonials .video-card>button{border-radius:13px}}

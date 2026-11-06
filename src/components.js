@@ -1,5 +1,7 @@
 import { packages, ingredients, gallery, faqs, departments } from './config.js';
 import { money } from './order.js';
+import { productMedia } from './media.js';
+import { imageAttributes } from './images.js';
 
 const paths = {
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
@@ -25,16 +27,24 @@ const paths = {
 export const icon = (name, cls = '') => `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.leaf}</svg>`;
 export const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export function renderPackages(selected) {
-  return packages.map(item => `<label class="package-card ${item.id === selected ? 'is-selected' : ''}">
-    <input type="radio" name="package" value="${item.id}" aria-label="${item.sachets} sobres, ${item.name}, ${money(item.price)} COP por paquete" ${item.id === selected ? 'checked' : ''}>
-    <span class="package-content">${item.id === 'familiar' ? '<span class="package-tag">MEJOR VALOR</span>' : ''}
-      <span class="package-icon" aria-hidden="true">${icon('box')}</span>
+  return packages.map(item => {
+    return `<article class="package-card ${item.id === selected ? 'is-selected' : ''}">
+    <input id="hero-package-${item.id}" type="radio" name="package" value="${item.id}" aria-label="${item.sachets} sobres, ${item.name}, ${money(item.price)} COP por paquete" ${item.id === selected ? 'checked' : ''}>
+    <label class="package-content" for="hero-package-${item.id}">${item.id === 'familiar' ? '<span class="package-tag">MEJOR VALOR</span>' : ''}
       <span class="package-info">
-        <span class="package-title">${item.sachets} sobres</span>
-        <span class="package-unit">${money(Math.round(item.price / item.sachets))} / sobre</span>
+        <span class="package-title">${escapeHTML(item.name)}</span>
+        <span class="package-unit">${item.boxes > 1 ? `${item.boxes} cajas · ` : ''}${item.sachets} sobres</span>
+        <span class="package-price"><strong>${money(item.price)}</strong> <small>COP</small></span>
+        ${item.id === 'familiar' ? `<del class="package-reference">${money(item.referencePrice)}</del><span class="package-saving">Ahorras comprando el pack ${money(item.referencePrice - item.price)}</span>` : ''}
       </span>
+      <img class="package-thumbnail" ${imageAttributes({ ...(item.id === 'individual' ? productMedia.individual : productMedia.family), alt: '' }, '56px')} loading="lazy">
       <span class="package-radio" aria-hidden="true"></span>
-    </span></label>`).join('');
+    </label>
+    <div class="package-actions">
+      <a class="button button-primary package-cta" href="#pedido" data-order-package="${item.id}" aria-label="Pedir ${escapeHTML(item.name)} y pagar en casa">${icon('shopping-bag')}<span>PEDIR Y PAGAR EN CASA</span></a>
+    </div>
+    </article>`;
+  }).join('');
 }
 export function renderGallery() {
   return gallery.map((item, index) => `<button type="button" class="gallery-thumb" data-gallery="${index}" aria-label="Ver ${item.label}" aria-pressed="${index === 0}"><img src="${item.thumbnail || item.src}" width="64" height="64" alt="" loading="lazy"></button>`).join('');

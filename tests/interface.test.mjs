@@ -31,8 +31,7 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   ctx.$('input[value="individual"]').click();
   assert.equal(ctx.$('#packageId').value, 'individual');
   assert.equal(ctx.$('#sticky-price').textContent, '$110.000');
-  assert.equal(ctx.$('#selected-package-price').textContent, '$110.000');
-  assert.equal(ctx.$('#selected-package-name').textContent, 'Caja individual');
+  assert.equal(ctx.$('input[value="individual"]').checked, true);
   ctx.$('#quantity-more').click();
   assert.equal(ctx.$('#summary-subtotal').textContent, '$220.000');
   assert.equal(ctx.$('#summary-count').textContent, '2 cajas · 42 sobres en total');
@@ -42,19 +41,28 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(ctx.$('#summary-subtotal').textContent, '$850.000');
   assert.equal(ctx.$('#summary-savings').textContent, '$470.000');
   assert.equal(ctx.$('input[value="familiar"]').checked, true);
-  assert.equal(ctx.$('#selected-package-price').textContent, '$425.000');
-  assert.match(ctx.$('input[value="individual"]').nextElementSibling.querySelector('.package-unit').textContent, /5\.238/);
-  assert.match(ctx.$('input[value="familiar"]').nextElementSibling.querySelector('.package-unit').textContent, /3\.373/);
+  assert.equal(ctx.$('input[value="familiar"]').checked, true);
   const individualCard = ctx.$('input[value="individual"]').nextElementSibling;
   const familyCard = ctx.$('input[value="familiar"]').nextElementSibling;
-  assert.equal(individualCard.querySelector('.package-title').textContent, '21 sobres');
-  assert.equal(familyCard.querySelector('.package-title').textContent, '126 sobres');
+  assert.equal(individualCard.querySelector('.package-title').textContent, 'Caja individual');
+  assert.equal(familyCard.querySelector('.package-title').textContent, 'Pack familiar');
+  assert.equal(individualCard.querySelector('.package-unit').textContent, '21 sobres');
+  assert.equal(familyCard.querySelector('.package-unit').textContent, '6 cajas · 126 sobres');
+  assert.equal(individualCard.querySelector('.package-price strong').textContent, '$110.000');
+  assert.equal(familyCard.querySelector('.package-price strong').textContent, '$425.000');
   assert.equal(individualCard.querySelector('.package-saving'), null);
-  assert.equal(familyCard.querySelector('.package-saving'), null);
+  assert.equal(familyCard.querySelector('.package-saving').textContent, 'Ahorras comprando el pack $235.000');
+  assert.equal(familyCard.querySelector('del').textContent, '$660.000');
   assert.equal(familyCard.querySelector('.package-tag').textContent, 'MEJOR VALOR');
-  assert.equal(ctx.$('#offer-saving').textContent, 'AHORRAS $235.000');
-  assert.equal(ctx.$('#offer-saving').hidden, false);
-  assert.equal(ctx.$('#package-selector del'), null);
+  assert.equal(ctx.doc.querySelectorAll('.package-card .package-cta').length, 2);
+  assert.equal(ctx.$('#offer-image'), null);
+  ctx.$('#quantity-more').click();
+  assert.equal(ctx.$('#quantity').value, '3');
+  assert.equal(ctx.$('#offer-total'), null);
+  assert.equal(ctx.$('#summary-total').textContent, '$1.275.000');
+  ctx.$('.package-card.is-selected .package-cta').click();
+  assert.equal(ctx.$('#pedido').open, true);
+  assert.equal(ctx.$('#packageId').value, 'familiar');
   ctx.win.happyDOM.abort();
 });
 test('Quantity rejects invalid typed values, caps at configured bounds and recovers', () => {
@@ -94,20 +102,20 @@ test('Product reading order introduces the product and purchase before supplemen
   const ctx = setup();
   const sequence = ['.product-intro', '.product-visual', '.product-info', '#product-accordions'];
   assert.deepEqual([...ctx.$('#producto').children].map(element => sequence.find(selector => element.matches(selector))), sequence);
-  assert.ok(ctx.$('.product-info .main-cta'));
+  assert.ok(ctx.$('.product-info .package-card.is-selected .package-cta'));
   assert.equal(ctx.doc.querySelectorAll('h1').length, 1);
   ctx.win.happyDOM.abort();
 });
-test('Menu supports opening, link dismissal and Escape; CTAs open checkout dialog', () => {
+test('Empty header navigation stays hidden, content sections remain and purchase CTAs open checkout', () => {
   const ctx = setup();
-  const menu = ctx.$('.menu-toggle');
-  menu.click(); assert.equal(menu.getAttribute('aria-expanded'), 'true');
-  ctx.doc.dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-  assert.equal(menu.getAttribute('aria-expanded'), 'false');
-  assert.equal(ctx.doc.activeElement, menu);
-  menu.click(); ctx.$('#navigation a').click();
-  assert.equal(menu.getAttribute('aria-expanded'), 'false');
-  ctx.$('.main-cta').click();
+  assert.equal(ctx.$('#navigation').hidden, true);
+  assert.equal(ctx.$('.menu-toggle').hidden, true);
+  for (const id of ['producto', 'ingredientes', 'confianza', 'preguntas']) {
+    assert.equal(ctx.$(`header a[href="#${id}"]`), null);
+    assert.ok(ctx.$(`main #${id}`));
+  }
+  assert.ok(ctx.$('header .brand img'));
+  ctx.$('.nav-purchase').click();
   assert.equal(ctx.$('#pedido').open, true);
   assert.equal(ctx.$('main #order-form'), null);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-title'));
@@ -187,12 +195,12 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('.purchase-steps').getAttribute('aria-hidden'), null);
   assert.match(ctx.$('.confirmation-followup').textContent, /WhatsApp/);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
-  ctx.$('.main-cta').click();
+  ctx.$('.package-card.is-selected .package-cta').click();
   assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
   ctx.$('#order-confirmation [data-close]').click();
   await settle();
   assert.equal(ctx.$('#pedido').open, false);
-  assert.equal(ctx.doc.activeElement, ctx.$('.main-cta'));
+  assert.equal(ctx.doc.activeElement, ctx.$('.package-card.is-selected .package-cta'));
   ctx.win.happyDOM.abort();
 });
 test('Submission failure retains customer data and unlocks retry without success', async () => {
@@ -270,27 +278,38 @@ test('Transcript testimonials require provenance and escape user-supplied text',
   assert.doesNotMatch(rendered, /Compra verificada|review-stars|5 de 5 estrellas/);
 });
 
-test('Hero offer preserves shared quantity, bounds, totals and independent gallery state', () => {
+test('Hero CTAs select their packages while quantity and totals remain in checkout only', () => {
   const ctx = setup();
   const image = ctx.$('#hero-image').getAttribute('src');
-  ctx.$('#offer-more').click();
+  assert.equal(ctx.$('#offer-total'), null);
+  assert.equal(ctx.$('[data-offer-quantity]'), null);
+  assert.equal(ctx.$('#package-selector input[type="number"]'), null);
+  assert.equal(ctx.$('#packageId').value, 'familiar');
+  ctx.$('.package-cta[data-order-package="individual"]').click();
+  assert.equal(ctx.$('#pedido').open, true);
+  assert.equal(ctx.$('#packageId').value, 'individual');
+  ctx.$('#quantity-more').click();
   assert.equal(ctx.$('#quantity').value, '2');
-  assert.equal(ctx.$('#offer-total').textContent, 'Total: COP $850.000');
-  ctx.$('input[value="individual"]').click();
-  assert.equal(ctx.$('#offer-saving').hidden, true);
-  assert.equal(ctx.$('#offer-total').textContent, 'Total: COP $220.000');
-  assert.match(ctx.$('#offer-image').getAttribute('src'), /caja-principal/);
+  assert.equal(ctx.$('#summary-total').textContent, '$220.000');
+  assert.equal(ctx.$('#sticky-price').textContent, '$110.000');
+  assert.match(ctx.$('.package-card.is-selected .package-thumbnail').getAttribute('src'), /caja-principal/);
   assert.equal(ctx.$('#hero-image').getAttribute('src'), image);
-  fill(ctx, 'offer-quantity', '21');
-  assert.equal(ctx.$('#quantity').value, '21');
-  assert.equal(ctx.$('#offer-quantity').getAttribute('aria-invalid'), 'true');
-  fill(ctx, 'offer-quantity', '20');
-  assert.equal(ctx.$('#offer-more').disabled, true);
+  fill(ctx, 'quantity', '21');
+  assert.equal(ctx.$('#quantity').getAttribute('aria-invalid'), 'true');
+  fill(ctx, 'quantity', '20');
   assert.equal(ctx.$('#quantity-more').disabled, true);
   fill(ctx, 'quantity', '1');
-  assert.equal(ctx.$('#offer-quantity').value, '1');
-  assert.equal(ctx.$('#offer-less').disabled, true);
-  assert.equal(ctx.$('#offer-quantity-error').textContent, '');
+  assert.equal(ctx.$('#quantity-less').disabled, true);
+  assert.equal(ctx.$('#quantity-error').textContent, '');
+  ctx.$('#quantity-more').click();
+  ctx.$('#pedido [data-close]').click();
+  ctx.$('.package-cta[data-order-package="familiar"]').click();
+  assert.equal(ctx.$('#pedido').open, true);
+  assert.equal(ctx.$('#packageId').value, 'familiar');
+  assert.equal(ctx.$('#quantity').value, '2');
+  assert.equal(ctx.$('#summary-total').textContent, '$850.000');
+  assert.equal(ctx.$('#sticky-price').textContent, '$425.000');
+  assert.equal(ctx.$('.package-card.is-selected input[name="package"]').value, 'familiar');
   ctx.win.happyDOM.abort();
 });
 
@@ -332,9 +351,9 @@ test('Transcript testimonial carousel supports arrows, endpoints and pagination'
 
 test('Checkout modal preserves selection, totals and form values across openings', async () => {
   const ctx = setup();
-  ctx.$('#offer-more').click();
-  ctx.$('.main-cta').focus();
-  ctx.$('.main-cta').click();
+  ctx.$('#quantity-more').click();
+  ctx.$('.package-card.is-selected .package-cta').focus();
+  ctx.$('.package-card.is-selected .package-cta').click();
   assert.equal(ctx.$('#pedido').open, true);
   assert.equal(ctx.$('#packageId').value, 'familiar');
   assert.equal(ctx.$('#quantity').value, '2');
@@ -342,11 +361,11 @@ test('Checkout modal preserves selection, totals and form values across openings
   fill(ctx, 'neighborhood', 'Laureles', 'change');
   fill(ctx, 'packageId', 'individual', 'change');
   assert.equal(ctx.$('#summary-total').textContent, '$220.000');
-  assert.equal(ctx.$('#offer-quantity').value, '2');
+  assert.equal(ctx.$('#quantity').value, '2');
   ctx.$('#pedido [data-close]').click();
   await settle();
   assert.equal(ctx.$('#pedido').open, false);
-  assert.equal(ctx.doc.activeElement, ctx.$('.main-cta'));
+  assert.equal(ctx.doc.activeElement, ctx.$('.package-card.is-selected .package-cta'));
   assert.equal(ctx.doc.documentElement.classList.contains('checkout-open'), false);
   ctx.$('.nav-purchase').click();
   assert.equal(ctx.$('#quantity').value, '2');
@@ -364,7 +383,7 @@ test('Checkout modal preserves selection, totals and form values across openings
 test('Loopback demo clearly disclaims a real order and restores the complete checkout on reset', async () => {
   let calls = 0;
   const ctx = setup({ url: 'http://localhost:4173/?pedido-demo=1', commerce: configured, fetcher: async () => { calls++; } });
-  ctx.$('.main-cta').click();
+  ctx.$('.package-card.is-selected .package-cta').click();
   fillValid(ctx);
   ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
   await settle();

@@ -278,6 +278,24 @@ export function initApp(doc = document, win = window, options = {}) {
   const sticky = $('.sticky-purchase');
   const primaryPurchaseCtas = $$('.package-cta');
   const footer = $('.footer');
+  const whatsapp = $('.floating-whatsapp');
+  const whatsappProtected = $('.package-cta, .story-surface h2, .story-surface h3, .story-surface p, .final-offer .button');
+  function updateWhatsappVisibility() {
+    if (!whatsapp) return;
+    let obstructs = checkout.open ? true : false;
+    if (!obstructs && win.innerWidth <= 768) {
+      const floating = whatsapp.getBoundingClientRect();
+      obstructs = whatsappProtected.some(element => {
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0
+          && rect.left < floating.right && rect.right > floating.left
+          && rect.top < floating.bottom && rect.bottom > floating.top;
+      });
+    }
+    whatsapp.classList.toggle('is-obscured', obstructs);
+    whatsapp.inert = obstructs;
+    whatsapp.setAttribute('aria-hidden', String(obstructs));
+  }
   // The sticky purchase prompt appears only once the in-page purchase CTA has
   // passed above the viewport. It must never obscure the initial hero.
   function updateStickyVisibility() {
@@ -288,6 +306,7 @@ export function initApp(doc = document, win = window, options = {}) {
     sticky.classList.toggle('is-hidden', hide);
     sticky.inert = hide;
     sticky.setAttribute('aria-hidden', String(hide));
+    updateWhatsappVisibility();
   }
   sticky.classList.add('is-hidden');
   sticky.inert = true;

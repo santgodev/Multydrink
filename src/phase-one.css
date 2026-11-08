@@ -1936,7 +1936,9 @@ html.checkout-open { overflow:hidden; }
 .customer-experiences .customer-rating-bar { display:block;height:6px;background:#DFE6D8;border-radius:8px; }
 .customer-experiences .customer-rating-bar-fill { display:block;height:100%;background:#B88A2B;border-radius:inherit; }
 .customer-experiences .customer-distribution-note { margin:10px 0 0;color:#596958;font-size:11px;line-height:1.5; }
-.customer-experiences .customer-gallery { min-width:0; }
+.customer-experiences .customer-gallery { min-width:0; display:flex;flex-direction:column; }
+.customer-experiences .customer-gallery>.customer-photo-grid { order:0; }
+.customer-experiences .customer-gallery>.customer-section-heading { order:1;justify-content:flex-end;margin:9px 4px 0; }
 .customer-experiences .customer-section-heading { display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px; }
 .customer-experiences .customer-section-heading h3 { margin:0;color:#243F30;font-size:clamp(19px,2vw,25px);line-height:1.25;letter-spacing:-.02em; }
 .customer-experiences .customer-section-heading p { color:#667760;font-size:13px; }

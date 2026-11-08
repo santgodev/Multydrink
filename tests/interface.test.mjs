@@ -420,6 +420,10 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.equal(section.querySelector('.customer-rating-overview strong').textContent, '4,9');
   assert.match(section.querySelector('.customer-recommendation').textContent, /99\s*%/);
   assert.equal(section.querySelectorAll('.customer-rating-rows .customer-rating-bar').length, 5);
+  assert.equal(section.querySelector('.customer-rating-source').textContent, 'Basado en reseñas');
+  assert.equal(section.querySelectorAll('.customer-rating-bar-fill.is-featured').length, 1);
+  assert.equal(section.querySelectorAll('.customer-rating-row > span').length, 10);
+  assert.equal(section.querySelectorAll('.customer-rating-row [aria-label="Recuento pendiente"]').length, 0);
   assert.equal(section.querySelector('.customer-ratings .customer-ratings-pending'), null);
   assert.equal(section.querySelectorAll('.customer-rating-row').length, 5);
   assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 2);

@@ -1,7 +1,7 @@
 import { cp, mkdir, readFile, writeFile, readdir, stat, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { serializeStructuredData } from '../src/seo.js';
-import { productMedia, comparisonMedia, videoTestimonials, customerCollage } from '../src/media.js';
+import { productMedia, comparisonMedia, videoTestimonials, customerCollage, customerPhotos } from '../src/media.js';
 import { eligibleVideos } from '../src/editorial.js';
 import { versionAssets } from './version-assets.mjs';
 
@@ -14,8 +14,13 @@ for (const item of productMedia.gallery.filter(item => item.type === 'video')) {
 }
 const configuredImages = [productMedia.individual, productMedia.family, ...productMedia.gallery, productMedia.alternateBox, productMedia.sachet, productMedia.preparedDrink, productMedia.nutritionLabel, productMedia.composition, ...Object.values(productMedia.lifestyle), comparisonMedia?.first, comparisonMedia?.second, ...videos.map(item => item.poster)].filter(Boolean);
 const configuredImageFiles = new Set();
-configuredImages.push(customerCollage);
+configuredImages.push(customerCollage, ...customerPhotos);
 const validImagePath = /^assets\/(?:multydrink\/(?:optimized|producto)\/)?[\w.-]+\.webp$/;
+const sourceHtml = await readFile('index.html', 'utf8');
+// Include explicit HTML image/poster/srcset candidates as well as module metadata.
+for (const [file] of sourceHtml.matchAll(/assets\/(?:multydrink\/(?:optimized|producto)\/)?[\w.-]+\.webp/g)) {
+  await stat(file); configuredImageFiles.add(file);
+}
 for (const item of configuredImages) {
   if (!validImagePath.test(item.src) || !item.alt || ((item.width > 0) !== (item.height > 0))) throw new Error('Approved image requires a local WebP, alt text and dimensions');
   for (const file of [item.src, item.thumbnail, ...(item.variants || []).map(variant => variant.src)].filter(Boolean)) {
@@ -26,12 +31,7 @@ for (const item of configuredImages) {
 // Doctor's approved portrait and explainer video, referenced by the standalone editorial section.
 const doctorFiles = ['assets/multydrink/profesional/dra-erika-piedrahita.jpg', 'assets/multydrink/profesional/dra-erika-multydrink.mp4', 'assets/multydrink/optimized/dra-erika-video-poster-360.webp'];
 for (const file of doctorFiles) { await stat(file); configuredImageFiles.add(file); }
-// Preserve the approved customer originals in the built storefront.
-for (const number of ['01', '02', '03', '04', '05', '06', '08']) {
-  const photo = `assets/multydrink/momentos-compartidos/cliente-${number}.jpeg`;
-  await stat(photo);
-  configuredImageFiles.add(photo);
-}
+// Original customer photographs remain in the repository; only optimized thumbnails ship.
 // Exact approved Origen photograph, referenced directly by its chapter markup.
 configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
 for (const file of approvedVideoFiles) {
@@ -50,7 +50,7 @@ if (output !== path.join(process.cwd(), 'dist')) throw new Error('Unexpected bui
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 const sources = Object.fromEntries(await Promise.all((await readdir('src')).map(async name => [name, await readFile(path.join('src', name), 'utf8')])));
-const versioned = versionAssets(sources, (await readFile('index.html', 'utf8')).replace('<script type="application/ld+json" id="product-schema">{}</script>', `<script type="application/ld+json" id="product-schema">${serializeStructuredData()}</script>`));
+const versioned = versionAssets(sources, sourceHtml.replace('<script type="application/ld+json" id="product-schema">{}</script>', `<script type="application/ld+json" id="product-schema">${serializeStructuredData()}</script>`));
 const index = versioned.html;
 await writeFile('dist/index.html', index);
 await mkdir('dist/src', { recursive: true });

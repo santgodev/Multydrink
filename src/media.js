@@ -87,9 +87,63 @@ export const previousVideoTestimonials = [
 ];
 
 // New client-supplied clips; descriptive labels only until identities/transcripts are approved.
-// The cards display the actual video frame instead of an unrelated legacy poster.
+// Posters are frames at 1.5 s from each original clip; only encoded black bars
+// were excluded from the third poster. All MP4 files remain unchanged.
 export const videoTestimonials = [
-  { id: 'historia-01', name: 'Historia real 01', videoSrc: 'assets/multydrink/historias-reales/historia-01.mp4' },
-  { id: 'historia-02', name: 'Historia real 02', videoSrc: 'assets/multydrink/historias-reales/historia-02.mp4' },
-  { id: 'historia-03', name: 'Historia real 03', videoSrc: 'assets/multydrink/historias-reales/historia-03.mp4' },
+  { id: 'historia-01', name: 'Historia real 01', videoSrc: 'assets/multydrink/historias-reales/historia-01.mp4', poster: {"src":"assets/multydrink/optimized/historia-01-poster.webp","width":540,"height":960,"alt":"Preparación de MultyDrink junto a una taza"} },
+  { id: 'historia-02', name: 'Historia real 02', videoSrc: 'assets/multydrink/historias-reales/historia-02.mp4', poster: {"src":"assets/multydrink/optimized/historia-02-poster.webp","width":540,"height":960,"alt":"Preparación de una bebida con MultyDrink en una licuadora"} },
+  { id: 'historia-03', name: 'Historia real 03', videoSrc: 'assets/multydrink/historias-reales/historia-03.mp4', poster: {"src":"assets/multydrink/optimized/historia-03-poster.webp","width":540,"height":540,"alt":"Sobre de MultyDrink vertido en un vaso de agua"} },
 ].map(item => ({ ...item, localReviewApproved: true, approved: false, publicationRightsConfirmed: false }));
+
+// Optimized thumbnails; client-supplied originals are retained unchanged.
+export const customerPhotos = [
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-01.webp",
+    "width": 312,
+    "height": 416,
+    "alt": "Grupo de personas compartiendo una actividad de MultyDrink",
+    "original": "assets/multydrink/momentos-compartidos/cliente-01.jpeg"
+  },
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-02.webp",
+    "width": 388,
+    "height": 416,
+    "alt": "Mujer preparando MultyDrink en una botella de agua",
+    "original": "assets/multydrink/momentos-compartidos/cliente-02.jpeg"
+  },
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-03.webp",
+    "width": 394,
+    "height": 416,
+    "alt": "Dos mujeres mostrando una caja de MultyDrink",
+    "original": "assets/multydrink/momentos-compartidos/cliente-03.jpeg"
+  },
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-04.webp",
+    "width": 312,
+    "height": 416,
+    "alt": "Mujer preparando sobres de MultyDrink junto a sus cajas",
+    "original": "assets/multydrink/momentos-compartidos/cliente-04.jpeg"
+  },
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-05.webp",
+    "width": 192,
+    "height": 416,
+    "alt": "Mujer mostrando sobres de MultyDrink en un comercio",
+    "original": "assets/multydrink/momentos-compartidos/cliente-05.jpeg"
+  },
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-06.webp",
+    "width": 312,
+    "height": 416,
+    "alt": "Sobre de MultyDrink junto a un vaso sobre una mesa",
+    "original": "assets/multydrink/momentos-compartidos/cliente-06.jpeg"
+  },
+  {
+    "src": "assets/multydrink/optimized/comunidad-cliente-08.webp",
+    "width": 312,
+    "height": 416,
+    "alt": "Mujer sosteniendo una caja de MultyDrink en un establecimiento",
+    "original": "assets/multydrink/momentos-compartidos/cliente-08.jpeg"
+  }
+];

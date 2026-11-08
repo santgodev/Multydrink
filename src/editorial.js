@@ -1,19 +1,19 @@
-import { packages, ingredientGroups, research, nutrition, faqCategories, faqs } from './config.js';
-import { productMedia } from './media.js';
+﻿import { packages, ingredientGroups, research, nutrition, faqCategories, faqs } from './config.js';
+import { productMedia, customerPhotos } from './media.js';
 import { escapeHTML as esc, icon, renderFaqs } from './components.js';
 import { money } from './order.js';
 import { imageAttributes } from './images.js';
 
 export function renderEditorialIngredients() {
-  return ingredientGroups.map((item, index) => `<article class="editorial-ingredient"><div class="editorial-image ${item.images.length > 1 ? 'paired-images' : ''}">${item.images.map(name => `<img src="assets/${name}.webp" alt="${esc(name === 'tea' ? 'Té negro' : item.name)}" width="800" height="467" loading="lazy">`).join('')}</div><span class="editorial-index">0${index + 1} / ${esc(item.name)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join('');
+  return ingredientGroups.map((item, index) => `<article class="editorial-ingredient"><div class="editorial-image ${item.images.length > 1 ? 'paired-images' : ''}">${item.images.map(name => `<img src="assets/${name}.webp" alt="${esc(name === 'tea' ? 'TÃ© negro' : item.name)}" width="800" height="467" loading="lazy">`).join('')}</div><span class="editorial-index">0${index + 1} / ${esc(item.name)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join('');
 }
 export function renderResearch() {
-  return research.map(item => `<article><strong class="research-year">${esc(item.year)}</strong><h3>${esc(item.label)}</h3><p>${esc(item.description)}</p><a href="${esc(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Consultar publicación sobre ${esc(item.label)} en el banco de investigaciones de MultyDrink (PDF, abre una pestaña nueva)">Consultar publicación</a></article>`).join('');
+  return research.map(item => `<article><strong class="research-year">${esc(item.year)}</strong><h3>${esc(item.label)}</h3><p>${esc(item.description)}</p><a href="${esc(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Consultar publicaciÃ³n sobre ${esc(item.label)} en el banco de investigaciones de MultyDrink (PDF, abre una pestaÃ±a nueva)">Consultar publicaciÃ³n</a></article>`).join('');
 }
 export function renderNutrition() {
   const label = productMedia.nutritionLabel;
-  if (!label) return '<p class="nutrition-unavailable">Consulta la información nutricional en el empaque del producto.</p>';
-  return `<figure class="nutrition-label-figure"><a href="${esc(label.src)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir la etiqueta nutricional original completa en una pestaña nueva"><img class="real-nutrition-label" ${imageAttributes(label, '(max-width: 560px) 90vw, 430px')} loading="lazy"></a><figcaption>Etiqueta original de MultyDrink. <a href="${esc(label.src)}" target="_blank" rel="noopener noreferrer">Ampliar imagen ↗</a></figcaption></figure>`;
+  if (!label) return '<p class="nutrition-unavailable">Consulta la informaciÃ³n nutricional en el empaque del producto.</p>';
+  return `<figure class="nutrition-label-figure"><a href="${esc(label.src)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir la etiqueta nutricional original completa en una pestaÃ±a nueva"><img class="real-nutrition-label" ${imageAttributes(label, '(max-width: 560px) 90vw, 430px')} loading="lazy"></a><figcaption>Etiqueta original de MultyDrink. <a href="${esc(label.src)}" target="_blank" rel="noopener noreferrer">Ampliar imagen â†—</a></figcaption></figure>`;
 }
 
 export function renderFinalOffers() {
@@ -23,7 +23,7 @@ export function renderFinalOffers() {
   }).join('');
 }
 export function renderFaqCategories() {
-  return faqCategories.map((item, index) => `<button type="button" id="faq-tab-${item.id}" role="tab" aria-selected="${index === 0}" aria-controls="faq-panel-${item.id}" tabindex="${index === 0 ? '0' : '-1'}">${item.label}<span aria-hidden="true">↗</span></button>`).join('');
+  return faqCategories.map((item, index) => `<button type="button" id="faq-tab-${item.id}" role="tab" aria-selected="${index === 0}" aria-controls="faq-panel-${item.id}" tabindex="${index === 0 ? '0' : '-1'}">${item.label}<span aria-hidden="true">â†—</span></button>`).join('');
 }
 export function renderFaqPanels() {
   return faqCategories.map((item, index) => `<div id="faq-panel-${item.id}" role="tabpanel" tabindex="0" aria-labelledby="faq-tab-${item.id}" ${index ? 'hidden' : ''}><p class="faq-active-category">${esc(item.label)}</p>${renderFaqs(faqs.filter(faq => faq.category === item.id))}</div>`).join('');
@@ -89,7 +89,7 @@ export function bindIngredientCounter(root, win = root?.ownerDocument.defaultVie
 
 export function renderComparison(pair) {
   if (!pair?.first?.src || !pair?.second?.src) return '';
-  return `<div class="comparison-labels"><span>${esc(pair.firstLabel)}</span><span>${esc(pair.secondLabel)}</span></div><div class="comparison-stage" style="--position:50%">${imageMarkup(pair.second, 'comparison-base')}<div class="comparison-overlay">${imageMarkup(pair.first)}</div><div class="comparison-divider" aria-hidden="true"><span>‹ ›</span></div><label class="sr-only" for="comparison-range">Comparar las dos escenas: mueve el divisor</label><input id="comparison-range" type="range" min="0" max="100" value="50" step="1" aria-valuetext="50% de la primera escena" aria-describedby="comparison-help"></div><p id="comparison-help" class="sr-only">Arrastra el divisor o usa las flechas del teclado. Dos momentos cotidianos; no representan un resultado garantizado del producto.</p>`;
+  return `<div class="comparison-labels"><span>${esc(pair.firstLabel)}</span><span>${esc(pair.secondLabel)}</span></div><div class="comparison-stage" style="--position:50%">${imageMarkup(pair.second, 'comparison-base')}<div class="comparison-overlay">${imageMarkup(pair.first)}</div><div class="comparison-divider" aria-hidden="true"><span>â€¹ â€º</span></div><label class="sr-only" for="comparison-range">Comparar las dos escenas: mueve el divisor</label><input id="comparison-range" type="range" min="0" max="100" value="50" step="1" aria-valuetext="50% de la primera escena" aria-describedby="comparison-help"></div><p id="comparison-help" class="sr-only">Arrastra el divisor o usa las flechas del teclado. Dos momentos cotidianos; no representan un resultado garantizado del producto.</p>`;
 }
 export function bindComparison(root) {
   const stage = root.querySelector('.comparison-stage');
@@ -118,29 +118,18 @@ export function bindComparison(root) {
   update(input.value);
 }
 
-// Customer review presentation; numeric ratings are intentionally absent until verified data exists.
+// Client-supplied summary; no measured per-star distribution or review totals are available.
 export function renderCustomerReviewSection(testimonials, videos, options = {}) {
-  // Client-provided originals; kept independently so WebP derivatives can be added later.
-  const customerPhotos = [
-    { file: 'cliente-01.jpeg', width: 1086, height: 1448, alt: 'Grupo de personas compartiendo una actividad de MultyDrink' },
-    { file: 'cliente-02.jpeg', width: 1212, height: 1298, alt: 'Mujer preparando MultyDrink en una botella de agua' },
-    { file: 'cliente-03.jpeg', width: 1220, height: 1289, alt: 'Dos mujeres mostrando una caja de MultyDrink' },
-    { file: 'cliente-04.jpeg', width: 1086, height: 1448, alt: 'Mujer preparando sobres de MultyDrink junto a sus cajas' },
-    { file: 'cliente-05.jpeg', width: 740, height: 1600, alt: 'Mujer mostrando sobres de MultyDrink en un comercio' },
-    { file: 'cliente-06.jpeg', width: 1086, height: 1448, alt: 'Sobre de MultyDrink junto a un vaso sobre una mesa' },
-    { file: 'cliente-08.jpeg', width: 1086, height: 1448, alt: 'Mujer sosteniendo una caja de MultyDrink en un establecimiento' },
-  ];
-  const customerPhotoMarkup = customerPhotos.map(photo => `<figure class="customer-photo-item"><img src="assets/multydrink/momentos-compartidos/${photo.file}" width="${photo.width}" height="${photo.height}" alt="${esc(photo.alt)}" loading="lazy" decoding="async"></figure>`).join('');
-  // Decorative preview only: real per-star counts are not yet available. Do not expose invented percentages.
-  const bars = [5, 4, 3, 2, 1].map(star => `<li class="customer-rating-row"><span>${star} <span aria-hidden="true">★</span></span><span class="customer-rating-bar" aria-hidden="true"><span class="customer-rating-bar-fill ${star === 5 ? 'is-featured' : ''}"></span></span></li>`).join('');
-  const quotes = testimonials.map(item => `<article class="customer-quote"><div class="customer-quote-head"><h4>${esc(item.name)}</h4><span>Testimonio compartido en video</span></div><p>“${esc(item.comment)}”</p><small>${esc(item.topic)} · ${esc(item.sourceNote)}</small></article>`).join('');
+  const customerPhotoMarkup = customerPhotos.map(photo => `<figure class="customer-photo-item" style="--photo-ratio:${photo.width / photo.height}">${imageMarkup(photo, '', '200px')}</figure>`).join('');
+  const bars = [5, 4, 3, 2, 1].map(star => `<li class="customer-rating-row"><span>${star} <span aria-hidden="true">â˜…</span></span><span class="customer-rating-bar" aria-hidden="true"></span></li>`).join('');
+  const quotes = testimonials.map(item => `<article class="customer-quote"><h4>${esc(item.name)}</h4><blockquote><p>&ldquo;${esc(item.comment)}&rdquo;</p></blockquote><p class="customer-quote-source">${esc(item.sourceNote)}</p></article>`).join('');
   return `<header class="customer-reviews-heading"><h2 id="customer-reviews-title" class="customer-reviews-kicker">COMUNIDAD MULTYDRINK</h2></header>
     <div class="community-review-showcase">
-      <section class="customer-ratings" aria-label="Resumen de valoraciones proporcionado por el cliente"><div class="customer-ratings-intro"><p class="customer-rating-overview"><strong>4,9</strong><span class="customer-rating-stars" aria-label="4,9 de 5 estrellas">★★★★★</span></p><p class="customer-rating-source">Basado en reseñas</p></div><ol class="customer-rating-rows" aria-label="Distribución de estrellas pendiente de recuentos reales">${bars}</ol></section>
-      <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title" class="sr-only">Momentos compartidos</h3><p class="customer-recommendation"><strong>99 %</strong> recomendaría MultyDrink</p><div class="customer-photo-controls" aria-label="Navegación de fotografías"><button type="button" data-customer-photo-prev aria-label="Fotografías anteriores">←</button><button type="button" data-customer-photo-next aria-label="Fotografías siguientes">→</button></div></div><div class="customer-photo-grid" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Fotografías de la comunidad MultyDrink">${customerPhotoMarkup}</div></section>
+      <section class="customer-ratings" aria-label="Resumen de valoraciones proporcionado por el cliente"><div class="customer-ratings-intro"><p class="customer-rating-overview"><strong>4,9</strong><span class="customer-rating-stars" aria-label="4,9 de 5 estrellas">â˜…â˜…â˜…â˜…â˜…</span></p><p class="customer-rating-source">Basado en reseÃ±as</p></div><p class="customer-recommendation"><strong>99 %</strong> recomendarÃ­a MultyDrink</p><ol class="customer-rating-rows" aria-label="DistribuciÃ³n de estrellas pendiente de recuentos reales" aria-describedby="customer-distribution-note">${bars}</ol><p id="customer-distribution-note" class="customer-distribution-note">DistribuciÃ³n por estrellas pendiente de consolidaciÃ³n.</p></section>
+      <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><div class="customer-photo-controls" aria-label="NavegaciÃ³n de fotografÃ­as"><button type="button" data-customer-photo-prev aria-label="FotografÃ­as anteriores">â†</button><button type="button" data-customer-photo-next aria-label="FotografÃ­as siguientes">â†’</button></div></div><div class="customer-photo-grid" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="FotografÃ­as de la comunidad MultyDrink">${customerPhotoMarkup}</div></section>
     </div>
     <section class="customer-video-stories" aria-label="Historias reales en video">${renderVideoCarousel(videos, options)}</section>
-    <section class="customer-comments" aria-labelledby="customer-comments-title"><div class="customer-section-heading"><h3 id="customer-comments-title">Lo que nos cuentan</h3><p>Fragmentos de testimonios reales en video</p></div><div class="customer-quote-grid">${quotes}</div></section>`;
+    <section class="customer-comments" aria-labelledby="customer-comments-title"><div class="customer-section-heading"><h3 id="customer-comments-title">Lo que nos cuentan</h3></div><div class="customer-quote-grid">${quotes}</div></section>`;
 }
 
 export function bindCustomerPhotoCarousel(root) {
@@ -175,40 +164,19 @@ export function bindCustomerPhotoCarousel(root) {
 }
 
 export function eligibleVideos(items) {
-  return items.filter(item => item.localReviewApproved === true && item.name && item.videoSrc && (item.poster?.src || item.previewVideo === true || !item.poster));
+  return items.filter(item => item.localReviewApproved === true && item.name && item.videoSrc && item.poster?.src);
 }
 function reviewableVideos(items, localReview) {
-  return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.videoSrc && (item.poster?.src || item.previewVideo === true || !item.poster)) : eligibleVideos(items);
+  return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.videoSrc && item.poster?.src) : eligibleVideos(items);
 }
 export function renderVideoCarousel(items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return '';
-  return `<div class="carousel-heading"><div><h2 id="video-title">MultyDrink en su día a día.</h2></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${item.poster?.src ? `${item.poster.width > item.poster.height ? `<img class="video-card-backdrop" src="${esc(item.poster.src)}" alt="" aria-hidden="true" loading="lazy" decoding="async">` : ''}${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 380px')}` : `<video class="video-card-preview" src="${esc(item.videoSrc)}#t=0.35" preload="metadata" playsinline muted aria-hidden="true" tabindex="-1"></video>`}</button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
+  return `<div class="carousel-heading"><div><h2 id="video-title">MultyDrink en su dÃ­a a dÃ­a.</h2></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">â†</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">â†’</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 360px')}</button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">Ã—</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
 }
 export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return;
-  // A metadata-only video does not guarantee a painted thumbnail in Chrome.
-  // Seek to its first usable frame when visible; do not autoplay or download unseen clips.
-  const previews = [...root.querySelectorAll('.video-card-preview')];
-  const revealPreview = preview => {
-    if (preview.dataset.previewReady) return;
-    preview.dataset.previewReady = '1';
-    const seekFrame = () => {
-      if (!Number.isFinite(preview.duration) || preview.duration <= 0) return;
-      try { preview.currentTime = Math.min(0.7, preview.duration / 2); } catch { /* keep native video fallback */ }
-    };
-    if (preview.readyState >= 1) seekFrame();
-    else preview.addEventListener('loadedmetadata', seekFrame, { once:true });
-    preview.load?.();
-  };
-  const view = root.ownerDocument.defaultView;
-  if (typeof view.IntersectionObserver === 'function') {
-    const observer = new view.IntersectionObserver((entries, instance) => {
-      for (const entry of entries) if (entry.isIntersecting) { revealPreview(entry.target); instance.unobserve(entry.target); }
-    }, { rootMargin:'250px' });
-    previews.forEach(preview => observer.observe(preview));
-  } else previews.forEach(revealPreview);
   const track = root.querySelector('.video-track');
   const cards = [...track.children];
   const prev = root.querySelector('[data-carousel-prev]'), next = root.querySelector('[data-carousel-next]');
@@ -230,13 +198,13 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     video.controls = true; video.preload = 'none'; video.playsInline = true; if (item.poster?.src) video.poster = item.poster.src; video.src = item.videoSrc;
     if (item.captionsSrc) {
       const captions = root.ownerDocument.createElement('track');
-      captions.kind = 'captions'; captions.src = item.captionsSrc; captions.srclang = 'es'; captions.label = 'Español'; captions.default = true;
+      captions.kind = 'captions'; captions.src = item.captionsSrc; captions.srclang = 'es'; captions.label = 'EspaÃ±ol'; captions.default = true;
       video.append(captions);
     }
     player.replaceChildren(video);
     if (item.transcript) {
       const transcript = root.ownerDocument.createElement('details');
-      const summary = root.ownerDocument.createElement('summary'); summary.textContent = 'Leer transcripción';
+      const summary = root.ownerDocument.createElement('summary'); summary.textContent = 'Leer transcripciÃ³n';
       const text = root.ownerDocument.createElement('p'); text.textContent = item.transcript;
       transcript.append(summary, text);
       player.append(transcript);
@@ -248,3 +216,4 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   dialog.addEventListener('close', () => { releasePlayer(); trigger?.focus({ preventScroll: true }); });
   controls();
 }
+

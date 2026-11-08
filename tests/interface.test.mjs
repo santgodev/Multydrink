@@ -413,7 +413,7 @@ test('Loopback demo clearly disclaims a real order and restores the complete che
 });
 
 
-test('Customer experiences present unrated stars, real photos, videos and archived quotes without fake verification', () => {
+test('Customer experiences preserve client ratings, disclose pending distribution and defer video loading', () => {
   const ctx = setup();
   const section = ctx.$('#video-testimonials');
   assert.equal(section.hidden, false);
@@ -421,7 +421,8 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.match(section.querySelector('.customer-recommendation').textContent, /99\s*%/);
   assert.equal(section.querySelectorAll('.customer-rating-rows .customer-rating-bar').length, 5);
   assert.equal(section.querySelector('.customer-rating-source').textContent, 'Basado en reseñas');
-  assert.equal(section.querySelectorAll('.customer-rating-bar-fill.is-featured').length, 1);
+  assert.equal(section.querySelectorAll('.customer-rating-bar-fill').length, 0);
+  assert.match(section.querySelector('#customer-distribution-note').textContent, /pendiente de consolidación/);
   assert.equal(section.querySelectorAll('.customer-rating-row > span').length, 10);
   assert.equal(section.querySelectorAll('.customer-rating-row [aria-label="Recuento pendiente"]').length, 0);
   assert.equal(section.querySelector('.customer-ratings .customer-ratings-pending'), null);
@@ -433,16 +434,16 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.ok(section.querySelector('[data-customer-photo-prev]'));
   assert.ok(section.querySelector('[data-customer-photo-next]'));
   assert.equal(section.querySelector('.customer-photo-grid').getAttribute('aria-roledescription'), 'carrusel');
-  assert.ok([...section.querySelectorAll('.customer-photo-grid img')].every(image => image.getAttribute('loading') === 'lazy' && image.getAttribute('src').startsWith('assets/multydrink/momentos-compartidos/')));
+  assert.ok([...section.querySelectorAll('.customer-photo-grid img')].every(image => image.getAttribute('loading') === 'lazy' && image.getAttribute('src').startsWith('assets/multydrink/optimized/comunidad-cliente-')));
   assert.equal(section.querySelectorAll('.customer-video-stories .video-card').length, 3);
   assert.equal(section.querySelector('.customer-video-stories #video-title').textContent, 'MultyDrink en su día a día.');
   assert.equal(section.querySelectorAll('.customer-video-stories .eyebrow, .customer-video-stories .video-intro, .customer-video-stories .video-play, .customer-video-stories .video-watch').length, 0);
-  assert.deepEqual([...section.querySelectorAll('.customer-video-stories .video-card-preview')].map(node => node.getAttribute('src').split('#')[0]), [
-    'assets/multydrink/historias-reales/historia-01.mp4',
-    'assets/multydrink/historias-reales/historia-02.mp4',
-    'assets/multydrink/historias-reales/historia-03.mp4',
+  assert.equal(section.querySelectorAll('.customer-video-stories video').length, 0);
+  assert.deepEqual([...section.querySelectorAll('.customer-video-stories img.video-poster')].map(node => node.getAttribute('src')), [
+    'assets/multydrink/optimized/historia-01-poster.webp',
+    'assets/multydrink/optimized/historia-02-poster.webp',
+    'assets/multydrink/optimized/historia-03-poster.webp',
   ]);
-  assert.equal(section.querySelectorAll('.customer-video-stories .video-card img.video-poster').length, 0);
   assert.equal(section.querySelectorAll('.customer-quote').length, 3);
   assert.equal(section.querySelectorAll('.customer-quote .review-stars, .customer-quote .verified-buyer').length, 0);
   assert.ok(section.textContent.includes('Manuela'));

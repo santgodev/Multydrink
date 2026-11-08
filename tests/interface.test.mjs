@@ -98,6 +98,28 @@ test('Gallery buttons, thumbnails and arrow keys update image and accessible sta
   ctx.win.happyDOM.abort();
 });
 
+test('Checkout has one order flow and mobile-first summary, delivery, final action order', () => {
+  const ctx = setup();
+  try {
+    const form = ctx.$('#order-form');
+    const columns = ctx.$('.checkout-columns');
+    assert.deepEqual([...columns.children].map(element => element.className),
+      ['checkout-details', 'checkout-customer', 'checkout-actions']);
+    for (const id of ['packageId', 'quantity', 'customer-fields', 'privacy', 'order-turnstile', 'submit-order']) {
+      assert.equal(ctx.doc.querySelectorAll('#' + id).length, 1);
+      assert.equal(form.contains(ctx.$('#' + id)), true);
+    }
+    assert.equal(ctx.$('#order-availability').hidden, true);
+    assert.equal(ctx.doc.querySelector('.order-assurance'), null);
+    assert.equal(ctx.$('#shipping-note').textContent,
+      'Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.');
+    assert.equal(ctx.$('#order-title').textContent,
+      '¡ESTÁS A UN PASO DE RECIBIR MULTYDRINK EN CASA!');
+    ctx.$('#quantity-more').click();
+    assert.equal(ctx.$('#summary-total').textContent, '$850.000');
+  } finally { ctx.win.happyDOM.abort(); }
+});
+
 test('Product reading order introduces the product and purchase before supplementary details', () => {
   const ctx = setup();
   const sequence = ['.product-intro', '.product-visual', '.product-info', '#product-accordions'];

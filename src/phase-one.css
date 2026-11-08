@@ -2043,3 +2043,18 @@ html.checkout-open { overflow:hidden; }
 @media(prefers-reduced-motion:reduce) {
   .customer-experiences .customer-video-stories .video-inline-play-icon {transition:none;}
 }
+
+/* Checkout-only refinement: keep desktop two columns, show summary first on mobile. */
+.checkout-dialog .checkout-header h2 { color:var(--checkout-green); }
+.checkout-dialog .checkout-subtitle { margin-top:12px; color:var(--checkout-ink); }
+.checkout-dialog .checkout-right { min-width:0; display:flex; flex-direction:column; }
+.checkout-dialog .checkout-actions { min-width:0; }
+.checkout-dialog .checkout-actions .privacy-field { margin-top:18px; }
+.checkout-dialog .availability-note[hidden] { display:none!important; }
+@media(max-width:800px) {
+  .checkout-dialog .checkout-columns { display:grid; grid-template-columns:minmax(0,1fr); gap:20px; }
+  .checkout-dialog .checkout-right { display:contents; }
+  .checkout-dialog .checkout-details { order:1; }
+  .checkout-dialog .checkout-customer { order:2; }
+  .checkout-dialog .checkout-actions { order:3; }
+}

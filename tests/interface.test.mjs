@@ -11,6 +11,7 @@ const configured = { ...commerce, orderEndpoint: '/test-orders', merchantName: '
 function setup(options = {}) {
   const win = new Window({ url: options.url || 'http://localhost:4173', settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
   win.document.write(html);
+  if (options.viewportWidth) Object.defineProperty(win, 'innerWidth', { configurable:true, value:options.viewportWidth });
   const app = initApp(win.document, win, options.commerce ? { ...options, turnstile: { mount: async () => {}, getToken: () => 'test-turnstile-token', reset: () => {} } } : options);
   return { win, doc: win.document, app, $: selector => win.document.querySelector(selector) };
 }
@@ -126,16 +127,18 @@ test('Checkout has one order flow and mobile-first summary, delivery, final acti
   } finally { ctx.win.happyDOM.abort(); }
 });
 
-test('Mobile checkout can initialize and close with the X button', () => {
-  const ctx = setup();
+test('Mobile checkout initializes at phone width and closes with the X button', () => {
+  const ctx = setup({ viewportWidth:390 });
   try {
-    Object.defineProperty(ctx.win, 'innerWidth', { configurable:true, value:390 });
-    ctx.win.dispatchEvent(new ctx.win.Event('resize'));
     ctx.$('.nav-purchase').click();
     assert.equal(ctx.$('#pedido').open, true);
     ctx.$('#pedido .checkout-header [data-close]').click();
     assert.equal(ctx.$('#pedido').open, false);
     assert.equal(ctx.doc.documentElement.classList.contains('checkout-open'), false);
+    ctx.$('.nav-purchase').click();
+    assert.equal(ctx.$('#pedido').open, true);
+    ctx.$('#pedido .checkout-header [data-close]').click();
+    assert.equal(ctx.$('#pedido').open, false);
   } finally { ctx.win.happyDOM.abort(); }
 });
 

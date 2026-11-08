@@ -46,8 +46,8 @@ export const ingredients = [
 export const faqs = [
   {"id":"ingredients","category":"ingredientes","question":"¿Qué contiene Multydrink?","answer":"Mucílago de café, extracto de uva, miel de agave azul, Ganoderma lucidum y té negro."},
   {"id":"flavor","category":"uso","question":"¿A qué sabe?","answer":"Tiene sabor limón."},
-  {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sachet de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
-  {"id":"includes","category":"uso","question":"¿Cuántos sachets trae cada caja?","answer":"Cada caja contiene 21 sachets individuales."},
+  {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sobre de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
+  {"id":"includes","category":"uso","question":"¿Cuántos sobres trae cada caja?","answer":"Cada caja contiene 21 sobres individuales."},
   {"id":"payment","category":"pedidos","question":"¿Puedo pagar cuando reciba el producto?","answer":"Sí. Puedes realizar tu pedido con modalidad de pago contra entrega, sujeto a confirmación y cobertura logística."},
   {"id":"diet","category":"seguridad","question":"¿Multydrink reemplaza una alimentación equilibrada?","answer":"No. Es una bebida para complementar tu rutina; no sustituye una alimentación variada ni las recomendaciones de un profesional de salud."},
   { id: 'caffeine', category: 'seguridad', question: '¿Contiene cafeína?', answer: 'La fórmula incluye té negro. No contamos con una cantidad de cafeína verificada por sobre y no lo presentamos como un producto libre de cafeína. Si eres sensible, consulta la etiqueta y a un profesional de salud antes de consumirlo.' },

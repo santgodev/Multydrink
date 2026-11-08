@@ -218,7 +218,7 @@
     </header>
     <div class="checkout-body">
       
-      <div id="order-availability" class="availability-note" role="status">Confirma los datos de tu pedido. El registro se completa únicamente cuando recibes un número de pedido.</div>
+      <div id="order-availability" class="availability-note" role="status" hidden></div>
       <form id="order-form" novalidate>
         <fieldset id="order-fields"><legend class="sr-only">Datos del pedido</legend>
           <div class="checkout-columns">
@@ -226,19 +226,22 @@
               <div class="form-heading"><h3 id="delivery-title">Tu información de entrega</h3></div>
               <div class="form-grid" id="customer-fields"></div>
             </section>
+            <div class="checkout-right">
             <section class="checkout-details" aria-labelledby="summary-title">
               <div class="form-heading"><h3 id="summary-title">Tu pedido</h3></div>
               <div class="order-preview"><img src="assets/multydrink/optimized/pack-familiar-aprobado-840.webp" alt="Pack de seis cajas MultyDrink" width="840" height="880" loading="lazy"><span>MULTYDRINK<small>Un nuevo momento para tu día.</small></span></div>
               <div class="order-choice"><div class="field"><label for="packageId">Presentación</label><select id="packageId" name="packageId" required aria-describedby="packageId-error"></select><span class="field-error" id="packageId-error"></span></div><div class="field quantity-field"><label for="quantity">Cantidad de paquetes</label><div class="quantity-control"><button type="button" id="quantity-less" aria-label="Reducir cantidad">−</button><input id="quantity" name="quantity" type="number" min="1" max="20" step="1" value="1" inputmode="numeric" required aria-describedby="quantity-error"><button type="button" id="quantity-more" aria-label="Aumentar cantidad">+</button></div><span class="field-error" id="quantity-error"></span></div></div>
-              <div class="order-summary" aria-live="polite" aria-atomic="true"><div><span id="summary-package">Pack familiar</span><span id="summary-unit"></span></div><div class="summary-meta"><span id="summary-count"></span></div><div><span>Subtotal de productos</span><strong id="summary-subtotal"></strong></div><div class="summary-saving"><span>Tu ahorro en productos</span><span id="summary-savings"></span></div><div><span>Envío</span><span id="summary-shipping">Incluido</span></div><div class="summary-total"><strong>Total a pagar · COP</strong><strong id="summary-total"></strong></div><p id="shipping-note">El envío está incluido. No se realiza ningún cobro desde esta página.</p></div>
-              <div class="order-assurance"><span data-icon="lock"></span><span>Pago contra entrega. Sin tarjetas ni pagos anticipados.<br>La cobertura y el plazo se confirman para tu dirección.</span></div>
+              <div class="order-summary" aria-live="polite" aria-atomic="true"><div><span id="summary-package">Pack familiar</span><span id="summary-unit"></span></div><div class="summary-meta"><span id="summary-count"></span></div><div><span>Subtotal de productos</span><strong id="summary-subtotal"></strong></div><div class="summary-saving"><span>Tu ahorro en productos</span><span id="summary-savings"></span></div><div><span>Envío</span><span id="summary-shipping">Incluido</span></div><div class="summary-total"><strong>Total a pagar · COP</strong><strong id="summary-total"></strong></div><p id="shipping-note">Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.</p></div>
+            </section>
+            <div class="checkout-actions">
               <div class="privacy-field"><label for="privacy"><input type="checkbox" id="privacy" name="privacy" required aria-describedby="privacy-error privacy-help"><span>He leído y acepto la <a id="privacy-link" href="#privacy-dialog">política de privacidad</a> y el tratamiento de mis datos para gestionar este pedido.</span></label><span class="field-error" id="privacy-error"></span><small id="privacy-help">Consulta la política de tratamiento de datos antes de enviar tu pedido.</small></div>
               <div id="order-turnstile" aria-label="Verificación de seguridad del pedido" hidden></div>
               <p id="turnstile-status" class="form-footnote" role="status" hidden></p>
               <div id="form-message" class="form-message" role="alert" tabindex="-1" hidden></div>
               <button type="submit" id="submit-order" class="button button-primary" disabled>Confirmar pedido <span data-icon="arrow"></span></button>
               <p class="form-footnote">Tu información se usa únicamente para gestionar la solicitud según la política del vendedor.</p>
-            </section>
+            </div>
+            </div>
           </div>
         </fieldset>
       </form>

@@ -1973,3 +1973,35 @@ html.checkout-open { overflow:hidden; }
   .customer-quote-grid { grid-template-columns:1fr; }
   .customer-quote { padding:20px; }
 }
+
+
+/* Compact, client-supplied community rating summary. Distribution remains unpopulated. */
+.customer-experiences .customer-reviews-heading { margin-bottom:16px; max-width:none; }
+.customer-experiences .customer-reviews-heading h2.customer-reviews-kicker {
+  margin:0; font-size:clamp(14px,1.5vw,18px); line-height:1.35; letter-spacing:.11em;
+  color:#31593F; font-weight:800;
+}
+.customer-experiences .customer-ratings {
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+  gap:clamp(20px,3vw,46px);
+  padding:clamp(18px,2.5vw,28px);
+  align-items:center;
+}
+.customer-experiences .customer-ratings-intro { gap:8px; }
+.customer-rating-overview { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin:0; }
+.customer-rating-overview strong { color:#243F30; font-size:clamp(29px,3.5vw,46px); line-height:1; }
+.customer-rating-stars { color:#B88A2B; font-size:clamp(19px,2vw,26px); letter-spacing:.05em; white-space:nowrap; }
+.customer-experiences .customer-ratings-intro .customer-rating-source {
+  color:#6B796A; font-size:11px; line-height:1.45; margin:0;
+}
+.customer-experiences .customer-ratings-intro .customer-recommendation {
+  margin:6px 0 0; color:#31593F; font-size:clamp(15px,1.5vw,20px);
+  font-weight:500; line-height:1.4;
+}
+.customer-recommendation strong { font-size:clamp(23px,2.5vw,32px); font-weight:800; margin-right:7px; white-space:nowrap; }
+@media(max-width:560px) {
+  .customer-experiences .customer-ratings { grid-template-columns:1fr; gap:16px; }
+  .customer-experiences .customer-reviews-heading { margin-bottom:13px; }
+  .customer-rating-overview { gap:8px; }
+  .customer-rating-stars { letter-spacing:0; }
+}

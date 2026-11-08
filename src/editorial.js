@@ -175,15 +175,15 @@ export function bindCustomerPhotoCarousel(root) {
 }
 
 export function eligibleVideos(items) {
-  return items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc);
+  return items.filter(item => item.localReviewApproved === true && item.name && item.videoSrc && (item.poster?.src || item.previewVideo === true || !item.poster));
 }
 function reviewableVideos(items, localReview) {
-  return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc) : eligibleVideos(items);
+  return localReview ? items.filter(item => item.localReviewApproved === true && item.name && item.videoSrc && (item.poster?.src || item.previewVideo === true || !item.poster)) : eligibleVideos(items);
 }
 export function renderVideoCarousel(items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return '';
-  return `<div class="carousel-heading"><div><p class="eyebrow">HISTORIAS REALES</p><h2 id="video-title">MultyDrink en su día a día.</h2><p class="video-intro">Conoce cómo distintas personas incorporan MultyDrink a su rutina.</p></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${item.poster.width > item.poster.height ? `<img class="video-card-backdrop" src="${esc(item.poster.src)}" alt="" aria-hidden="true" loading="lazy" decoding="async">` : ''}${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 380px')}<span class="video-play" aria-hidden="true">▶</span><span class="video-watch" aria-hidden="true">Ver video</span></button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
+  return `<div class="carousel-heading"><div><p class="eyebrow">HISTORIAS REALES</p><h2 id="video-title">MultyDrink en su día a día.</h2><p class="video-intro">Conoce cómo distintas personas incorporan MultyDrink a su rutina.</p></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${item.poster?.src ? `${item.poster.width > item.poster.height ? `<img class="video-card-backdrop" src="${esc(item.poster.src)}" alt="" aria-hidden="true" loading="lazy" decoding="async">` : ''}${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 380px')}` : `<video class="video-card-preview" src="${esc(item.videoSrc)}#t=0.1" preload="metadata" playsinline muted aria-hidden="true" tabindex="-1"></video>`}<span class="video-play" aria-hidden="true">▶</span><span class="video-watch" aria-hidden="true">Ver video</span></button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
 }
 export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
@@ -206,7 +206,7 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     releasePlayer();
     const item = eligible[Number(button.dataset.playVideo)];
     const video = root.ownerDocument.createElement('video');
-    video.controls = true; video.preload = 'none'; video.playsInline = true; video.poster = item.poster.src; video.src = item.videoSrc;
+    video.controls = true; video.preload = 'none'; video.playsInline = true; if (item.poster?.src) video.poster = item.poster.src; video.src = item.videoSrc;
     if (item.captionsSrc) {
       const captions = root.ownerDocument.createElement('track');
       captions.kind = 'captions'; captions.src = item.captionsSrc; captions.srclang = 'es'; captions.label = 'Español'; captions.default = true;

@@ -1,6 +1,7 @@
 import http from 'node:http';
 import path from 'node:path';
 import { readFile, stat } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
 import { videoTestimonials } from '../src/media.js';
 
 const root = path.resolve(process.argv[2] || '.');
@@ -19,7 +20,37 @@ const server = http.createServer(async (req, res) => {
     const file = path.resolve(root, relative);
     if (!file.startsWith(root + path.sep)) { res.writeHead(403); res.end(); return; }
     if (!(await stat(file)).isFile()) throw new Error('Not file');
-    res.writeHead(200, { 'Content-Type': mime[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin' });
+    const type = mime[path.extname(file)] || 'application/octet-stream';
+    const headers = { 'Content-Type': type, 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin' };
+    // Chrome requires byte ranges to seek to an actual MP4 frame for video previews.
+    if (type === 'video/mp4') {
+      const { size } = await stat(file);
+      headers['Accept-Ranges'] = 'bytes';
+      const range = req.headers.range;
+      if (range) {
+        const match = /^bytes=(\\d*)-(\\d*)$/.exec(range);
+        let from = match?.[1] ? Number(match[1]) : 0;
+        let to = match?.[2] ? Number(match[2]) : size - 1;
+        if (match && !match[1] && match[2]) {
+          const suffix = Number(match[2]);
+          from = Math.max(0, size - suffix);
+          to = size - 1;
+        }
+        if (!match || from >= size || to < from || !Number.isSafeInteger(from) || !Number.isSafeInteger(to)) {
+          res.writeHead(416, { ...headers, 'Content-Range': `bytes */${size}` });
+          res.end();
+          return;
+        }
+        to = Math.min(to, size - 1);
+        res.writeHead(206, { ...headers, 'Content-Range': `bytes ${from}-${to}/${size}`, 'Content-Length': to - from + 1 });
+        createReadStream(file, { start: from, end: to }).pipe(res);
+        return;
+      }
+      res.writeHead(200, { ...headers, 'Content-Length': size });
+      createReadStream(file).pipe(res);
+      return;
+    }
+    res.writeHead(200, headers);
     res.end(await readFile(file));
   } catch { res.writeHead(404); res.end('Not found'); }
 });

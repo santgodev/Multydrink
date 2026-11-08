@@ -32,6 +32,8 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(ctx.$('.order-summary .summary-saving').hidden, true);
   assert.equal(ctx.$('#packageId').value, 'individual');
   assert.equal(ctx.$('#sticky-price').textContent, '$110.000');
+  assert.equal(ctx.$('#sticky-reference').hidden, true);
+  assert.equal(ctx.$('#sticky-reference').textContent, '');
   assert.equal(ctx.$('input[value="individual"]').checked, true);
   ctx.$('#quantity-more').click();
   assert.equal(ctx.$('#summary-subtotal').textContent, '$220.000');
@@ -42,6 +44,8 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(ctx.$('.order-summary .summary-saving').hidden, false);
   assert.equal(ctx.$('#summary-subtotal').textContent, '$850.000');
   assert.equal(ctx.$('#summary-savings').textContent, '$470.000');
+  assert.equal(ctx.$('#sticky-reference').hidden, false);
+  assert.equal(ctx.$('#sticky-reference').textContent, '$660.000');
   assert.equal(ctx.$('input[value="familiar"]').checked, true);
   assert.equal(ctx.$('input[value="familiar"]').checked, true);
   const individualCard = ctx.$('input[value="individual"]').nextElementSibling;

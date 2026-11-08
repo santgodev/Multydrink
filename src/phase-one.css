@@ -2056,7 +2056,20 @@ html.checkout-open { overflow:hidden; }
 }
 .checkout-dialog .checkout-customer { grid-area:customer; }
 .checkout-dialog .checkout-details { grid-area:details; }
-.checkout-dialog .checkout-actions { grid-area:actions; min-width:0; }
+.checkout-dialog .checkout-actions {
+  grid-area:actions;
+  min-width:0;
+  padding:0 16px 16px;
+  background:#f7f9f5;
+  border:1px solid var(--checkout-line);
+  border-top:0;
+  border-radius:0 0 12px 12px;
+}
+.checkout-dialog .checkout-details {
+  border-bottom:0;
+  border-radius:12px 12px 0 0;
+  padding-bottom:0;
+}
 .checkout-dialog .checkout-actions .privacy-field { margin-top:18px; }
 .checkout-dialog .availability-note[hidden] { display:none!important; }
 @media(max-width:800px) {
@@ -2064,5 +2077,16 @@ html.checkout-open { overflow:hidden; }
     grid-template-areas:"details" "customer" "actions";
     grid-template-columns:minmax(0,1fr);
     gap:20px;
+  }
+  .checkout-dialog .checkout-details {
+    border:1px solid var(--checkout-line);
+    border-radius:12px;
+    padding-bottom:14px;
+  }
+  .checkout-dialog .checkout-actions {
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
   }
 }

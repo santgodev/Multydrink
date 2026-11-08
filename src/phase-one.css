@@ -2045,3 +2045,48 @@ html.checkout-open { overflow:hidden; }
   .customer-experiences .customer-photo-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
   .customer-experiences .customer-photo-item {aspect-ratio:3/4;border-radius:12px;}
 }
+
+/* Photo strip: compact tiles, native touch scrolling and accessible arrows. */
+.customer-experiences .customer-photo-grid {
+  display:flex;
+  flex-wrap:nowrap;
+  gap:10px;
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline:2px;
+  scrollbar-width:thin;
+  scrollbar-color:#96A78E transparent;
+  padding:2px 2px 12px;
+  -webkit-overflow-scrolling:touch;
+}
+.customer-experiences .customer-photo-item {
+  flex:0 0 clamp(150px,15vw,188px);
+  width:clamp(150px,15vw,188px);
+  height:clamp(168px,17vw,208px);
+  aspect-ratio:auto;
+  scroll-snap-align:start;
+  border-radius:12px;
+  background:#EDF1E9;
+}
+.customer-experiences .customer-photo-item img { object-fit:contain; }
+.customer-experiences .customer-photo-controls {display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.customer-experiences .customer-photo-controls button {
+  display:grid;place-items:center;
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid #B9CBB0;background:#fff;color:#243F30;
+  font-size:23px;cursor:pointer;transition:border-color .15s,background .15s;
+}
+.customer-experiences .customer-photo-controls button:hover:not(:disabled) {background:#E7EDE2;border-color:#54784C;}
+.customer-experiences .customer-photo-controls button:focus-visible,.customer-experiences .customer-photo-grid:focus-visible {outline:3px solid #B88A2B;outline-offset:3px;}
+.customer-experiences .customer-photo-controls button:disabled {opacity:.3;cursor:default;}
+@media(max-width:800px) {
+  .customer-experiences .customer-photo-grid {display:flex;gap:10px;}
+  .customer-experiences .customer-photo-item {flex:0 0 164px;width:164px;height:185px;aspect-ratio:auto;}
+}
+@media(max-width:560px) {
+  .customer-experiences .customer-photo-grid {display:flex;gap:9px;margin-right:-8px;padding-right:8px;}
+  .customer-experiences .customer-photo-item {flex:0 0 min(65vw,220px);width:min(65vw,220px);height:245px;aspect-ratio:auto;}
+  .customer-experiences .customer-section-heading {flex-direction:row;align-items:center;}
+  .customer-experiences .customer-photo-controls button {width:40px;height:40px;}
+}

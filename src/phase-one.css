@@ -2267,3 +2267,34 @@ html.checkout-open { overflow:hidden; }
   -ms-overflow-style:none;
 }
 .customer-video-stories .video-track::-webkit-scrollbar {display:none;}
+
+
+/* Historia real: display the actual clip cover without placeholder decoration. */
+.customer-video-stories .video-card {
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:14px;
+  box-shadow:none;
+}
+.customer-video-stories .video-card:hover,
+.customer-video-stories .video-card:focus-within {
+  border-color:transparent;
+  box-shadow:none;
+}
+.customer-video-stories .video-card>button {
+  aspect-ratio:9/16;
+  border-radius:14px;
+  background:#161916;
+}
+.customer-video-stories .video-card-preview {
+  object-fit:contain;
+  background:transparent;
+}
+.customer-video-stories .video-play,
+.customer-video-stories .video-watch { display:none; }
+.customer-video-stories .video-card>button:focus-visible {
+  outline:3px solid #B88A2B;
+  outline-offset:4px;
+}
+.customer-video-stories .carousel-heading {justify-content:space-between;}

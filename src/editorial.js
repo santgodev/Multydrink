@@ -120,14 +120,23 @@ export function bindComparison(root) {
 
 // Customer review presentation; numeric ratings are intentionally absent until verified data exists.
 export function renderCustomerReviewSection(testimonials, videos, options = {}) {
-  const collage = 'assets/multydrink/optimized/collage-clientes-960.webp';
-  const clientPhoto = 'assets/multydrink/optimized/gallery-cliente-multydrink-480.webp';
+  // Client-provided originals; kept independently so WebP derivatives can be added later.
+  const customerPhotos = [
+    { file: 'cliente-01.jpeg', width: 1086, height: 1448, alt: 'Grupo de personas compartiendo una actividad de MultyDrink' },
+    { file: 'cliente-02.jpeg', width: 1212, height: 1298, alt: 'Mujer preparando MultyDrink en una botella de agua' },
+    { file: 'cliente-03.jpeg', width: 1220, height: 1289, alt: 'Dos mujeres mostrando una caja de MultyDrink' },
+    { file: 'cliente-04.jpeg', width: 1086, height: 1448, alt: 'Mujer preparando sobres de MultyDrink junto a sus cajas' },
+    { file: 'cliente-05.jpeg', width: 740, height: 1600, alt: 'Mujer mostrando sobres de MultyDrink en un comercio' },
+    { file: 'cliente-06.jpeg', width: 1086, height: 1448, alt: 'Sobre de MultyDrink junto a un vaso sobre una mesa' },
+    { file: 'cliente-08.jpeg', width: 1086, height: 1448, alt: 'Mujer sosteniendo una caja de MultyDrink en un establecimiento' },
+  ];
+  const customerPhotoMarkup = customerPhotos.map(photo => `<figure class="customer-photo-item"><img src="assets/multydrink/momentos-compartidos/${photo.file}" width="${photo.width}" height="${photo.height}" alt="${esc(photo.alt)}" loading="lazy" decoding="async"></figure>`).join('');
   // Decorative preview only: real per-star counts are not yet available. Do not expose invented percentages.
   const bars = [5, 4, 3, 2, 1].map(star => `<li class="customer-rating-row"><span>${star} <span aria-hidden="true">★</span></span><span class="customer-rating-bar" aria-hidden="true"><span class="customer-rating-bar-fill ${star === 5 ? 'is-featured' : ''}"></span></span></li>`).join('');
   const quotes = testimonials.map(item => `<article class="customer-quote"><div class="customer-quote-head"><h4>${esc(item.name)}</h4><span>Testimonio compartido en video</span></div><p>“${esc(item.comment)}”</p><small>${esc(item.topic)} · ${esc(item.sourceNote)}</small></article>`).join('');
   return `<header class="customer-reviews-heading"><h2 id="customer-reviews-title" class="customer-reviews-kicker">COMUNIDAD MULTYDRINK</h2></header>
     <section class="customer-ratings" aria-label="Resumen de valoraciones proporcionado por el cliente"><div class="customer-ratings-intro"><p class="customer-rating-overview"><strong>4,9</strong><span class="customer-rating-stars" aria-label="4,9 de 5 estrellas">★★★★★</span></p><p class="customer-rating-source">Basado en reseñas</p><p class="customer-recommendation"><strong>99 %</strong> recomendaría MultyDrink</p></div><ol class="customer-rating-rows" aria-label="Distribución de estrellas pendiente de recuentos reales">${bars}</ol></section>
-    <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><p>Fotografías de MultyDrink</p></div><div class="customer-photo-grid"><figure class="customer-photo-wide"><img src="${collage}" srcset="assets/multydrink/optimized/collage-clientes-480.webp 480w, assets/multydrink/optimized/collage-clientes-960.webp 960w, assets/multydrink/optimized/collage-clientes-1600.webp 1600w" sizes="(max-width: 720px) 92vw, 70vw" width="960" height="397" alt="Collage compartido por la marca con fotografías de personas y productos MultyDrink" loading="lazy" decoding="async"></figure><figure class="customer-photo-portrait"><img src="${clientPhoto}" width="480" height="640" alt="Clienta mostrando presentaciones de MultyDrink" loading="lazy" decoding="async"></figure></div></section>
+    <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><p>Fotografías de MultyDrink</p></div><div class="customer-photo-grid">${customerPhotoMarkup}</div></section>
     <section class="customer-video-stories" aria-label="Historias reales en video">${renderVideoCarousel(videos, options)}</section>
     <section class="customer-comments" aria-labelledby="customer-comments-title"><div class="customer-section-heading"><h3 id="customer-comments-title">Lo que nos cuentan</h3><p>Fragmentos de testimonios reales en video</p></div><div class="customer-quote-grid">${quotes}</div></section>`;
 }

@@ -1079,8 +1079,8 @@ html.checkout-open { overflow:hidden; }
 }
 .footer-columns {
   display:grid;
-  grid-template-columns:1.1fr 1fr 1fr 1fr;
-  gap:45px;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+  gap:clamp(28px, 7vw, 110px);
   padding-bottom:40px
 }
 .footer-columns h3 {
@@ -1595,8 +1595,8 @@ html.checkout-open { overflow:hidden; }
     padding-top:40px
   }
   .footer-columns {
-    grid-template-columns:1fr 1fr;
-    gap:30px 20px;
+    grid-template-columns:1fr;
+    gap:22px;
     padding-bottom:30px
   }
   .footer-columns>div:first-child {

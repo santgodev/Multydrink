@@ -145,7 +145,8 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#quantity-more').disabled = quantity >= commerce.maxQuantity || sending || confirmed;
     $('#sticky-package').textContent = `${item.name} · ${item.sachets} sobres`;
     $('#sticky-price').textContent = money(item.price);
-    $('#sticky-reference').textContent = money(item.referencePrice);
+    $('#sticky-reference').textContent = item.id === 'individual' ? '' : money(item.referencePrice);
+    $('#sticky-reference').hidden = item.id === 'individual';
     const selectedPhoto = item.id === 'individual' ? productMedia.individual : productMedia.family;
     applyImage($('.sticky-inner > img'), { ...selectedPhoto, src: selectedPhoto.thumbnail || selectedPhoto.src, variants: undefined, alt: '' }, '54px');
     $('.sticky-inner > img').dataset.package = selected;

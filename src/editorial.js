@@ -188,6 +188,27 @@ export function renderVideoCarousel(items, { localReview = false } = {}) {
 export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return;
+  // A metadata-only video does not guarantee a painted thumbnail in Chrome.
+  // Seek to its first usable frame when visible; do not autoplay or download unseen clips.
+  const previews = [...root.querySelectorAll('.video-card-preview')];
+  const revealPreview = preview => {
+    if (preview.dataset.previewReady) return;
+    preview.dataset.previewReady = '1';
+    const seekFrame = () => {
+      if (!Number.isFinite(preview.duration) || preview.duration <= 0) return;
+      try { preview.currentTime = Math.min(0.7, preview.duration / 2); } catch { /* keep native video fallback */ }
+    };
+    if (preview.readyState >= 1) seekFrame();
+    else preview.addEventListener('loadedmetadata', seekFrame, { once:true });
+    preview.load?.();
+  };
+  const view = root.ownerDocument.defaultView;
+  if (typeof view.IntersectionObserver === 'function') {
+    const observer = new view.IntersectionObserver((entries, instance) => {
+      for (const entry of entries) if (entry.isIntersecting) { revealPreview(entry.target); instance.unobserve(entry.target); }
+    }, { rootMargin:'250px' });
+    previews.forEach(preview => observer.observe(preview));
+  } else previews.forEach(revealPreview);
   const track = root.querySelector('.video-track');
   const cards = [...track.children];
   const prev = root.querySelector('[data-carousel-prev]'), next = root.querySelector('[data-carousel-next]');

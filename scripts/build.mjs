@@ -1,14 +1,20 @@
 import { cp, mkdir, readFile, writeFile, readdir, stat, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { serializeStructuredData } from '../src/seo.js';
-import { productMedia, comparisonMedia, videoTestimonials } from '../src/media.js';
+import { productMedia, comparisonMedia, videoTestimonials, customerCollage } from '../src/media.js';
 import { eligibleVideos } from '../src/editorial.js';
 import { versionAssets } from './version-assets.mjs';
 
 const videos = eligibleVideos(videoTestimonials);
 const approvedVideoFiles = new Set(videos.flatMap(item => [item.videoSrc, item.captionsSrc]));
+// Gallery videos are explicit client-approved assets, independent of testimonials.
+for (const item of productMedia.gallery.filter(item => item.type === 'video')) {
+  if (!/^assets\/[\w-]+\.mp4$/.test(item.videoSrc)) throw new Error('Invalid gallery video path');
+  approvedVideoFiles.add(item.videoSrc);
+}
 const configuredImages = [productMedia.individual, productMedia.family, ...productMedia.gallery, productMedia.alternateBox, productMedia.sachet, productMedia.preparedDrink, productMedia.nutritionLabel, productMedia.composition, ...Object.values(productMedia.lifestyle), comparisonMedia?.first, comparisonMedia?.second, ...videos.map(item => item.poster)].filter(Boolean);
 const configuredImageFiles = new Set();
+configuredImages.push(customerCollage);
 const validImagePath = /^assets\/(?:multydrink\/(?:optimized|producto)\/)?[\w.-]+\.webp$/;
 for (const item of configuredImages) {
   if (!validImagePath.test(item.src) || !item.alt || ((item.width > 0) !== (item.height > 0))) throw new Error('Approved image requires a local WebP, alt text and dimensions');
@@ -18,7 +24,7 @@ for (const item of configuredImages) {
   }
 }
 // Doctor's approved portrait and explainer video, referenced by the standalone editorial section.
-const doctorFiles = ['assets/multydrink/profesional/dra-erika-piedrahita.jpg', 'assets/multydrink/profesional/dra-erika-multydrink.mp4'];
+const doctorFiles = ['assets/multydrink/profesional/dra-erika-piedrahita.jpg', 'assets/multydrink/profesional/dra-erika-multydrink.mp4', 'assets/multydrink/optimized/dra-erika-video-poster-360.webp'];
 for (const file of doctorFiles) { await stat(file); configuredImageFiles.add(file); }
 // Exact approved Origen photograph, referenced directly by its chapter markup.
 configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');

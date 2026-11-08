@@ -98,7 +98,7 @@ test('Responsive candidates are replaced on gallery changes and every rendered i
 });
 
 test('Approved gallery order, full-size links and optimized sources remain complete and independent of checkout', async () => {
-  assert.deepEqual(gallery.map(item => item.sourceName), ['01-hero-ingredientes', 'hero-03-beneficios', 'hero-02-producto', 'hero-04-como-disfrutar', 'hero-05-mujer-casa', 'hero-06-vaso-frio', 'hero-07-ingredientes', 'hero-08-mujer-oficina']);
+  assert.deepEqual(gallery.map(item => item.sourceName), ['hero-02-producto', '01-hero-ingredientes', 'hero-03-beneficios', 'gallery-como-disfrutar', 'gallery-cliente-multydrink', 'hero-06-vaso-frio', 'hero-07-ingredientes', 'hero-08-mujer-oficina']);
   for (const entry of storefrontInventory) {
     const original = await readFile(entry.original);
     assert.equal(createHash('sha256').update(original).digest('hex'), entry.sha256);
@@ -117,10 +117,37 @@ test('Approved gallery order, full-size links and optimized sources remain compl
     for (const [index, item] of gallery.entries()) {
       $(`[data-gallery="${index}"]`).click();
       assert.ok($('#hero-image').src.endsWith(item.src));
-      assert.equal($('#gallery-full').getAttribute('href'), item.src);
+      assert.equal($('#gallery-full').getAttribute('href'), item.videoSrc || item.src);
       assert.equal($('#gallery-count').textContent, `${String(index + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}`);
       assert.equal(app.getState().selected, selected);
     }
+  } finally { await win.happyDOM.abort(); }
+});
+
+test('Gallery video defers loading, exposes native controls and pauses when navigating away', async () => {
+  const { win, $, app } = setup();
+  try {
+    const video = $('#gallery-video');
+    assert.equal(video.getAttribute('src'), null);
+    assert.equal(video.preload, 'none');
+    assert.equal(video.autoplay, false);
+    assert.equal(video.loop, false);
+    assert.equal(video.controls, true);
+    app.displayGallery(3);
+    assert.equal(video.hidden, false);
+    assert.equal($('#hero-image').hidden, true);
+    assert.equal(video.muted, true);
+    assert.equal(video.getAttribute('src'), gallery[3].videoSrc);
+    assert.equal(video.getAttribute('poster'), gallery[3].src);
+    let pauses = 0;
+    Object.defineProperty(video, 'paused', { configurable: true, get: () => false });
+    video.pause = () => { pauses++; };
+    app.displayGallery(4);
+    assert.equal(pauses, 1);
+    assert.equal(video.hidden, true);
+    assert.equal($('#hero-image').hidden, false);
+    assert.equal($('#hero-image').width, 1086);
+    assert.equal($('#hero-image').height, 1448);
   } finally { await win.happyDOM.abort(); }
 });
 

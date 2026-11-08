@@ -1,5 +1,14 @@
 import { approvedImages } from './media-catalog.js';
 import { storefrontImages } from './storefront-media.js';
+// Exact client collage. The embedded "#1" ranking requires client substantiation
+// before production publication; it is not added to Product structured data.
+export const customerCollage = {
+  src: 'assets/multydrink/optimized/collage-clientes-1600.webp',
+  width: 1600,
+  height: 661,
+  alt: 'Collage de clientes con cajas, sobres y bebidas MultyDrink, con el texto «#1 en Superalimento de Colombia».',
+  variants: [480, 960, 1600].map(width => ({ src: `assets/multydrink/optimized/collage-clientes-${width}.webp`, width })),
+};
 // Approved square compositions: keep native resolution and complete framing.
 function approvedGalleryImage(sourceName, size, alt, label) {
   const variants = [160, 480, 960, size].map(width => ({
@@ -24,21 +33,30 @@ export const productMedia = {
   individual: approvedImages.individual,
   family: storefrontImages.family,
   gallery: [
+    approvedGalleryImage('hero-02-producto', 1024, 'Caja MultyDrink rodeada de ingredientes botánicos sobre una mesa', 'Producto MultyDrink'),
     heroImage,
     approvedGalleryImage('hero-03-beneficios', 1254, 'Infografía sobre las características de MultyDrink', 'Características de MultyDrink'),
-    approvedGalleryImage('hero-02-producto', 1024, 'Presentación del producto MultyDrink', 'Producto MultyDrink'),
-    // Square recomposition: four steps in a left column, product on the right.
     {
-      src: 'assets/multydrink/optimized/hero-04-como-disfrutar-square-v2-1254.webp',
-      thumbnail: 'assets/multydrink/optimized/hero-04-como-disfrutar-square-v2-160.webp',
-      width: 1254,
-      height: 1254,
-      variants: [160, 480, 960, 1254].map(width => ({ src: `assets/multydrink/optimized/hero-04-como-disfrutar-square-v2-${width}.webp`, width })),
-      alt: 'Infografía con ideas para disfrutar MultyDrink',
-      label: 'Cómo disfrutar MultyDrink',
-      sourceName: 'hero-04-como-disfrutar',
+      type: 'video',
+      videoSrc: 'assets/gallery-como-disfrutar.mp4',
+      src: 'assets/multydrink/optimized/gallery-preparacion-poster-464.webp',
+      thumbnail: 'assets/multydrink/optimized/gallery-preparacion-poster-160.webp',
+      width: 464,
+      height: 848,
+      alt: 'Fotograma del video de MultyDrink suministrado por la marca',
+      label: 'Cómo disfrutar MultyDrink — video',
+      sourceName: 'gallery-como-disfrutar',
     },
-    approvedGalleryImage('hero-05-mujer-casa', 1024, 'Mujer en casa con MultyDrink', 'MultyDrink en casa'),
+    {
+      src: 'assets/multydrink/optimized/gallery-cliente-multydrink-1086.webp',
+      thumbnail: 'assets/multydrink/optimized/gallery-cliente-multydrink-160.webp',
+      width: 1086,
+      height: 1448,
+      variants: [160, 480, 960, 1086].map(width => ({ src: `assets/multydrink/optimized/gallery-cliente-multydrink-${width}.webp`, width })),
+      alt: 'Mujer mostrando un sobre, una caja individual y el pack familiar MultyDrink',
+      label: 'Presentaciones MultyDrink',
+      sourceName: 'gallery-cliente-multydrink',
+    },
     approvedGalleryImage('hero-06-vaso-frio', 1217, 'Vaso de MultyDrink servido frío', 'MultyDrink frío'),
     approvedGalleryImage('hero-07-ingredientes', 1254, 'Infografía de ingredientes de MultyDrink', 'Ingredientes de MultyDrink'),
     approvedGalleryImage('hero-08-mujer-oficina', 1086, 'Mujer en una oficina con MultyDrink', 'MultyDrink en la oficina'),

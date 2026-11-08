@@ -853,24 +853,24 @@ html:has(.video-dialog[open]),body:has(.video-dialog[open]) { overflow:hidden; }
 }
 /* Final offer cards: clear pricing hierarchy on the approved white section. */
 .final-offers { align-items:stretch; gap:clamp(24px,4vw,54px); }
-.final-offer { display:flex; flex-direction:column; border:1px solid #e5e9de; border-radius:18px; background:#fff; overflow:hidden; }
-.final-offer-family { border-color:#b88a2b; box-shadow:0 10px 34px #75520d18; }
-.final-offer .offer-photo { flex-shrink:0; height:320px; margin:0; background:#f7f8f4; }
+.final-offer { display:flex; flex-direction:column; border:1px solid #a6ba79; border-radius:18px; background:linear-gradient(155deg,#fffef8,#f0f5df); overflow:hidden; }
+.final-offer-family { border-color:#b88a2b; background:linear-gradient(155deg,#fff8da,#e8f3b9 60%,#f3f7dd); box-shadow:0 10px 34px #75520d18; }
+.final-offer .offer-photo { flex-shrink:0; height:320px; margin:0; background:transparent; }
 .final-offer .offer-photo img { max-width:100%; max-height:100%; object-fit:contain; }
 .final-offer .offer-copy { display:flex; flex-direction:column; flex:1; min-width:0; padding:25px 27px 27px; }
 .final-offer .offer-copy h3 { margin:0; font-size:clamp(23px,2.1vw,29px); line-height:1.2; color:#192016; }
 .final-offer .offer-copy .offer-meta { min-height:39px; margin:9px 0 0; color:#596453; font-size:13px; line-height:1.5; }
 .final-offer .offer-meta p { margin:0; }
 .final-offer .offer-price > span { flex-basis:100%; font-size:13px; }
-.final-offer .offer-pricing { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:111px; padding:13px 0 16px; margin-top:12px; border-top:1px solid #e9eee3; }
+.final-offer .offer-pricing { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; min-height:111px; padding:13px 0 16px; margin-top:12px; border-top:1px solid #a6ba7940; }
 .final-offer .offer-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 13px; margin:0; color:#172018; }
 .final-offer .offer-price strong { display:block; color:#172018; font:700 clamp(32px,3vw,43px)/1.12 var(--heading); letter-spacing:-1.1px; opacity:1; }
 .final-offer .offer-price strong small { font:500 12px/1.5 var(--body); letter-spacing:0; }
 .final-offer .offer-price del { color:#7a8075; font-size:14px; opacity:1; }
 .final-offer .offer-copy .offer-saving { margin:11px 0 0; color:#34531c; font-size:12px; line-height:1.6; font-weight:400; }
-.final-offer .offer-saving strong { display:table; margin-bottom:6px; border-radius:6px; background:#f7eccd; color:#5a410f; font-weight:700; padding:6px 11px; }
-.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:#b88a2b; color:#241b0b; border-radius:32px; }
-.final-offer-family .offer-copy .button { background:#b88a2b; color:#241b0b; }
+.final-offer .offer-saving strong { display:table; margin-bottom:6px; border-radius:6px; background:#f3df94; color:#5a410f; font-weight:700; padding:6px 11px; }
+.final-offer .offer-copy .button { margin-top:auto; min-height:54px; background:var(--accent); color:#172018; border-radius:32px; border-color:transparent; box-shadow:0 3px 8px #34531c18; }
+.final-offer .offer-copy .button:hover { background:var(--accent-hover); color:#172018; }
 @media (max-width:800px) {
   .final-offers { gap:22px; }
   .final-offer .offer-photo { height:260px; }
@@ -1699,15 +1699,28 @@ html.checkout-open { overflow:hidden; }
 .doctor-credentials summary{cursor:pointer;color:#4e6338;font-weight:600;list-style-position:inside}
 .doctor-credentials summary:focus-visible{outline:2px solid #3c5a23;outline-offset:4px}
 .doctor-credentials ul{margin:14px 0 0 18px;padding:0;display:grid;gap:9px;line-height:1.6}
-.doctor-video-area{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(28px,5vw,70px);align-items:center;margin-top:42px;padding:34px 0 0;background:transparent;border:0;border-top:1px solid var(--doctor-line);border-radius:0}
-.doctor-video-copy h3{font:600 clamp(23px,2.5vw,32px)/1.35 var(--heading);letter-spacing:-.025em;margin:11px 0 16px}
-.doctor-video-copy>p:not(.doctor-kicker){font-size:13px;color:var(--doctor-muted);line-height:1.75}
-.doctor-video-copy h3 span{color:var(--doctor-accent);display:block}
-.doctor-video-copy .doctor-closing{font-weight:600;color:var(--doctor-ink)!important;margin-top:20px}
+.doctor-video-area{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:center;margin-top:42px;padding:34px 0 0;background:transparent;border:0;border-top:1px solid var(--doctor-line);border-radius:0}
+.doctor-video-area>h3{font:600 clamp(23px,2.5vw,32px)/1.35 var(--heading);letter-spacing:-.025em;margin:0 auto;max-width:900px;text-align:center;color:var(--doctor-ink)}
 .doctor-video-frame{max-width:245px;justify-self:center;width:100%;aspect-ratio:9/16;background:#10110e;border-radius:12px;overflow:hidden}
 .doctor-video-frame video{display:block;width:100%;height:100%;object-fit:contain}
+/* Desktop editorial treatment; the approved stacked layout remains below 1000px. */
+@media(min-width:1000px){
+  .doctor-video-area{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);padding:clamp(28px,3vw,40px);background:#f6f3e9;border:0;border-radius:20px;isolation:isolate}
+  .doctor-video-area::before{content:"";grid-area:1/2;align-self:stretch;background:#e6ebdd;border-radius:16px;z-index:-1}
+  .doctor-video-area>h3{grid-area:1/1;margin:0;text-align:left;text-wrap:balance;font-size:clamp(28px,2.4vw,34px);line-height:1.35;color:#243f30}
+  .doctor-video-area>h3::before{content:"";display:block;width:48px;height:3px;margin-bottom:22px;background:#b88a2b;border-radius:2px}
+  .doctor-video-area .doctor-video-frame{grid-area:1/2;max-width:270px;margin-block:20px;border-radius:16px;background:#243f30;box-shadow:0 8px 24px #243f3018}
+}
 @media(max-width:800px){.doctor-profile{gap:26px}.doctor-video-area{gap:25px}}
 @media(max-width:620px){.doctor-intro{margin-bottom:25px}.doctor-profile,.doctor-video-area{grid-template-columns:1fr}.doctor-portrait{aspect-ratio:4/3}.doctor-video-area{margin-top:32px;padding-top:26px}.doctor-video-frame{max-width:245px}.doctor-bio h3{font-size:27px}.doctor-intro>p:last-child,.doctor-bio>p:not(.doctor-kicker):not(.doctor-specialties){font-size:13px}}
+/* Carry the botanical palette into the approved stacked video composition. */
+@media(max-width:999px){
+  .doctor-video-area{padding:26px clamp(8px,2vw,20px) 16px;background:#f6f3e9;border:0;border-radius:16px;isolation:isolate}
+  .doctor-video-area::before{content:"";grid-area:2/1;align-self:stretch;justify-self:center;width:100%;max-width:360px;background:#e6ebdd;border-radius:12px;z-index:-1}
+  .doctor-video-area>h3{grid-area:1/1;color:#243f30}
+  .doctor-video-area>h3::before{content:"";display:block;width:48px;height:3px;margin:0 auto 18px;background:#b88a2b;border-radius:2px}
+  .doctor-video-area .doctor-video-frame{grid-area:2/1;margin-block:12px;background:#243f30}
+}
 
 
 /* MultyDrink section-to-section rhythm: spacing only, approved content untouched. */

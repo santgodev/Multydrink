@@ -26,41 +26,8 @@ export const commerce = Object.freeze({
   contactUrl: 'https://multydrink.com/',
 });
 
-// User-supplied transcript excerpts, not purchase-verified reviews.
-// Source videos and publication consent must be checked before public deployment.
-// Quotes below are short verbatim fragments from the supplied transcripts.
-export const testimonials = Object.freeze([
-  Object.freeze({
-    id: 'manuela',
-    name: 'Manuela',
-    location: 'Experiencia compartida',
-    comment: 'Yo me sentí en esa reunión como tan chévere, como con energía, con aliento.',
-    topic: 'Cansancio y ánimo',
-    sourceNote: 'Fragmento de testimonio en video · 05:01–05:09',
-    transcriptProvided: true,
-    verifiedPurchase: false,
-  }),
-  Object.freeze({
-    id: 'juan-alcantara',
-    name: 'Juan Alcántara Medina',
-    location: 'Santo Domingo, República Dominicana',
-    comment: 'Me siento más vigoroso.',
-    topic: 'Vitalidad',
-    sourceNote: 'Fragmento de testimonio en video · 00:54',
-    transcriptProvided: true,
-    verifiedPurchase: false,
-  }),
-  Object.freeze({
-    id: 'kim-cuervo',
-    name: 'Kim Cuervo',
-    location: 'Practicante de jiu-jitsu',
-    comment: 'Estoy más activo.',
-    topic: 'Energía',
-    sourceNote: 'Fragmento de testimonio en video · 01:16–01:24',
-    transcriptProvided: true,
-    verifiedPurchase: false,
-  }),
-]);
+// Compatibility export: all original testimonial metadata remains reusable.
+export { archivedTestimonials as testimonials } from './archived-testimonials.js';
 
 
 // Ten supplied gallery images, in the approved numerical order.
@@ -114,10 +81,11 @@ export const productFaqs = [
     { text: 'No recomendado durante el embarazo o la lactancia.' },
     { text: 'Consultar con un profesional de salud en caso de enfermedades o consumo de medicamentos.' },
   ] },
-  { id: 'payment', icon: 'truck', question: 'PAGO CONTRA ENTREGA', intro: 'Compra con tranquilidad y paga únicamente cuando recibas tu MultyDrink.', items: [
-    { label: 'Pagas al recibir:', text: 'no necesitas realizar pagos anticipados.' },
-    { label: 'Envío incluido:', text: 'el precio publicado ya contempla el envío.' },
-    { label: 'Confirmación del pedido:', text: 'verificaremos los datos y las condiciones de entrega de tu dirección.' },
+  { id: 'ingredients', icon: 'leaf', question: 'INGREDIENTES DE MULTYDRINK', stacked: true, items: [
+    { label: 'Compuestos antioxidantes', text: 'La combinación de uva morada, té negro y otros ingredientes botánicos aporta compuestos de origen vegetal asociados con la actividad antioxidante.' },
+    { label: 'Fibra alimentaria', text: 'MultyDrink contiene fibra como parte de su composición nutricional, un componente que participa en el funcionamiento normal del sistema digestivo.' },
+    { label: 'Vitaminas y minerales', text: 'Su formulación incluye nutrientes como vitamina C, potasio y hierro, que cumplen distintas funciones en el organismo.' },
+    { label: 'Diversidad botánica', text: 'Reúne cinco ingredientes de origen botánico en una bebida práctica que puedes incorporar a tu rutina diaria.' },
   ] },
 ];
 

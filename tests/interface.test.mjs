@@ -83,13 +83,13 @@ test('Quantity rejects invalid typed values, caps at configured bounds and recov
 });
 test('Gallery buttons, thumbnails and arrow keys update image and accessible state', () => {
   const ctx = setup();
-  assert.match(ctx.$('#hero-image').src, /hero-ingredientes-1254.webp$/);
+  assert.match(ctx.$('#hero-image').src, /hero-02-producto-approved-1024.webp$/);
   ctx.$('#gallery-next').click();
-  assert.match(ctx.$('#hero-image').src, /hero-03-beneficios-approved-1254.webp$/);
+  assert.match(ctx.$('#hero-image').src, /hero-ingredientes-1254.webp$/);
   assert.equal(ctx.$('[data-gallery="1"]').getAttribute('aria-pressed'), 'true');
   assert.equal(ctx.doc.querySelectorAll('[data-gallery][aria-pressed="true"]').length, 1);
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
-  assert.match(ctx.$('#hero-image').src, /hero-02-producto-approved-1024.webp$/);
+  assert.match(ctx.$('#hero-image').src, /hero-03-beneficios-approved-1254.webp$/);
   assert.equal(ctx.doc.activeElement, ctx.$('[data-gallery="2"]'));
   ctx.$('#gallery-thumbs').dispatchEvent(new ctx.win.KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
   ctx.$('#gallery-prev').click();
@@ -262,7 +262,12 @@ test('All control labels, image alternatives and internal anchor destinations ex
   for (const image of ctx.doc.querySelectorAll('img')) assert.ok(image.hasAttribute('alt'));
   for (const anchor of ctx.doc.querySelectorAll('a[href^="#"]')) assert.ok(ctx.doc.getElementById(anchor.getAttribute('href').slice(1)));
   assert.equal(ctx.$('#testimonials').hidden, false);
-  assert.equal(ctx.doc.querySelectorAll('#testimonials .purchase-review-card').length, 3);
+  assert.equal(ctx.doc.querySelectorAll('#testimonials .purchase-review-card, #testimonials button').length, 0);
+  const collage = ctx.$('#testimonials img');
+  assert.ok(collage.src.endsWith('collage-clientes-1600.webp'));
+  assert.equal(collage.getAttribute('loading'), 'lazy');
+  assert.equal(collage.width, 1600);
+  assert.equal(collage.height, 661);
   assert.ok(ctx.$('.product-info #testimonials'));
   ctx.win.happyDOM.abort();
 });

@@ -1,12 +1,12 @@
-import { commerce as defaultCommerce, packages, gallery, testimonials, productFaqs } from './config.js';
+import { commerce as defaultCommerce, packages, gallery, productFaqs } from './config.js';
 import { calculateOrder, createOrderClient, getPackage, isOrderingEnabled, money, validateField, validateOrder } from './order.js';
-import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages, renderTestimonials, bindTestimonials } from './components.js';
+import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages } from './components.js';
 import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
 import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
-import { renderEditorialIngredients, renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderVideoCarousel, bindVideoCarousel } from './editorial.js';
+import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderVideoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
   const commerce = options.commerce || defaultCommerce;
@@ -35,8 +35,14 @@ export function initApp(doc = document, win = window, options = {}) {
   if (!schema.textContent.trim() || schema.textContent.trim() === '{}') schema.textContent = serializeStructuredData();
   $('#package-selector').insertAdjacentHTML('beforeend', renderPackages(selected));
   $('#gallery-thumbs').innerHTML = renderGallery();
-  $('#ingredients-grid').innerHTML = renderEditorialIngredients();
   $('#product-accordions').innerHTML = renderProductFaqs(productFaqs);
+  // Keep existing ingredient links useful after removing the separate ingredient section.
+  const ingredientsDetail = $('#product-accordions [data-detail="ingredients"]');
+  ingredientsDetail.id = 'ingredientes';
+  const revealIngredients = () => { if (win.location.hash === '#ingredientes') ingredientsDetail.open = true; };
+  win.addEventListener('hashchange', revealIngredients);
+  $$('a[href="#ingredientes"]').forEach(link => link.addEventListener('click', () => { ingredientsDetail.open = true; }));
+  revealIngredients();
   $('#faq-categories').innerHTML = renderFaqCategories();
   $('#faq-list').innerHTML = renderFaqPanels();
   $('#research-sources').innerHTML = renderResearch();
@@ -74,9 +80,6 @@ export function initApp(doc = document, win = window, options = {}) {
   $('#video-carousel').innerHTML = renderVideoCarousel(videoTestimonials, videoReview);
   $('#video-testimonials').hidden = !$('#video-carousel').children.length;
   bindVideoCarousel($('#video-carousel'), videoTestimonials, videoReview);
-  $('#testimonials').innerHTML = renderTestimonials(testimonials);
-  $('#testimonials').hidden = !$('#testimonials').children.length;
-  bindTestimonials($('#testimonials'));
   $('#customer-fields').innerHTML = [
     renderField({ name: 'fullName', label: 'Nombre completo', autocomplete: 'name', placeholder: 'Nombre y apellidos', full: true }),
     renderField({ name: 'documentNumber', label: 'Número de documento de identidad', inputmode: 'numeric', maxLength: 30, full: true }),
@@ -191,9 +194,22 @@ export function initApp(doc = document, win = window, options = {}) {
     galleryIndex = (index + gallery.length) % gallery.length;
     const item = gallery[galleryIndex];
     const hero = $('#hero-image');
+    const video = $('#gallery-video');
+    if (!video.paused) video.pause();
+    const isVideo = item.type === 'video';
+    hero.hidden = isVideo;
+    video.hidden = !isVideo;
+    if (isVideo) {
+      video.setAttribute('poster', item.src);
+      video.setAttribute('aria-label', item.label);
+      video.muted = true;
+      // Native controls start playback explicitly; preload=none defers the MP4.
+      if (video.getAttribute('src') !== item.videoSrc) video.src = item.videoSrc;
+    }
     applyImage(hero, item, "(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px");
-    $('#gallery-full').href = item.src;
-    $('#gallery-full').setAttribute('aria-label', `Ampliar: ${item.label}. Abre en una pestaña nueva`);
+    $('#gallery-full').href = isVideo ? item.videoSrc : item.src;
+    $('#gallery-full').textContent = isVideo ? 'Abrir video ↗' : 'Ampliar ↗';
+    $('#gallery-full').setAttribute('aria-label', `${isVideo ? 'Abrir video' : 'Ampliar'}: ${item.label}. Abre en una pestaña nueva`);
     $('#gallery-count').textContent = `${String(galleryIndex + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}`;
     $$('[data-gallery]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.gallery) === galleryIndex)));
     const thumbs = $('#gallery-thumbs'), active = $(`[data-gallery="${galleryIndex}"]`);

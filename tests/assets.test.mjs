@@ -73,7 +73,9 @@ test('Real media is mapped to gallery, final offers, nutrition, tabs and selecte
     assert.equal(productMedia.sachet, null);
     assert.equal(productMedia.preparedDrink, null);
     assert.equal(videoTestimonials.length, 3);
-    assert.equal($('#video-testimonials').hidden, true);
+    assert.equal($('#video-testimonials').hidden, false);
+    assert.equal(win.document.querySelectorAll('#video-carousel .video-card').length, 3);
+    assert.equal(win.document.querySelectorAll('#video-carousel video').length, 0, 'Video files load only on request');
   } finally { await win.happyDOM.abort(); }
 });
 

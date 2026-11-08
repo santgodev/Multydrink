@@ -1934,6 +1934,7 @@ html.checkout-open { overflow:hidden; }
 .customer-experiences .customer-rating-row>span:first-child { white-space:nowrap; }
 .customer-experiences .customer-rating-row>span:first-child span { color:#B88A2B; }
 .customer-experiences .customer-rating-bar { display:block;height:6px;background:#DFE6D8;border-radius:8px; }
+.customer-experiences .customer-rating-bar-fill { display:block;height:100%;background:#B88A2B;border-radius:inherit; }
 .customer-experiences .customer-distribution-note { margin:10px 0 0;color:#596958;font-size:11px;line-height:1.5; }
 .customer-experiences .customer-gallery { min-width:0; }
 .customer-experiences .customer-section-heading { display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px; }

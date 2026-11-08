@@ -1,12 +1,13 @@
-import { commerce as defaultCommerce, packages, gallery, testimonials, productFaqs } from './config.js';
+import { commerce as defaultCommerce, packages, gallery, productFaqs } from './config.js';
 import { calculateOrder, createOrderClient, getPackage, isOrderingEnabled, money, validateField, validateOrder } from './order.js';
-import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages, renderTestimonials, bindTestimonials } from './components.js';
+import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages } from './components.js';
 import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
+import { archivedTestimonials } from './archived-testimonials.js';
 import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
-import { renderEditorialIngredients, renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderVideoCarousel, bindVideoCarousel } from './editorial.js';
+import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderCustomerReviewSection, bindCustomerPhotoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
   const commerce = options.commerce || defaultCommerce;
@@ -29,11 +30,20 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#order-turnstile').hidden = false;
     $('#turnstile-status').hidden = false;
   }
-  $('#product-schema').textContent = serializeStructuredData();
+  // Production HTML already contains the authoritative build-time schema.
+  // Populate only the empty source-preview placeholder; never overwrite it.
+  const schema = $('#product-schema');
+  if (!schema.textContent.trim() || schema.textContent.trim() === '{}') schema.textContent = serializeStructuredData();
   $('#package-selector').insertAdjacentHTML('beforeend', renderPackages(selected));
   $('#gallery-thumbs').innerHTML = renderGallery();
-  $('#ingredients-grid').innerHTML = renderEditorialIngredients();
   $('#product-accordions').innerHTML = renderProductFaqs(productFaqs);
+  // Keep existing ingredient links useful after removing the separate ingredient section.
+  const ingredientsDetail = $('#product-accordions [data-detail="ingredients"]');
+  ingredientsDetail.id = 'ingredientes';
+  const revealIngredients = () => { if (win.location.hash === '#ingredientes') ingredientsDetail.open = true; };
+  win.addEventListener('hashchange', revealIngredients);
+  $$('a[href="#ingredientes"]').forEach(link => link.addEventListener('click', () => { ingredientsDetail.open = true; }));
+  revealIngredients();
   $('#faq-categories').innerHTML = renderFaqCategories();
   $('#faq-list').innerHTML = renderFaqPanels();
   $('#research-sources').innerHTML = renderResearch();
@@ -68,12 +78,10 @@ export function initApp(doc = document, win = window, options = {}) {
     ritualObserver.observe(ritualSteps);
   }
   const videoReview = { localReview: ['127.0.0.1', 'localhost', '[::1]'].includes(win.location.hostname) && new URLSearchParams(win.location.search).get('revision-videos') === '1' };
-  $('#video-carousel').innerHTML = renderVideoCarousel(videoTestimonials, videoReview);
+  $('#video-carousel').innerHTML = renderCustomerReviewSection(archivedTestimonials, videoTestimonials, videoReview);
   $('#video-testimonials').hidden = !$('#video-carousel').children.length;
+  bindCustomerPhotoCarousel($('#video-carousel'));
   bindVideoCarousel($('#video-carousel'), videoTestimonials, videoReview);
-  $('#testimonials').innerHTML = renderTestimonials(testimonials);
-  $('#testimonials').hidden = !$('#testimonials').children.length;
-  bindTestimonials($('#testimonials'));
   $('#customer-fields').innerHTML = [
     renderField({ name: 'fullName', label: 'Nombre completo', autocomplete: 'name', placeholder: 'Nombre y apellidos', full: true }),
     renderField({ name: 'documentNumber', label: 'Número de documento de identidad', inputmode: 'numeric', maxLength: 30, full: true }),
@@ -87,7 +95,6 @@ export function initApp(doc = document, win = window, options = {}) {
     renderField({ name: 'email', label: 'Correo electrónico', type: 'email', autocomplete: 'email', placeholder: 'nombre@correo.com', optional: true, full: true, maxLength: 254 }),
   ].join('');
   $('#packageId').innerHTML = packages.map(item => `<option value="${item.id}">${item.name} · ${item.sachets} sobres</option>`).join('');
-  $('#offer-quantity').max = String(commerce.maxQuantity);
   $$('[data-icon]').forEach(element => { element.innerHTML = icon(element.dataset.icon); });
   $('#year').textContent = String(new Date().getFullYear());
   if (commerce.sanitaryRegistration && commerce.sanitarySourceUrl) {
@@ -115,13 +122,14 @@ export function initApp(doc = document, win = window, options = {}) {
   }
   if (localDemo) {
     $('#order-availability').textContent = 'SIMULACIÓN LOCAL · Usa datos ficticios. No se crea un pedido real, no se envían ni guardan datos y no se realizan pagos ni notificaciones.';
+    $('#order-availability').hidden = false;
     $('#submit-order').disabled = false;
     $('#submit-order').textContent = 'SIMULAR PEDIDO · SIN ENVÍO DE DATOS';
     $('#privacy-help').textContent = 'Validación de prueba con datos ficticios. Esta simulación no registra consentimiento ni sustituye la política definitiva del vendedor.';
     $('#order-form').setAttribute('autocomplete', 'off');
     $$('#order-form input').forEach(input => input.setAttribute('autocomplete', 'off'));
   } else if (ready) {
-    $('#order-availability').textContent = commerce.shippingDescription;
+    // Delivery price and conditions appear once inside the order summary.
     $('#submit-order').disabled = false;
     $('#submit-order').innerHTML = `CONFIRMAR PEDIDO · PAGO EN CASA ${icon('arrow')}`;
     $('#conditions-dialog').querySelector('p:last-child').textContent = `Vendedor: ${commerce.merchantName}. ${commerce.shippingDescription} Consulta sus condiciones completas antes de enviar el pedido.`;
@@ -135,25 +143,11 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#quantity').value = String(quantity);
     $('#quantity-less').disabled = quantity <= 1 || sending || confirmed;
     $('#quantity-more').disabled = quantity >= commerce.maxQuantity || sending || confirmed;
-    $('#offer-quantity').value = String(quantity);
-    $('#offer-quantity').disabled = sending || confirmed;
-    $('#offer-less').disabled = quantity <= 1 || sending || confirmed;
-    $('#offer-more').disabled = quantity >= commerce.maxQuantity || sending || confirmed;
-    $('#offer-description').textContent = `${item.sachets} sobres`;
-    $('#offer-saving').hidden = item.id !== 'familiar';
-    $('#offer-saving').textContent = item.id === 'familiar' ? `AHORRAS ${money(item.referencePrice - item.price)}` : '';
-    $('#offer-total').textContent = `Total: COP ${money(totals.subtotal)}`;
-    $('.purchase-offer').dataset.package = selected;
     $('#sticky-package').textContent = `${item.name} · ${item.sachets} sobres`;
     $('#sticky-price').textContent = money(item.price);
-    $('#sticky-reference').textContent = money(item.referencePrice);
-    $('#selected-package-name').textContent = item.id === 'familiar' ? 'Pack familiar · 6 cajas' : item.name;
-    $('#selected-package-price').textContent = money(item.price);
+    $('#sticky-reference').textContent = item.id === 'individual' ? '' : money(item.referencePrice);
+    $('#sticky-reference').hidden = item.id === 'individual';
     const selectedPhoto = item.id === 'individual' ? productMedia.individual : productMedia.family;
-    if ($('#offer-image').dataset.package !== selected) {
-      applyImage($('#offer-image'), selectedPhoto, '(max-width: 560px) 160px, 250px');
-      $('#offer-image').dataset.package = selected;
-    }
     applyImage($('.sticky-inner > img'), { ...selectedPhoto, src: selectedPhoto.thumbnail || selectedPhoto.src, variants: undefined, alt: '' }, '54px');
     $('.sticky-inner > img').dataset.package = selected;
     applyImage($('.order-preview img'), selectedPhoto, '120px');
@@ -162,9 +156,10 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#summary-count').textContent = `${totals.boxes} ${totals.boxes === 1 ? 'caja' : 'cajas'} · ${totals.sachets} sobres en total`;
     $('#summary-subtotal').textContent = money(totals.subtotal);
     $('#summary-savings').textContent = money(totals.savings);
+    $('.order-summary .summary-saving').hidden = item.id === 'individual';
     $('#summary-shipping').textContent = totals.shippingFee === null ? 'Por confirmar' : totals.shippingFee === 0 ? 'Incluido' : money(totals.shippingFee);
     $('#summary-total').textContent = totals.total === null ? 'Por confirmar' : money(totals.total);
-    if (totals.total !== null) $('#shipping-note').textContent = commerce.shippingDescription || 'Pago contra entrega. No se cobra desde esta página.';
+    if (totals.total !== null) $('#shipping-note').textContent = 'Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.';
   }
   function selectPackage(value) {
     if (!getPackage(value) || sending || confirmed) return;
@@ -182,37 +177,44 @@ export function initApp(doc = document, win = window, options = {}) {
   }
   function showQuantityError(error) {
     showFieldError('quantity', error);
-    $('#offer-quantity').setAttribute('aria-invalid', String(Boolean(error)));
-    $('#offer-quantity-error').textContent = error;
   }
   $('#quantity-less').addEventListener('click', () => setQuantity(quantity - 1));
   $('#quantity-more').addEventListener('click', () => setQuantity(quantity + 1));
-  $('#offer-less').addEventListener('click', () => setQuantity(quantity - 1));
-  $('#offer-more').addEventListener('click', () => setQuantity(quantity + 1));
   function handleQuantityInput(event) {
     if (sending || confirmed) return;
-    const error = validateField('quantity', event.target.value);
-    $('#quantity').value = event.target.value;
-    $('#offer-quantity').value = event.target.value;
+    const value = event.target.value;
+    const error = validateField('quantity', value);
+    $('#quantity').value = value;
     showQuantityError(error);
-    if (!error) { quantity = Number(event.target.value); updateSummary(); }
+    if (!error) { quantity = Number(value); updateSummary(); }
     else {
       $('#summary-total').textContent = 'Revisa la cantidad';
       $('#summary-subtotal').textContent = '—';
       $('#summary-savings').textContent = '—';
       $('#summary-count').textContent = 'Selecciona una cantidad válida para calcular tu pedido.';
-      $('#offer-total').textContent = 'Revisa la cantidad';
     }
   }
   $('#quantity').addEventListener('input', handleQuantityInput);
-  $('#offer-quantity').addEventListener('input', handleQuantityInput);
   function displayGallery(index) {
     galleryIndex = (index + gallery.length) % gallery.length;
     const item = gallery[galleryIndex];
     const hero = $('#hero-image');
+    const video = $('#gallery-video');
+    if (!video.paused) video.pause();
+    const isVideo = item.type === 'video';
+    hero.hidden = isVideo;
+    video.hidden = !isVideo;
+    if (isVideo) {
+      video.setAttribute('poster', item.src);
+      video.setAttribute('aria-label', item.label);
+      video.muted = true;
+      // Native controls start playback explicitly; preload=none defers the MP4.
+      if (video.getAttribute('src') !== item.videoSrc) video.src = item.videoSrc;
+    }
     applyImage(hero, item, "(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px");
-    $('#gallery-full').href = item.src;
-    $('#gallery-full').setAttribute('aria-label', `Ampliar: ${item.label}. Abre en una pestaña nueva`);
+    $('#gallery-full').href = isVideo ? item.videoSrc : item.src;
+    $('#gallery-full').textContent = isVideo ? 'Abrir video ↗' : 'Ampliar ↗';
+    $('#gallery-full').setAttribute('aria-label', `${isVideo ? 'Abrir video' : 'Ampliar'}: ${item.label}. Abre en una pestaña nueva`);
     $('#gallery-count').textContent = `${String(galleryIndex + 1).padStart(2, '0')} / ${String(gallery.length).padStart(2, '0')}`;
     $$('[data-gallery]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.gallery) === galleryIndex)));
     const thumbs = $('#gallery-thumbs'), active = $(`[data-gallery="${galleryIndex}"]`);
@@ -295,18 +297,37 @@ export function initApp(doc = document, win = window, options = {}) {
     });
   });
   const sticky = $('.sticky-purchase');
-  const primaryPurchaseCta = $('.main-cta');
+  const primaryPurchaseCtas = $$('.package-cta');
   const footer = $('.footer');
+  const whatsapp = $('.floating-whatsapp');
+  const whatsappProtected = $$('.package-cta, .story-surface h2, .story-surface h3, .story-surface p, .final-offer .button');
+  function updateWhatsappVisibility() {
+    if (!whatsapp) return;
+    let obstructs = checkout.open ? true : false;
+    if (!obstructs && win.innerWidth <= 768) {
+      const floating = whatsapp.getBoundingClientRect();
+      obstructs = whatsappProtected.some(element => {
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0
+          && rect.left < floating.right && rect.right > floating.left
+          && rect.top < floating.bottom && rect.bottom > floating.top;
+      });
+    }
+    whatsapp.classList.toggle('is-obscured', obstructs);
+    whatsapp.inert = obstructs;
+    whatsapp.setAttribute('aria-hidden', String(obstructs));
+  }
   // The sticky purchase prompt appears only once the in-page purchase CTA has
   // passed above the viewport. It must never obscure the initial hero.
   function updateStickyVisibility() {
-    const pastPurchaseCta = primaryPurchaseCta.getBoundingClientRect().bottom <= 0;
+    const pastPurchaseCta = primaryPurchaseCtas.every(cta => cta.getBoundingClientRect().bottom <= 0);
     const footerRect = footer.getBoundingClientRect();
     const atFooter = footerRect.top < win.innerHeight && footerRect.bottom > 0;
     const hide = !pastPurchaseCta || checkout.open || atFooter;
     sticky.classList.toggle('is-hidden', hide);
     sticky.inert = hide;
     sticky.setAttribute('aria-hidden', String(hide));
+    updateWhatsappVisibility();
   }
   sticky.classList.add('is-hidden');
   sticky.inert = true;

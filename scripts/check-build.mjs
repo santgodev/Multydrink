@@ -2,6 +2,8 @@ import { spawn } from 'node:child_process';
 import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { Window } from 'happy-dom';
+import { customerPhotos, productMedia, videoTestimonials } from '../src/media.js';
+import { eligibleVideos } from '../src/editorial.js';
 
 const port = 4187;
 const server = spawn(process.execPath, ['scripts/serve.mjs', 'dist'], { env: { ...process.env, PORT: String(port) }, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
@@ -17,6 +19,14 @@ try {
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/html/);
   const html = await response.text();
+  assert.equal((await fetch(base + '/investigacion.html')).status, 404);
+  const researchPdf = 'assets/multydrink/investigacion/investigaciones-multydrink.pdf';
+  const pdfResponse = await fetch(base + '/' + researchPdf);
+  assert.equal(pdfResponse.status, 200);
+  assert.match(pdfResponse.headers.get('content-type'), /^application\/pdf/);
+  const pdfBytes = Buffer.from(await pdfResponse.arrayBuffer());
+  assert.ok(pdfBytes.subarray(0, 5).equals(Buffer.from('%PDF-')));
+  assert.deepEqual(pdfBytes, await readFile(researchPdf), 'Published PDF must match the supplied original');
   // Check the actual versioned entry URLs as well as the files in dist.
   for (const match of html.matchAll(/(?:src|href)="(src\/[^"#]+)"/g)) {
     const entry = await fetch(new URL(match[1], base));
@@ -34,6 +44,7 @@ try {
   assert.match(robots, /Sitemap: https:\/\/multydrincolombia\.com\/sitemap\.xml/);
   const sitemap = await (await fetch(base + '/sitemap.xml')).text();
   assert.match(sitemap, /<loc>https:\/\/multydrincolombia\.com\/<\/loc>/);
+  assert.ok(!sitemap.includes('investigacion.html'));
   async function listFiles(directory) {
     const files = [];
     for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -44,6 +55,14 @@ try {
   }
   const assets = await listFiles('dist/assets');
   const modules = await readdir('dist/src');
+  assert.ok(!modules.some(name => name.startsWith('research.')), 'Rejected research-detail styles must not ship');
+  for (const name of modules) {
+    assert.match(name, /\.[a-f0-9]{16}\.(js|css)$/, 'Build sources must be fingerprinted');
+    if (!name.endsWith('.js')) continue;
+    const source = await readFile('dist/src/' + name, 'utf8');
+    for (const [, dependency] of source.matchAll(/['"]\.\/([\w.-]+\.js)['"]/g)) assert.ok(modules.includes(dependency), `Resolvable versioned import: ${name} -> ${dependency}`);
+  }
+  assert.ok(schema.offers.every(offer => !('eligibleQuantity' in offer)));
   for (const file of [...assets.map(name => '/assets/' + name), ...modules.map(name => '/src/' + name)]) {
     const asset = await fetch(base + file);
     assert.equal(asset.status, 200, file);
@@ -56,11 +75,30 @@ try {
     'favicon.png',
     'multydrink/profesional/dra-erika-multydrink.mp4',
     'multydrink/optimized/origen-cafe-multydrink.png',
+    ...productMedia.gallery.filter(item => item.type === 'video').map(item => item.videoSrc.replace(/^assets\//, '')),
+    ...eligibleVideos(videoTestimonials).map(item => item.videoSrc.replace(/^assets\//, '')),
   ]);
   const unapprovedAssets = assets.filter(file =>
     /\.(mp4|webm|png)$/i.test(file) && !approvedSpecialAssets.has(file)
   );
   assert.deepEqual(unapprovedAssets, [], 'No unreviewed videos or original PNGs in build');
+  for (const image of [...customerPhotos, ...videoTestimonials.map(item => item.poster)]) {
+    const response = await fetch(new URL(image.src, base));
+    assert.equal(response.status, 200, image.src);
+    assert.match(response.headers.get('content-type'), /^image\/webp/);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+  }
+  for (const item of videoTestimonials) {
+    const response = await fetch(new URL(item.videoSrc, base), { headers: { Range: 'bytes=0-31' } });
+    assert.equal(response.status, 206, item.videoSrc);
+    assert.match(response.headers.get('content-type'), /^video\/mp4/);
+    assert.match(response.headers.get('content-range'), /^bytes 0-31\/\d+$/);
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.equal(bytes.length, 32);
+    assert.equal(bytes.toString('ascii', 4, 8), 'ftyp');
+  }
   const cssFiles = modules.filter(name => name.endsWith('.css'));
   const win = new Window({ settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true } });
   for (const name of cssFiles) {

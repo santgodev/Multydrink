@@ -26,41 +26,8 @@ export const commerce = Object.freeze({
   contactUrl: 'https://multydrink.com/',
 });
 
-// User-supplied transcript excerpts, not purchase-verified reviews.
-// Source videos and publication consent must be checked before public deployment.
-// Quotes below are short verbatim fragments from the supplied transcripts.
-export const testimonials = Object.freeze([
-  Object.freeze({
-    id: 'manuela',
-    name: 'Manuela',
-    location: 'Experiencia compartida',
-    comment: 'Yo me sentí en esa reunión como tan chévere, como con energía, con aliento.',
-    topic: 'Cansancio y ánimo',
-    sourceNote: 'Fragmento de testimonio en video · 05:01–05:09',
-    transcriptProvided: true,
-    verifiedPurchase: false,
-  }),
-  Object.freeze({
-    id: 'juan-alcantara',
-    name: 'Juan Alcántara Medina',
-    location: 'Santo Domingo, República Dominicana',
-    comment: 'Me siento más vigoroso.',
-    topic: 'Vitalidad',
-    sourceNote: 'Fragmento de testimonio en video · 00:54',
-    transcriptProvided: true,
-    verifiedPurchase: false,
-  }),
-  Object.freeze({
-    id: 'kim-cuervo',
-    name: 'Kim Cuervo',
-    location: 'Practicante de jiu-jitsu',
-    comment: 'Estoy más activo.',
-    topic: 'Energía',
-    sourceNote: 'Fragmento de testimonio en video · 01:16–01:24',
-    transcriptProvided: true,
-    verifiedPurchase: false,
-  }),
-]);
+// Compatibility export: all original testimonial metadata remains reusable.
+export { archivedTestimonials as testimonials } from './archived-testimonials.js';
 
 
 // Ten supplied gallery images, in the approved numerical order.
@@ -79,8 +46,8 @@ export const ingredients = [
 export const faqs = [
   {"id":"ingredients","category":"ingredientes","question":"¿Qué contiene Multydrink?","answer":"Mucílago de café, extracto de uva, miel de agave azul, Ganoderma lucidum y té negro."},
   {"id":"flavor","category":"uso","question":"¿A qué sabe?","answer":"Tiene sabor limón."},
-  {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sachet de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
-  {"id":"includes","category":"uso","question":"¿Cuántos sachets trae cada caja?","answer":"Cada caja contiene 21 sachets individuales."},
+  {"id":"preparation","category":"uso","question":"¿Cómo se prepara?","answer":"Disuelve un sobre de 10 gramos en 250 ml de agua, siguiendo las indicaciones del empaque."},
+  {"id":"includes","category":"uso","question":"¿Cuántos sobres trae cada caja?","answer":"Cada caja contiene 21 sobres individuales."},
   {"id":"payment","category":"pedidos","question":"¿Puedo pagar cuando reciba el producto?","answer":"Sí. Puedes realizar tu pedido con modalidad de pago contra entrega, sujeto a confirmación y cobertura logística."},
   {"id":"diet","category":"seguridad","question":"¿Multydrink reemplaza una alimentación equilibrada?","answer":"No. Es una bebida para complementar tu rutina; no sustituye una alimentación variada ni las recomendaciones de un profesional de salud."},
   { id: 'caffeine', category: 'seguridad', question: '¿Contiene cafeína?', answer: 'La fórmula incluye té negro. No contamos con una cantidad de cafeína verificada por sobre y no lo presentamos como un producto libre de cafeína. Si eres sensible, consulta la etiqueta y a un profesional de salud antes de consumirlo.' },
@@ -114,10 +81,11 @@ export const productFaqs = [
     { text: 'No recomendado durante el embarazo o la lactancia.' },
     { text: 'Consultar con un profesional de salud en caso de enfermedades o consumo de medicamentos.' },
   ] },
-  { id: 'payment', icon: 'truck', question: 'PAGO CONTRA ENTREGA', intro: 'Compra con tranquilidad y paga únicamente cuando recibas tu MultyDrink.', items: [
-    { label: 'Pagas al recibir:', text: 'no necesitas realizar pagos anticipados.' },
-    { label: 'Envío incluido:', text: 'el precio publicado ya contempla el envío.' },
-    { label: 'Confirmación del pedido:', text: 'verificaremos los datos y las condiciones de entrega de tu dirección.' },
+  { id: 'ingredients', icon: 'leaf', question: 'INGREDIENTES DE MULTYDRINK', stacked: true, items: [
+    { label: 'Compuestos antioxidantes', text: 'La combinación de uva morada, té negro y otros ingredientes botánicos aporta compuestos de origen vegetal asociados con la actividad antioxidante.' },
+    { label: 'Fibra alimentaria', text: 'MultyDrink contiene fibra como parte de su composición nutricional, un componente que participa en el funcionamiento normal del sistema digestivo.' },
+    { label: 'Vitaminas y minerales', text: 'Su formulación incluye nutrientes como vitamina C, potasio y hierro, que cumplen distintas funciones en el organismo.' },
+    { label: 'Diversidad botánica', text: 'Reúne cinco ingredientes de origen botánico en una bebida práctica que puedes incorporar a tu rutina diaria.' },
   ] },
 ];
 
@@ -133,7 +101,7 @@ export const ingredientGroups = [
   { title: 'El toque del agave azul.', name: 'Miel de agave azul', images: ['agave'], text: 'Completa los cinco grupos de ingredientes. La etiqueta declara 0,2 g de azúcares añadidos por porción de 10 g.' },
 ];
 export const research = [
-  { year: '2013', label: 'Polifenoles de la uva', source: 'Ensayo clínico · Cardiovascular Drugs and Therapy', url: 'https://pubmed.ncbi.nlm.nih.gov/23224687/', description: 'En 75 personas con enfermedad coronaria, un extracto de uva enriquecido con resveratrol se estudió por sus efectos sobre biomarcadores inflamatorios.' },
-  { year: '2014', label: 'Té negro', source: 'Metaanálisis · PLOS ONE', url: 'https://pubmed.ncbi.nlm.nih.gov/25079225/', description: 'Un análisis de 11 estudios controlados con 378 participantes observó pequeñas reducciones promedio de presión arterial al consumir té negro.' },
-  { year: '2021', label: 'Pulpa de café', source: 'Estudio de laboratorio · Food Chemistry', url: 'https://pubmed.ncbi.nlm.nih.gov/33516995/', description: 'Durante una digestión simulada, un extracto de pulpa de café mostró disminución de algunos compuestos bioactivos y de su actividad antioxidante.' },
+  { pdf: 'assets/multydrink/investigacion/investigaciones-multydrink.pdf#page=1', year: '2011', label: 'Ganoderma lucidum', source: 'Revisión científica · The American Journal of Chinese Medicine', url: 'https://pubmed.ncbi.nlm.nih.gov/21213395/', description: 'Estudios científicos han investigado los compuestos del Ganoderma lucidum y su capacidad para modular la actividad de las células de defensa del sistema inmunológico.' },
+  { pdf: 'assets/multydrink/investigacion/investigaciones-multydrink.pdf#page=4', year: '2014', label: 'Té negro', source: 'Metaanálisis · PLOS ONE', url: 'https://pubmed.ncbi.nlm.nih.gov/25079225/', description: 'Un análisis de 11 estudios controlados con 378 participantes observó pequeñas reducciones promedio de presión arterial al consumir té negro.' },
+  { pdf: 'assets/multydrink/investigacion/investigaciones-multydrink.pdf#page=5', year: '2021', label: 'Mucílago de café', source: 'Estudio de laboratorio · Food Chemistry', url: 'https://pubmed.ncbi.nlm.nih.gov/33516995/', description: 'Durante una digestión simulada, un extracto de pulpa de café mostró disminución de algunos compuestos bioactivos y de su actividad antioxidante.' },
 ];

@@ -17,7 +17,8 @@ function windowForTest() {
 test('Final offers select the right package; image selection cannot change the price', async () => {
   const win = windowForTest(); win.document.write(html); const app = initApp(win.document, win);
   const $ = selector => win.document.querySelector(selector);
-  assert.equal(win.document.querySelectorAll('[data-order-package]').length, 2);
+  assert.equal(win.document.querySelectorAll('.final-offer [data-order-package]').length, 2);
+  assert.equal(win.document.querySelectorAll('.package-cta[data-order-package]').length, 2);
   $('[data-order-package="individual"]').click();
   assert.equal($('#packageId').value, 'individual');
   assert.equal($('#summary-total').textContent, '$110.000');
@@ -27,7 +28,8 @@ test('Final offers select the right package; image selection cannot change the p
   $('[data-order-package="familiar"]').click();
   assert.equal($('#sticky-price').textContent, '$425.000');
   assert.equal($('#comparacion').hidden, false);
-  assert.equal($('#video-testimonials').hidden, true);
+  assert.equal($('#video-testimonials').hidden, false);
+  assert.equal(win.document.querySelectorAll('#video-testimonials .video-card').length, 3);
   await win.happyDOM.abort();
 });
 
@@ -109,45 +111,55 @@ test('Video eligibility requires rights, approval, source, captions and transcri
   assert.doesNotMatch(markup, /<video|autoplay|Compra verificada|estrellas/);
 });
 
-test('Local video review is opt-in on loopback and excluded from production eligibility', async () => {
-  assert.equal(eligibleVideos(videoTestimonials).length, 0);
-  assert.equal(renderVideoCarousel(videoTestimonials), '');
-  for (const [url, visible] of [['http://localhost:4173/?revision-videos=1', true], ['https://example.com/?revision-videos=1', false]]) {
+test('Client-provided local-review clips remain visible without relying on loopback URL flags', async () => {
+  assert.equal(eligibleVideos(videoTestimonials).length, 3);
+  assert.equal(renderVideoCarousel(videoTestimonials).match(/data-play-video=/g)?.length, 3);
+  for (const url of ['http://localhost:4173/?revision-videos=1', 'https://example.com/?revision-videos=1']) {
     const win = windowForTest();
     win.location.href = url;
     win.document.write(html);
     initApp(win.document, win);
-    assert.equal(win.document.querySelector('#video-testimonials').hidden, !visible);
-    assert.equal(win.document.querySelectorAll('#video-testimonials').length, 1);
-    if (visible) {
-      assert.equal(win.document.querySelectorAll('.video-card').length, 3);
-      assert.equal(win.document.querySelectorAll('.video-card blockquote').length, 0);
-    }
+    assert.equal(win.document.querySelector('#video-testimonials').hidden, false);
+    assert.equal(win.document.querySelectorAll('#video-testimonials .video-card').length, 3);
+    assert.equal(win.document.querySelectorAll('#video-testimonials video').length, 0);
     await win.happyDOM.abort();
   }
 });
 
-test('Video carousel is keyboard navigable, plays only on request and releases media on close', async () => {
+test('Video carousel supports keyboard navigation, inline playback and releases the previous player', async () => {
   const win = windowForTest(), root = win.document.body;
   let played = 0, paused = 0;
   win.HTMLMediaElement.prototype.play = () => { played++; return Promise.resolve(); };
   win.HTMLMediaElement.prototype.pause = () => { paused++; };
   win.HTMLMediaElement.prototype.load = () => {};
-  root.innerHTML = renderVideoCarousel([video, { ...video, id: 'test-2' }]);
-  bindVideoCarousel(root, [video, { ...video, id: 'test-2' }]);
+  const clips = [
+    { ...video, id: 'test-1', localReviewApproved: true },
+    { ...video, id: 'test-2', localReviewApproved: true },
+  ];
+  root.innerHTML = renderVideoCarousel(clips);
+  bindVideoCarousel(root, clips);
+  const track = root.querySelector('.video-track');
+  assert.ok(track);
+  assert.equal(root.querySelector('dialog'), null, 'Videos must play inside their cards, not in a modal');
   assert.equal(played, 0);
-  root.querySelector('.video-track').dispatchEvent(new win.KeyboardEvent('keydown', { key: 'End', bubbles: true }));
-  assert.equal(root.querySelector('[data-carousel-next]').disabled, true);
-  root.querySelector('[data-play-video]').click();
+  track.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+  assert.equal(root.querySelectorAll('[data-play-video]').length, 2);
+  root.querySelector('[data-play-video="0"]').click();
   assert.equal(played, 1);
-  assert.equal(root.querySelector('dialog').open, true);
-  assert.equal(root.querySelector('video').preload, 'none');
+  let player = root.querySelector('.video-inline-player');
+  assert.ok(player);
+  assert.equal(player.preload, 'metadata');
+  assert.equal(player.playsInline, true);
+  assert.equal(player.controls, true);
   assert.equal(root.querySelector('track').srclang, 'es');
-  assert.match(root.querySelector('[data-video-player] details').textContent, /Transcripción de prueba/);
-  root.querySelector('[data-video-close]').click();
-  await new Promise(resolve => setTimeout(resolve, 0));
-  assert.equal(paused, 1);
-  assert.equal(root.querySelector('video'), null);
+  assert.equal(root.querySelectorAll('.video-inline-player').length, 1);
+  root.querySelector('[data-play-video="1"]').click();
+  assert.equal(played, 2);
+  assert.equal(paused, 1, 'The previous clip must stop when another starts');
+  player = root.querySelector('.video-inline-player');
+  assert.ok(player.closest('.video-card') === root.querySelectorAll('.video-card')[1]);
+  assert.equal(root.querySelectorAll('.video-inline-player').length, 1);
+  assert.equal(root.querySelectorAll('[data-play-video]').length, 1);
   await win.happyDOM.abort();
 });
 

@@ -20,7 +20,7 @@
   <meta property="og:image" content="/assets/multydrink/optimized/caja-principal-1254.webp">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="preload" href="assets/poppins-600.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="assets/multydrink/optimized/hero-ingredientes-1254.webp" as="image" imagesrcset="assets/multydrink/optimized/hero-ingredientes-160.webp 160w, assets/multydrink/optimized/hero-ingredientes-480.webp 480w, assets/multydrink/optimized/hero-ingredientes-960.webp 960w, assets/multydrink/optimized/hero-ingredientes-1254.webp 1254w" imagesizes="(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px" fetchpriority="high">
+  <link rel="preload" href="assets/multydrink/optimized/hero-02-producto-approved-1024.webp" as="image" imagesrcset="assets/multydrink/optimized/hero-02-producto-approved-160.webp 160w, assets/multydrink/optimized/hero-02-producto-approved-480.webp 480w, assets/multydrink/optimized/hero-02-producto-approved-960.webp 960w, assets/multydrink/optimized/hero-02-producto-approved-1024.webp 1024w" imagesizes="(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px" fetchpriority="high">
   <link rel="stylesheet" href="src/styles.css">
   <link rel="stylesheet" href="src/phase-one.css?v=receipt-20261104">
   <link rel="stylesheet" href="src/product-hero.css">
@@ -33,9 +33,9 @@
   <header class="header">
     <div class="container nav-inner">
       <a class="brand" href="#inicio" aria-label="MultyDrink, inicio"><img src="assets/brand.svg" width="185" height="48" alt="MultyDrink — Be Healthy"></a>
-      <nav id="navigation" class="navigation" aria-label="Navegación principal"><a href="#producto">El producto</a><a href="#ingredientes">Ingredientes</a><a href="#confianza">Conoce la fórmula</a><a href="#preguntas">Preguntas frecuentes</a></nav>
+      <nav id="navigation" class="navigation" aria-label="Navegación principal" hidden></nav>
       <a class="nav-purchase" href="#pedido">Hacer mi pedido <span data-icon="arrow"></span></a>
-      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navigation"><span></span><span></span></button>
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navigation" hidden><span></span><span></span></button>
     </div>
   </header>
 
@@ -45,60 +45,58 @@
       <div class="product-intro">
         <div class="hero-stars" aria-hidden="true">★★★★★</div>
         <h1 id="product-title">MULTYDRINK</h1>
-        <h2 class="product-headline">¿Últimamente sientes que tu cuerpo ya no tiene la misma energía de antes?</h2>
+        <h2 class="product-headline">Dile adiós a las mañanas pesadas y dale un respiro a tu cuerpo.</h2>
       </div>
       <div class="product-visual">
         <div class="gallery-stage" aria-roledescription="galería" aria-label="Imágenes de MultyDrink">
-          <img id="hero-image" src="assets/multydrink/optimized/hero-ingredientes-1254.webp" srcset="assets/multydrink/optimized/hero-ingredientes-160.webp 160w, assets/multydrink/optimized/hero-ingredientes-480.webp 480w, assets/multydrink/optimized/hero-ingredientes-960.webp 960w, assets/multydrink/optimized/hero-ingredientes-1254.webp 1254w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px" width="1254" height="1254" alt="Caja MultyDrink en una composición botánica" fetchpriority="high">
-          <div class="gallery-controls"><button type="button" id="gallery-prev" aria-label="Imagen anterior">←</button><span id="gallery-count" aria-live="polite">01 / 10</span><a id="gallery-full" href="assets/multydrink/optimized/hero-ingredientes-1254.webp" target="_blank" rel="noopener noreferrer" aria-label="Ampliar imagen en una pestaña nueva">Ampliar ↗</a><button type="button" id="gallery-next" aria-label="Imagen siguiente">→</button></div>
+          <img id="hero-image" src="assets/multydrink/optimized/hero-02-producto-approved-1024.webp" alt="Caja MultyDrink rodeada de ingredientes botánicos sobre una mesa" width="1024" height="1024" srcset="assets/multydrink/optimized/hero-02-producto-approved-160.webp 160w, assets/multydrink/optimized/hero-02-producto-approved-480.webp 480w, assets/multydrink/optimized/hero-02-producto-approved-960.webp 960w, assets/multydrink/optimized/hero-02-producto-approved-1024.webp 1024w" sizes="(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px" fetchpriority="high">
+          <video id="gallery-video" controls playsinline muted preload="none" width="464" height="848" aria-label="Cómo disfrutar MultyDrink — video" hidden>Tu navegador no admite este video. Usa el enlace Abrir video.</video>
+          <div class="gallery-controls"><button type="button" id="gallery-prev" aria-label="Imagen anterior">←</button><span id="gallery-count" aria-live="polite">01 / 08</span><a id="gallery-full" href="assets/multydrink/optimized/hero-02-producto-approved-1024.webp" target="_blank" rel="noopener noreferrer" aria-label="Ampliar imagen en una pestaña nueva">Ampliar ↗</a><button type="button" id="gallery-next" aria-label="Imagen siguiente">→</button></div>
         </div>
         <div class="gallery-thumbs" id="gallery-thumbs" role="group" aria-label="Seleccionar imagen"></div>
       </div>
 
       <div class="product-info">
-        <div class="product-description"><p>¿Te levantas cansada, sientes pesadez después de comer o notas que tu digestión y tu ritmo intestinal han cambiado?</p><p>Entre las responsabilidades, la familia y las ocupaciones diarias, es fácil dejar tu propio bienestar para después.</p></div>
+        <div class="product-description"><p>MultyDrink combina 5 superingredientes naturales en una sola bebida fácil de preparar:</p></div>
         <ul class="hero-benefits">
-          <li><span data-icon="check"></span><span>Cinco ingredientes y mucílago de café como protagonista.</span></li>
-          <li><span data-icon="check"></span><span>Una bebida antioxidante premium en concentrado para preparar.</span></li>
-          <li><span data-icon="check"></span><span>Una forma práctica de darle un nuevo espacio a tu bienestar dentro de tu rutina.</span></li>
+          <li><span data-icon="check"></span><span>Mucílago de café colombiano</span></li>
+          <li><span data-icon="check"></span><span>Ganoderma lucidum</span></li>
+          <li><span data-icon="check"></span><span>Miel de agave azul</span></li>
+          <li><span data-icon="check"></span><span>Té negro</span></li>
+          <li><span data-icon="check"></span><span>Extracto de uva</span></li>
         </ul>
+        <div class="product-description"><p>Tu aliado diario para empezar el día ligera, activa y enfocada.</p></div>
         <a class="science-note" href="#research-sources"><span data-icon="flask"></span><span><strong>Conoce la ciencia detrás de sus ingredientes.</strong> Estudios sobre componentes botánicos de la fórmula.<span class="science-note-link">Ver referencias <span aria-hidden="true">→</span></span></span></a>
         <p class="registration" id="registration" hidden><span data-icon="check"></span></p>
         <div class="selection-heading"><h3>Elige tu presentación</h3><span>Compra única</span></div>
+        <div class="hero-purchase-module">
         <fieldset class="package-selector" id="package-selector"><legend class="sr-only">Presentación de MultyDrink</legend></fieldset>
-        <section class="purchase-offer" aria-labelledby="selected-package-name">
-          <span class="offer-saving" id="offer-saving" hidden></span>
-          
-          <div class="offer-image-frame"><img id="offer-image" src="assets/multydrink/optimized/pack-familiar-aprobado-840.webp" alt="Pack familiar de seis cajas MultyDrink" width="840" height="880" loading="lazy"></div>
-          <div class="offer-details">
-            <div class="offer-identity" aria-live="polite" aria-atomic="true"><h3 id="selected-package-name"></h3><p id="offer-description"></p><p class="offer-price"><small>COP</small><strong id="selected-package-price"></strong></p></div>
-            <div class="offer-quantity-field"><label for="offer-quantity">Cantidad de paquetes</label><div class="offer-quantity-control"><button type="button" id="offer-less" aria-label="Reducir cantidad de paquetes">−</button><input id="offer-quantity" type="number" min="1" max="20" step="1" value="1" inputmode="numeric" aria-describedby="offer-quantity-error"><button type="button" id="offer-more" aria-label="Aumentar cantidad de paquetes">+</button></div><span class="field-error" id="offer-quantity-error"></span></div>
-            <p class="offer-total" id="offer-total" aria-live="polite" aria-atomic="true"></p>
-          </div>
-          <a class="button button-primary main-cta" href="#pedido"><span data-icon="shopping-bag"></span><span>PEDIR Y PAGAR EN CASA</span></a>
-        </section>
-        <div class="purchase-trust" aria-label="Condiciones de compra"><span><span data-icon="truck"></span><strong>Envío incluido</strong></span><span><span data-icon="cash"></span><strong>Pago al recibir</strong></span></div>
-        <div id="testimonials" hidden></div>
-        <a class="button button-outline hero-discovery" href="#conoce-multydrink">QUIERO CONOCER MULTYDRINK</a>
+        <div class="purchase-trust" aria-label="Condiciones de compra"><span><span data-icon="truck"></span><strong>Envío incluido</strong></span><span><span data-icon="box"></span><strong>Pagas al recibir</strong></span></div>
+        </div>
+        <div id="testimonials" class="customer-collage">
+          <img src="assets/multydrink/optimized/collage-clientes-1600.webp" srcset="assets/multydrink/optimized/collage-clientes-480.webp 480w, assets/multydrink/optimized/collage-clientes-960.webp 960w, assets/multydrink/optimized/collage-clientes-1600.webp 1600w" sizes="(max-width: 660px) calc(100vw - 36px), (max-width: 800px) 620px, (max-width: 1100px) 52vw, 656px" width="1600" height="661" alt="Collage de clientes con cajas, sobres y bebidas MultyDrink, con el texto «#1 en Superalimento de Colombia»." loading="lazy" decoding="async">
+        </div>
       </div>
       <div class="product-accordions" id="product-accordions"></div>
     </section>
 
 
-    <section class="section container story" id="para-ti" aria-labelledby="story-title"><h2 id="story-title">HAY DÍAS EN LOS QUE...</h2><p class="eyebrow story-question">¿TE IDENTIFICAS CON ALGUNA DE ESTAS SITUACIONES?</p><div class="story-intro"><p>A medida que pasan los años, es normal empezar a prestar más atención a cómo nos sentimos y a los hábitos que tenemos.</p></div><div class="story-grid"><article class="story-card"><span class="story-number" aria-hidden="true">01</span><div class="story-card-copy"><div class="story-situation"><h3>Menos energía durante el día:</h3><p>sientes que las actividades cotidianas te exigen más y que ya no tienes la misma vitalidad.</p></div><div class="story-situation"><h3>Te levantas cansada:</h3><p>incluso después de dormir, algunos días sientes que no comienzas la jornada con toda la energía que quisieras.</p></div></div></article><article class="story-card"><span class="story-number" aria-hidden="true">02</span><div class="story-card-copy"><div class="story-situation"><h3>Digestión diferente:</h3><p>notas pesadez después de algunas comidas o cambios en tu comodidad digestiva.</p></div><div class="story-situation"><h3>Cambios en el tránsito intestinal:</h3><p>quieres prestar más atención a tu consumo de fibra y a tus hábitos alimenticios.</p></div></div></article><article class="story-card"><span class="story-number" aria-hidden="true">03</span><div class="story-card-copy"><div class="story-situation"><h3>Alimentación poco equilibrada:</h3><p>sabes que necesitas incluir más frutas, verduras y variedad de nutrientes, pero no siempre lo consigues.</p></div><div class="story-situation"><h3>Cambios propios de la edad:</h3><p>quieres cuidar tu cuerpo, conservar tu autonomía y mantenerte activa.</p></div></div></article></div></section>
-
-    <section class="container self-care" aria-labelledby="self-care-title">
-      <div class="self-care-intro"><p>Poco tiempo para cuidarte:</p></div>
-      <div class="story-transition">
-        <h2 id="self-care-title">Quizás ha llegado el momento de reservar un espacio para ti.</h2>
+    <div class="story-surface"><section class="section container story" id="para-ti" aria-labelledby="story-title">
+      <h2 id="story-title">TE HA PASADO QUE...</h2>
+      <div class="story-grid">
+        <article class="story-card"><svg class="story-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z"/></svg><div class="story-card-copy"><h3>Sientes menos energía</h3></div></article>
+        <article class="story-card"><svg class="story-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h12v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Z"/><path d="M16 8h2a3 3 0 0 1 0 6h-2M2 22h18M7 2v3m4-3v3"/></svg><div class="story-card-copy"><h3>Tu digestión es diferente</h3><p>Notas pesadez después de algunas comidas.</p></div></article>
+        <article class="story-card"><svg class="story-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M2 3v5a2 2 0 0 0 4 0V3M4 3v18M22 21V3c-2 1-3 4-3 7h3"/></svg><div class="story-card-copy"><h3>Tu alimentación es poco equilibrada</h3><p>Sabes que necesitas incluir más frutas, verduras y variedad de nutrientes, pero no siempre lo consigues.</p></div></article>
       </div>
     </section>
-
-    <p class="container self-care-closing"><strong>Tu bienestar también merece un lugar en tu día.</strong></p>
+    <section class="container story-message" aria-labelledby="self-care-title">
+      <p class="story-message-kicker">UN MENSAJE PARA TI</p>
+      <h2 id="self-care-title">Tu cuerpo no está fallando. Es el ritmo del día a día.</h2>
+      <p class="story-message-description">Y le pasa a las mujeres que cuidan de todos, que corren todo el día y a las que les falta tiempo para cuidar de su bienestar.</p>
+    </section>
+    </div>
 
     <section class="container comparison-section" id="comparacion" aria-label="Dos momentos de tu rutina" hidden></section>
-
-    <section class="section container ingredient-story" id="conoce-multydrink" aria-labelledby="ingredient-story-title"><div class="monumental-number"><strong data-ingredient-count aria-hidden="true">5</strong><span class="sr-only">5</span><span class="ingredient-count-label">INGREDIENTES FUNCIONALES</span></div><div><h2 id="ingredient-story-title">CONOCE MULTYDRINK</h2><p>Multydrink es una mezcla concentrada para preparar una bebida sabor limón que reúne cinco ingredientes en una presentación práctica de sachets individuales.</p><p>Su fórmula combina:</p><ul class="benefits"><li><span data-icon="check"></span><span>Mucílago de café.</span></li><li><span data-icon="check"></span><span>Extracto de uva.</span></li><li><span data-icon="check"></span><span>Miel de agave azul.</span></li><li><span data-icon="check"></span><span>Té negro.</span></li><li><span data-icon="check"></span><span>Ganoderma lucidum.</span></li></ul><p class="ingredient-closing">Una combinación de ingredientes que puedes incorporar a tu rutina de forma sencilla.</p><a class="text-link" href="#ingredientes">Descubre qué contiene <span data-icon="arrow"></span></a></div></section>
 
     <section class="section moments-section" id="tu-momento" aria-labelledby="moments-title">
       <div class="container">
@@ -125,7 +123,7 @@
             </div>
             <div class="moments-content" role="tabpanel" id="story-panel-nutricional" aria-labelledby="story-tab-nutricional" tabindex="0" hidden>
               <h3><span>Una fórmula con</span> <span class="nutrition-highlight">ingredientes y nutrientes</span></h3>
-              <p>Cada sachet de 10 gramos aporta, según su información nutricional:</p>
+              <p>Cada sobre de 10 gramos aporta, según su información nutricional:</p>
               <ul class="chapter-nutrients">
                 <li><span data-icon="check" aria-hidden="true"></span><span><strong>30 mg</strong> de vitamina C</span></li>
                 <li><span data-icon="check" aria-hidden="true"></span><span><strong>0,6 g</strong> de fibra dietaria</span></li>
@@ -137,21 +135,12 @@
               <a class="text-link chapter-link" href="#nutricion">Ver información nutricional <span aria-hidden="true">→</span></a>
             </div>
             <div class="moments-content" role="tabpanel" id="story-panel-combinacion" aria-labelledby="story-tab-combinacion" tabindex="0" hidden><h3><span>Cinco ingredientes</span> <span class="combination-highlight">una combinación especial</span></h3><p>MultyDrink reúne mucílago de café, extracto de uva, miel de agave azul, Ganoderma lucidum y té negro.</p><p>Una mezcla que integra ingredientes de diferentes orígenes botánicos, con el mucílago de café colombiano como protagonista.</p><a class="text-link chapter-link" href="#ingredientes">Explorar los ingredientes <span aria-hidden="true">→</span></a></div>
-            <div class="moments-content" role="tabpanel" id="story-panel-rutina" aria-labelledby="story-tab-rutina" tabindex="0" hidden><h3><span>Pequeños hábitos</span> <span class="routine-highlight">un momento para ti</span></h3><p>Tu bienestar también merece un lugar en tu día.</p><p>No se trata de cambiar toda tu vida de un día para otro. Se trata de comenzar con pequeños hábitos que puedas mantener.</p><p>Con sus sachets individuales, MultyDrink te permite incorporar una bebida fácil de preparar a tu rutina, sin complicaciones.</p><a class="text-link chapter-link" href="#ritual">Ver cómo prepararlo <span aria-hidden="true">→</span></a></div>
+            <div class="moments-content" role="tabpanel" id="story-panel-rutina" aria-labelledby="story-tab-rutina" tabindex="0" hidden><h3><span>Pequeños hábitos</span> <span class="routine-highlight">un momento para ti</span></h3><p>Tu bienestar también merece un lugar en tu día.</p><p>No se trata de cambiar toda tu vida de un día para otro. Se trata de comenzar con pequeños hábitos que puedas mantener.</p><p>Con sus sobres individuales, MultyDrink te permite incorporar una bebida fácil de preparar a tu rutina, sin complicaciones.</p><a class="text-link chapter-link" href="#ritual">Ver cómo prepararlo <span aria-hidden="true">→</span></a></div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="section ingredients-section editorial-white" id="ingredientes" aria-labelledby="ingredients-title"><div class="container"><div class="centered-heading"><p class="eyebrow">CONOCE LO QUE TOMAS</p><h2 id="ingredients-title">Cinco ingredientes.<br>Una fórmula para conocer de cerca.</h2></div><div id="ingredients-grid" class="editorial-ingredients"></div></div></section>
-
-    <section class="section science-section" id="confianza" aria-labelledby="science-title"><div class="container"><div class="science-heading"><div><p class="eyebrow">INVESTIGACIÓN SOBRE INGREDIENTES</p><h2 id="science-title">La ciencia detrás<br>de nuestros ingredientes.</h2></div><div><p>Nuestro banco de investigación reúne 38 publicaciones sobre componentes de los cinco grupos de ingredientes de MultyDrink. Conoce qué se ha estudiado y los hallazgos de investigaciones realizadas con ingredientes o extractos, no con la bebida terminada.</p></div></div><div id="research-sources" class="research-grid" aria-label="Investigaciones publicadas sobre ingredientes"></div></div></section>
-
-    <section class="section nutrition-section" id="nutricion" aria-labelledby="nutrition-title"><div class="container nutrition-layout"><div class="nutrition-content"><p class="eyebrow">EL PRODUCTO, CON CLARIDAD</p><h2 id="nutrition-title">UNA FÓRMULA CON INGREDIENTES Y NUTRIENTES</h2><div class="nutrition-tabs" id="nutrition-tabs" role="tablist" aria-label="Datos del producto"><button type="button" id="nutrition-tab-portion" role="tab" aria-selected="true" aria-controls="nutrition-portion" tabindex="0">Presentación</button><button type="button" id="nutrition-tab-preparation" role="tab" aria-selected="false" aria-controls="nutrition-preparation" tabindex="-1">Preparación</button></div><div id="nutrition-portion" role="tabpanel" aria-labelledby="nutrition-tab-portion" tabindex="0"><ul class="benefits"><li><span data-icon="check"></span><span>21 sachets individuales por caja.</span></li><li><span data-icon="check"></span><span>10 gramos por sachet.</span></li><li><span data-icon="check"></span><span>Sabor limón.</span></li></ul></div><div id="nutrition-preparation" role="tabpanel" aria-labelledby="nutrition-tab-preparation" tabindex="0" hidden><ul class="benefits"><li><span data-icon="check"></span><span><strong>Abre el sobre</strong> — Rasga fácilmente el sachet.</span></li><li><span data-icon="check"></span><span><strong>Disfrútalo</strong> — Puedes tomarlo directamente desde el sobre.</span></li><li><span data-icon="check"></span><span><strong>Dilúyelo</strong> — Mézclalo en 250 ml de agua fría o caliente, o agrégalo a tu bebida favorita.</span></li><li><span data-icon="check"></span><span><strong>Añádelo</strong> — También puedes incorporarlo a una porción de fruta.</span></li></ul></div><p class="nutrition-registration">Notificación sanitaria INVIMA<br><strong>NSA-0019488-2025</strong></p><a class="button button-primary" href="#ofertas"><span id="nutrition-cta-label">ELIGE TU PRESENTACIÓN</span> <span data-icon="arrow"></span></a></div><div id="nutrition-composition" class="nutrition-composition"></div></div></section>
-
-    <section class="section preparation-section" id="ritual" aria-labelledby="ritual-title"><div class="container"><div class="centered-heading"><h2 id="ritual-title">PRÁCTICO PARA TU DÍA A DÍA</h2><p>Llévalo contigo y disfrútalo a tu manera.</p></div><ol class="preparation-steps"><li><span>1</span><h3>Llévalo contigo</h3><p>Guárdalo en tu bolso, mochila o maleta. Sus sachets individuales hacen fácil tenerlo a mano.</p></li><li><span>2</span><h3>Haz una pausa para ti</h3><p>Encuentra un momento en tu día para disfrutarlo de forma simple y práctica.</p></li><li><span>3</span><h3>Disfrútalo a tu manera</h3><p>Tómalo directamente, dilúyelo en agua o agrégalo a tu bebida o fruta favorita.</p></li></ol><div class="preparation-closing"><p>Llévalo contigo y disfruta de una preparación sencilla cuando quieras incorporarlo a tu rutina.</p></div><a class="button button-primary" href="#ofertas">ENCUENTRA TU MULTYDRINK <span data-icon="arrow"></span></a></div></section>
-
 
     <section class="section doctor-section" id="doctora-erika" aria-labelledby="doctor-title">
       <div class="container doctor-shell">
@@ -186,63 +175,71 @@
             </details>
           </div>
         </div>
-        <div class="doctor-video-area">
-          <div class="doctor-video-copy">
-            <p class="doctor-kicker">CONOCE SU PERSPECTIVA</p>
-            <h3>Conoce MultyDrink <span>con la Dra. Erika Piedrahita</span></h3>
-            <p>Descubre su explicación sobre los ingredientes de MultyDrink y la importancia de tomar decisiones informadas sobre tu alimentación.</p>
-            <p class="doctor-closing">Tu salud merece atención. Tu bienestar merece conocimiento. Y tú mereces tomar decisiones informadas.</p>
-          </div>
+        <section class="doctor-video-area" aria-labelledby="doctor-video-title">
+          <h3 id="doctor-video-title">Conoce MultyDrink con la Dra. Erika Piedrahita</h3>
           <div class="doctor-video-frame">
-            <video controls playsinline preload="metadata" aria-label="Video de la Dra. Erika Piedrahita sobre MultyDrink">
+            <video controls playsinline preload="none" poster="assets/multydrink/optimized/dra-erika-video-poster-360.webp" aria-label="Video de la Dra. Erika Piedrahita sobre MultyDrink">
               <source src="assets/multydrink/profesional/dra-erika-multydrink.mp4" type="video/mp4">
               Tu navegador no puede reproducir este video.
             </video>
           </div>
-        </div>
+        </section>
       </div>
     </section>
 
+    <section class="section science-section" id="confianza" aria-labelledby="science-title"><div class="container"><div class="science-heading"><div><p class="eyebrow">INVESTIGACIÓN SOBRE INGREDIENTES</p><h2 id="science-title">La ciencia detrás<br>de nuestros ingredientes.</h2></div><div><p>Nuestro banco de investigación reúne 38 publicaciones sobre componentes de los cinco grupos de ingredientes de MultyDrink. Conoce qué se ha estudiado y los hallazgos de investigaciones realizadas con ingredientes o extractos, no con la bebida terminada.</p></div></div><div id="research-sources" class="research-grid" aria-label="Investigaciones publicadas sobre ingredientes"></div></div></section>
+
+    <section class="section nutrition-section" id="nutricion" aria-labelledby="nutrition-title"><div class="container nutrition-layout"><div class="nutrition-content"><p class="eyebrow">EL PRODUCTO, CON CLARIDAD</p><h2 id="nutrition-title">UNA FÓRMULA CON INGREDIENTES Y NUTRIENTES</h2><div class="nutrition-tabs" id="nutrition-tabs" role="tablist" aria-label="Datos del producto"><button type="button" id="nutrition-tab-portion" role="tab" aria-selected="true" aria-controls="nutrition-portion" tabindex="0">Presentación</button><button type="button" id="nutrition-tab-preparation" role="tab" aria-selected="false" aria-controls="nutrition-preparation" tabindex="-1">Preparación</button></div><div id="nutrition-portion" role="tabpanel" aria-labelledby="nutrition-tab-portion" tabindex="0"><ul class="benefits"><li><span data-icon="check"></span><span>21 sobres individuales por caja.</span></li><li><span data-icon="check"></span><span>10 gramos por sobre.</span></li><li><span data-icon="check"></span><span>Sabor limón.</span></li></ul></div><div id="nutrition-preparation" role="tabpanel" aria-labelledby="nutrition-tab-preparation" tabindex="0" hidden><ul class="benefits"><li><span data-icon="check"></span><span><strong>Abre el sobre</strong> — Rasga fácilmente el sobre.</span></li><li><span data-icon="check"></span><span><strong>Disfrútalo</strong> — Puedes tomarlo directamente desde el sobre.</span></li><li><span data-icon="check"></span><span><strong>Dilúyelo</strong> — Mézclalo en 250 ml de agua fría o caliente, o agrégalo a tu bebida favorita.</span></li><li><span data-icon="check"></span><span><strong>Añádelo</strong> — También puedes incorporarlo a una porción de fruta.</span></li></ul></div><p class="nutrition-registration">Notificación sanitaria INVIMA<br><strong>NSA-0019488-2025</strong></p><a class="button button-primary" href="#ofertas"><span id="nutrition-cta-label">ELIGE TU PRESENTACIÓN</span> <span data-icon="arrow"></span></a></div><div id="nutrition-composition" class="nutrition-composition"></div></div></section>
+
+    <section class="section preparation-section" id="ritual" aria-labelledby="ritual-title"><div class="container"><div class="centered-heading"><h2 id="ritual-title">PRÁCTICO PARA TU DÍA A DÍA</h2><p>Llévalo contigo y disfrútalo a tu manera.</p></div><ol class="preparation-steps"><li><span>1</span><h3>Llévalo contigo</h3><p>Guárdalo en tu bolso, mochila o maleta. Sus sobres individuales hacen fácil tenerlo a mano.</p></li><li><span>2</span><h3>Haz una pausa para ti</h3><p>Encuentra un momento en tu día para disfrutarlo de forma simple y práctica.</p></li><li><span>3</span><h3>Disfrútalo a tu manera</h3><p>Tómalo directamente, dilúyelo en agua o agrégalo a tu bebida o fruta favorita.</p></li></ol><div class="preparation-closing"><p>Llévalo contigo y disfruta de una preparación sencilla cuando quieras incorporarlo a tu rutina.</p></div><a class="button button-primary" href="#ofertas">ENCUENTRA TU MULTYDRINK <span data-icon="arrow"></span></a></div></section>
+
+
+
+
     <section class="section editorial-white final-offers-section" id="ofertas" aria-labelledby="offers-title"><div class="container"><div class="centered-heading"><p class="eyebrow">ELIGE TU PRESENTACIÓN</p><h2 id="offers-title">Tu momento de bienestar comienza aquí</h2><p>Elige la presentación de MultyDrink que mejor se adapte a tu rutina.</p></div><div id="final-offers" class="final-offers"></div><section class="trust-strip" aria-label="Información de compra"><div class="trust-grid"><div><span data-icon="truck"></span><span><strong>Envío incluido</strong><small>En las dos presentaciones</small></span></div><div><span data-icon="box"></span><span><strong>Pago contra entrega</strong><small>Pagas al recibir</small></span></div><div><span data-icon="leaf"></span><span><strong>Origen botánico</strong><small>Cinco grupos de ingredientes</small></span></div><div><span data-icon="shield"></span><span><strong>Notificación sanitaria INVIMA</strong><small>NSA-0019488-2025</small></span></div></div></section></div></section>
+
+    <section class="section video-testimonials customer-experiences" id="video-testimonials" aria-labelledby="customer-reviews-title" hidden><div class="container" id="video-carousel"></div></section>
+
+
 
     <section class="section faq-section" id="preguntas" aria-labelledby="faq-title"><div class="container faq-grid"><div class="faq-intro"><p class="eyebrow">¿ALGUNA DUDA?</p><h2 id="faq-title">Preguntas<br>frecuentes.</h2></div><div class="faq-categories" id="faq-categories" role="tablist" aria-orientation="vertical" aria-label="Categorías de preguntas"></div><div id="faq-list"></div></div></section>
 
-
-    <section class="section video-testimonials" id="video-testimonials" aria-label="Testimonios en video" hidden><div class="container" id="video-carousel"></div></section>
-    <section class="section container final-copy" aria-labelledby="final-copy-title"><div class="centered-heading"><h2 id="final-copy-title">Tu bienestar también merece estar entre tus prioridades.</h2><p>Conoce Multydrink y dale un nuevo espacio a tus hábitos diarios.</p><a class="button button-primary" href="#pedido">QUIERO PEDIR MULTYDRINK <span data-icon="arrow"></span></a></div></section>
   </main>
-  <footer class="footer editorial-white"><div class="container"><div class="footer-columns"><div><a class="brand footer-brand" href="#inicio"><img src="assets/brand.svg" width="185" height="48" alt="MultyDrink — Be Healthy" loading="lazy"></a><p>Una forma práctica de darle un nuevo espacio a tu bienestar dentro de tu rutina.</p></div><div><h3>CONOCE MULTYDRINK</h3><a href="#producto">El producto</a><a href="#ingredientes">Ingredientes</a><a href="#nutricion">Información nutricional</a><a href="#ritual">Preparación</a></div><div><h3>ELIGE TU MOMENTO</h3><a href="#ofertas">Caja individual y pack familiar</a><a href="#pedido">Pago contra entrega</a><a href="#confianza">Investigación de ingredientes</a><a href="#preguntas">Preguntas frecuentes</a></div><div><h3>INFORMACIÓN Y AYUDA</h3><button class="legal-button" data-dialog="conditions-dialog">Términos y condiciones de compra</button><button class="legal-button" data-dialog="privacy-dialog">Política de privacidad</button><button class="legal-button" data-dialog="shipping-dialog">Política de envíos</button><button class="legal-button" data-dialog="returns-dialog">Devoluciones, retracto y garantía</button><button class="legal-button" data-dialog="contact-dialog">Contacto y atención al cliente</button></div></div><div class="footer-bottom"><p>MultyDrink es un alimento. No es un medicamento ni reemplaza una alimentación equilibrada. Consulta el modo de uso y las advertencias del empaque.</p><span>© <span id="year">2026</span> MultyDrink.</span></div></div></footer>
+  <a class="floating-whatsapp" href="https://wa.me/573108232738?text=Hola%2C%20estoy%20visitando%20la%20p%C3%A1gina%20de%20MultyDrink%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20producto." target="_blank" rel="noopener noreferrer" aria-label="Hablar por WhatsApp (abre una pestaña nueva)" title="Hablar por WhatsApp"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path stroke="none" d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg></a>
+
+  <footer class="footer editorial-white"><div class="container"><div class="footer-columns"><div><a class="brand footer-brand" href="#inicio"><img src="assets/brand.svg" width="185" height="48" alt="MultyDrink — Be Healthy" loading="lazy"></a><p>Una forma práctica de darle un nuevo espacio a tu bienestar dentro de tu rutina.</p></div><div><h3>INFORMACIÓN Y AYUDA</h3><button class="legal-button" data-dialog="conditions-dialog">Términos y condiciones de compra</button><button class="legal-button" data-dialog="privacy-dialog">Política de privacidad</button><button class="legal-button" data-dialog="shipping-dialog">Política de envíos</button><button class="legal-button" data-dialog="returns-dialog">Devoluciones, retracto y garantía</button><button class="legal-button" data-dialog="contact-dialog">Contacto y atención al cliente</button></div></div><div class="footer-bottom"><p>MultyDrink es un alimento. No es un medicamento ni reemplaza una alimentación equilibrada. Consulta el modo de uso y las advertencias del empaque.</p><span>© <span id="year">2026</span> MultyDrink.</span></div></div></footer>
   <aside class="sticky-purchase is-hidden" aria-label="Compra rápida" aria-hidden="true" inert><div class="container sticky-inner"><img src="assets/multydrink/optimized/pack-familiar-aprobado-840.webp" width="54" height="54" alt=""><div class="sticky-product"><strong>MULTYDRINK</strong><span id="sticky-package">Pack familiar · 126 sobres</span></div><div class="sticky-price"><del id="sticky-reference"></del><strong id="sticky-price"></strong><small>por paquete · COP</small></div><a class="button button-primary" href="#pedido"><span data-icon="shopping-bag"></span><span class="sticky-label-desktop">PEDIR Y PAGAR EN CASA</span><span class="sticky-label-mobile">PEDIR AHORA</span><span data-icon="arrow"></span></a></div></aside>
 
   <dialog id="pedido" class="checkout-dialog" aria-labelledby="order-title">
     <div id="order-entry">
     <header class="checkout-header">
-      <div><h2 id="order-title" tabindex="-1">HAZ TU PEDIDO Y PAGA EN CASA</h2></div>
+      <div><h2 id="order-title" tabindex="-1">¡ESTÁS A UN PASO DE RECIBIR MULTYDRINK EN CASA!</h2><p class="checkout-subtitle">HAZ TU PEDIDO Y PAGA EN CASA</p></div>
       <button type="button" class="checkout-close" aria-label="Cerrar pedido" data-close autofocus>×</button>
     </header>
     <div class="checkout-body">
-      <p class="checkout-intro">Pide Multydrink desde la comodidad de tu casa.</p><ol class="purchase-steps"><li><span aria-hidden="true">01</span><div><p>Completa tus datos en el formulario.</p></div></li><li><span aria-hidden="true">02</span><div><p>Confirmamos tu pedido y los datos de entrega.</p></div></li><li><span aria-hidden="true">03</span><div><p>Recibe tu producto y paga cuando llegue.</p></div></li></ol><p><em>Envíos sujetos a cobertura logística.</em></p>
-      <div id="order-availability" class="availability-note" role="status">Confirma los datos de tu pedido. El registro se completa únicamente cuando recibes un número de pedido.</div>
+      
+      <div id="order-availability" class="availability-note" role="status" hidden></div>
       <form id="order-form" novalidate>
         <fieldset id="order-fields"><legend class="sr-only">Datos del pedido</legend>
           <div class="checkout-columns">
-            <section class="checkout-customer" aria-labelledby="delivery-title">
-              <div class="form-heading"><span class="step-dot" aria-hidden="true">1</span><h3 id="delivery-title">Tu información de entrega</h3></div>
-              <div class="form-grid" id="customer-fields"></div>
-            </section>
             <section class="checkout-details" aria-labelledby="summary-title">
-              <div class="form-heading"><span class="step-dot" aria-hidden="true">2</span><h3 id="summary-title">Tu pedido</h3></div>
+              <div class="form-heading"><h3 id="summary-title">Tu pedido</h3></div>
               <div class="order-preview"><img src="assets/multydrink/optimized/pack-familiar-aprobado-840.webp" alt="Pack de seis cajas MultyDrink" width="840" height="880" loading="lazy"><span>MULTYDRINK<small>Un nuevo momento para tu día.</small></span></div>
               <div class="order-choice"><div class="field"><label for="packageId">Presentación</label><select id="packageId" name="packageId" required aria-describedby="packageId-error"></select><span class="field-error" id="packageId-error"></span></div><div class="field quantity-field"><label for="quantity">Cantidad de paquetes</label><div class="quantity-control"><button type="button" id="quantity-less" aria-label="Reducir cantidad">−</button><input id="quantity" name="quantity" type="number" min="1" max="20" step="1" value="1" inputmode="numeric" required aria-describedby="quantity-error"><button type="button" id="quantity-more" aria-label="Aumentar cantidad">+</button></div><span class="field-error" id="quantity-error"></span></div></div>
-              <div class="order-summary" aria-live="polite" aria-atomic="true"><div><span id="summary-package">Pack familiar</span><span id="summary-unit"></span></div><div class="summary-meta"><span id="summary-count"></span></div><div><span>Subtotal de productos</span><strong id="summary-subtotal"></strong></div><div class="summary-saving"><span>Tu ahorro en productos</span><span id="summary-savings"></span></div><div><span>Envío</span><span id="summary-shipping">Incluido</span></div><div class="summary-total"><strong>Total a pagar · COP</strong><strong id="summary-total"></strong></div><p id="shipping-note">El envío está incluido. No se realiza ningún cobro desde esta página.</p></div>
-              <div class="order-assurance"><span data-icon="lock"></span><span>Pago contra entrega. Sin tarjetas ni pagos anticipados.<br>La cobertura y el plazo se confirman para tu dirección.</span></div>
+              <div class="order-summary" aria-live="polite" aria-atomic="true"><div><span id="summary-package">Pack familiar</span><span id="summary-unit"></span></div><div class="summary-meta"><span id="summary-count"></span></div><div><span>Subtotal de productos</span><strong id="summary-subtotal"></strong></div><div class="summary-saving"><span>Tu ahorro en productos</span><span id="summary-savings"></span></div><div><span>Envío</span><span id="summary-shipping">Incluido</span></div><div class="summary-total"><strong>Total a pagar · COP</strong><strong id="summary-total"></strong></div><p id="shipping-note">Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.</p></div>
+            </section>
+            <section class="checkout-customer" aria-labelledby="delivery-title">
+              <div class="form-heading"><h3 id="delivery-title">Tu información de entrega</h3></div>
+              <div class="form-grid" id="customer-fields"></div>
+            </section>
+            <div class="checkout-actions">
               <div class="privacy-field"><label for="privacy"><input type="checkbox" id="privacy" name="privacy" required aria-describedby="privacy-error privacy-help"><span>He leído y acepto la <a id="privacy-link" href="#privacy-dialog">política de privacidad</a> y el tratamiento de mis datos para gestionar este pedido.</span></label><span class="field-error" id="privacy-error"></span><small id="privacy-help">Consulta la política de tratamiento de datos antes de enviar tu pedido.</small></div>
               <div id="order-turnstile" aria-label="Verificación de seguridad del pedido" hidden></div>
               <p id="turnstile-status" class="form-footnote" role="status" hidden></p>
               <div id="form-message" class="form-message" role="alert" tabindex="-1" hidden></div>
               <button type="submit" id="submit-order" class="button button-primary" disabled>Confirmar pedido <span data-icon="arrow"></span></button>
               <p class="form-footnote">Tu información se usa únicamente para gestionar la solicitud según la política del vendedor.</p>
-            </section>
+            </div>
           </div>
         </fieldset>
       </form>

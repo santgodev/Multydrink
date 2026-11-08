@@ -155,6 +155,7 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#summary-count').textContent = `${totals.boxes} ${totals.boxes === 1 ? 'caja' : 'cajas'} · ${totals.sachets} sobres en total`;
     $('#summary-subtotal').textContent = money(totals.subtotal);
     $('#summary-savings').textContent = money(totals.savings);
+    $('.order-summary .summary-saving').hidden = item.id === 'individual';
     $('#summary-shipping').textContent = totals.shippingFee === null ? 'Por confirmar' : totals.shippingFee === 0 ? 'Incluido' : money(totals.shippingFee);
     $('#summary-total').textContent = totals.total === null ? 'Por confirmar' : money(totals.total);
     if (totals.total !== null) $('#shipping-note').textContent = 'Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.';

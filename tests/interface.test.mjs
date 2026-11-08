@@ -435,6 +435,12 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.equal(section.querySelector('.customer-photo-grid').getAttribute('aria-roledescription'), 'carrusel');
   assert.ok([...section.querySelectorAll('.customer-photo-grid img')].every(image => image.getAttribute('loading') === 'lazy' && image.getAttribute('src').startsWith('assets/multydrink/momentos-compartidos/')));
   assert.equal(section.querySelectorAll('.customer-video-stories .video-card').length, 3);
+  assert.deepEqual([...section.querySelectorAll('.customer-video-stories .video-card-preview')].map(node => node.getAttribute('src').split('#')[0]), [
+    'assets/multydrink/historias-reales/historia-01.mp4',
+    'assets/multydrink/historias-reales/historia-02.mp4',
+    'assets/multydrink/historias-reales/historia-03.mp4',
+  ]);
+  assert.equal(section.querySelectorAll('.customer-video-stories .video-card img.video-poster').length, 0);
   assert.equal(section.querySelectorAll('.customer-quote').length, 3);
   assert.equal(section.querySelectorAll('.customer-quote .review-stars, .customer-quote .verified-buyer').length, 0);
   assert.ok(section.textContent.includes('Manuela'));

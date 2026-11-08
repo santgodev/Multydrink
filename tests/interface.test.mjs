@@ -207,8 +207,8 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('#order-entry').hidden, false);
   assert.equal(ctx.$('#order-entry').inert, false);
   const originalTitle = ctx.$('#order-title').textContent;
-  const originalIntro = ctx.$('.checkout-intro').outerHTML;
-  const originalSteps = ctx.$('.purchase-steps').outerHTML;
+  const originalSubtitle = ctx.$('.checkout-subtitle').textContent;
+  const originalDetails = ctx.$('.checkout-details').innerHTML;
   fillValid(ctx);
   const submit = () => ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
   submit(); submit();
@@ -224,19 +224,19 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('#confirmation-detail').children.length, 0);
   assert.equal(ctx.$('#confirmation-total').textContent, '$425.000 COP');
   assert.equal(ctx.$('#order-title').textContent, originalTitle);
-  assert.equal(ctx.$('.checkout-intro').outerHTML, originalIntro);
-  assert.equal(ctx.$('.purchase-steps').outerHTML, originalSteps);
+  assert.equal(ctx.$('.checkout-subtitle').textContent, originalSubtitle);
+  assert.equal(ctx.$('.checkout-details').innerHTML, originalDetails);
   assert.equal(ctx.$('#pedido').classList.contains('is-confirmed'), true);
   assert.equal(ctx.$('#pedido').getAttribute('aria-labelledby'), 'confirmation-heading');
   assert.equal(ctx.$('#order-entry').hidden, true);
   assert.equal(ctx.$('#order-entry').inert, true);
-  for (const selector of ['.checkout-header', '.checkout-intro', '.purchase-steps', '.checkout-body > p', '#order-availability', '#shipping-note', '#order-form', '#privacy', '#order-turnstile', '#submit-order']) {
+  for (const selector of ['.checkout-header', '#order-availability', '#shipping-note', '#order-form', '#privacy', '#order-turnstile', '#submit-order']) {
     assert.ok(ctx.$(selector).closest('[hidden]'), `${selector} must be hidden without relying on receipt CSS`);
   }
   assert.equal(ctx.$('#order-confirmation').closest('#order-entry'), null);
   assert.equal(ctx.$('#order-confirmation').textContent.split('<test-123>').length - 1, 1);
   submit(); await settle(); assert.equal(calls, 1, 'Confirmed orders cannot be resubmitted');
-  assert.equal(ctx.$('.purchase-steps').getAttribute('aria-hidden'), null);
+  assert.equal(ctx.$('.checkout-subtitle').getAttribute('aria-hidden'), null);
   assert.match(ctx.$('.confirmation-followup').textContent, /WhatsApp/);
   assert.equal(ctx.doc.activeElement, ctx.$('#order-confirmation'));
   ctx.$('.package-card.is-selected .package-cta').click();
@@ -289,7 +289,7 @@ test('Routine tabs support click, roving keyboard focus and one visible associat
 test('Product facts use configured counts and all accessibility ID references resolve', () => {
   const ctx = setup();
   assert.ok(ctx.$('#nutrition-composition .real-nutrition-label'));
-  assert.match(ctx.$('#nutrition-portion').textContent, /21 sachets/);
+  assert.match(ctx.$('#nutrition-portion').textContent, /21 sobres/);
   assert.match(ctx.$('#story-panel-nutricional').textContent, /30 mg/);
   for (const attribute of ['aria-labelledby', 'aria-describedby', 'aria-controls']) {
     for (const element of ctx.doc.querySelectorAll(`[${attribute}]`)) {
@@ -401,8 +401,9 @@ test('Transcript testimonial carousel supports arrows, endpoints and pagination'
 test('Checkout modal preserves selection, totals and form values across openings', async () => {
   const ctx = setup();
   ctx.$('#quantity-more').click();
-  ctx.$('.package-card.is-selected .package-cta').focus();
-  ctx.$('.package-card.is-selected .package-cta').click();
+  const openingTrigger = ctx.$('.package-card.is-selected .package-cta');
+  openingTrigger.focus();
+  openingTrigger.click();
   assert.equal(ctx.$('#pedido').open, true);
   assert.equal(ctx.$('#packageId').value, 'familiar');
   assert.equal(ctx.$('#quantity').value, '2');
@@ -414,7 +415,7 @@ test('Checkout modal preserves selection, totals and form values across openings
   ctx.$('#pedido [data-close]').click();
   await settle();
   assert.equal(ctx.$('#pedido').open, false);
-  assert.equal(ctx.doc.activeElement, ctx.$('.package-card.is-selected .package-cta'));
+  assert.equal(ctx.doc.activeElement, openingTrigger, 'Close restores focus to the button that originally opened checkout');
   assert.equal(ctx.doc.documentElement.classList.contains('checkout-open'), false);
   ctx.$('.nav-purchase').click();
   assert.equal(ctx.$('#quantity').value, '2');

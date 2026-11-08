@@ -2,11 +2,12 @@ import { commerce as defaultCommerce, packages, gallery, productFaqs } from './c
 import { calculateOrder, createOrderClient, getPackage, isOrderingEnabled, money, validateField, validateOrder } from './order.js';
 import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery, renderPackages } from './components.js';
 import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
+import { archivedTestimonials } from './archived-testimonials.js';
 import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
-import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderVideoCarousel, bindVideoCarousel } from './editorial.js';
+import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderCustomerReviewSection, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
   const commerce = options.commerce || defaultCommerce;
@@ -77,7 +78,7 @@ export function initApp(doc = document, win = window, options = {}) {
     ritualObserver.observe(ritualSteps);
   }
   const videoReview = { localReview: ['127.0.0.1', 'localhost', '[::1]'].includes(win.location.hostname) && new URLSearchParams(win.location.search).get('revision-videos') === '1' };
-  $('#video-carousel').innerHTML = renderVideoCarousel(videoTestimonials, videoReview);
+  $('#video-carousel').innerHTML = renderCustomerReviewSection(archivedTestimonials, videoTestimonials, videoReview);
   $('#video-testimonials').hidden = !$('#video-carousel').children.length;
   bindVideoCarousel($('#video-carousel'), videoTestimonials, videoReview);
   $('#customer-fields').innerHTML = [

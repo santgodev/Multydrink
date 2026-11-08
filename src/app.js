@@ -300,7 +300,7 @@ export function initApp(doc = document, win = window, options = {}) {
   const primaryPurchaseCtas = $$('.package-cta');
   const footer = $('.footer');
   const whatsapp = $('.floating-whatsapp');
-  const whatsappProtected = $('.package-cta, .story-surface h2, .story-surface h3, .story-surface p, .final-offer .button');
+  const whatsappProtected = $$('.package-cta, .story-surface h2, .story-surface h3, .story-surface p, .final-offer .button');
   function updateWhatsappVisibility() {
     if (!whatsapp) return;
     let obstructs = checkout.open ? true : false;

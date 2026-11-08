@@ -78,12 +78,18 @@ export const comparisonMedia = {
   secondLabel: 'Un momento para ti',
 };
 
-// { id, name, excerpt, poster: Image, videoSrc, approved: true,
-//   publicationRightsConfirmed: true, sourceUrl, captionsSrc: 'assets/testimonio-01.es.vtt', transcript }
-// Approved by the owner for local review only. Publication approval and reviewed
-// captions remain pending; these records are excluded from production eligibility.
-export const videoTestimonials = [
+// Historical testimonials remain available for possible future reuse, but are not
+// shown in the new Historias reales gallery. No old media is deleted.
+export const previousVideoTestimonials = [
   { id: 'vitalidad', name: 'Experiencia compartida', videoSrc: 'assets/multydrink/testimonios/Testimonio-Multydrink-Vitalidad.mp4', poster: { src: 'assets/multydrink/optimized/testimonio-vitalidad-136.webp', alt: 'Fotograma del testimonio compartido', width: 136, height: 240 } },
   { id: 'kim-cuervo', name: 'Kim Cuervo', videoSrc: 'assets/multydrink/testimonios/Testimonio-Kim-Cuervo-Practicante de jiu-jitsu.mp4', poster: { src: 'assets/multydrink/optimized/testimonio-kim-cuervo-204.webp', alt: 'Kim Cuervo en su testimonio', width: 204, height: 360 } },
   { id: 'juan-alcantara', name: 'Juan Alcántara Medina', videoSrc: 'assets/multydrink/testimonios/Testimonio-Juan-Alcántara- Medina-República Dominicana.mp4', poster: { src: 'assets/multydrink/optimized/testimonio-juan-alcantara-640.webp', alt: 'Juan Alcántara Medina en su testimonio', width: 640, height: 360 } },
+];
+
+// New client-supplied clips; descriptive labels only until identities/transcripts are approved.
+// The cards display the actual video frame instead of an unrelated legacy poster.
+export const videoTestimonials = [
+  { id: 'historia-01', name: 'Historia real 01', videoSrc: 'assets/multydrink/historias-reales/historia-01.mp4' },
+  { id: 'historia-02', name: 'Historia real 02', videoSrc: 'assets/multydrink/historias-reales/historia-02.mp4' },
+  { id: 'historia-03', name: 'Historia real 03', videoSrc: 'assets/multydrink/historias-reales/historia-03.mp4' },
 ].map(item => ({ ...item, localReviewApproved: true, approved: false, publicationRightsConfirmed: false }));

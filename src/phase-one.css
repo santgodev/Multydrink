@@ -2298,3 +2298,34 @@ html.checkout-open { overflow:hidden; }
   outline-offset:4px;
 }
 .customer-video-stories .carousel-heading {justify-content:space-between;}
+
+
+/* Compact genuine video cards in the community section. */
+.customer-video-stories .carousel-heading {margin-bottom:22px;}
+.customer-video-stories .carousel-heading h2 {
+  font-size:clamp(24px,2.45vw,34px);
+  line-height:1.2;
+  letter-spacing:-.025em;
+}
+.customer-video-stories .video-track {
+  gap:16px;
+  padding:4px 2px 12px;
+  justify-content:flex-start;
+}
+.customer-video-stories .video-card {
+  flex:0 0 clamp(180px,21vw,265px);
+  max-width:265px;
+}
+.customer-video-stories .video-card>button {
+  aspect-ratio:3/4;
+  border-radius:12px;
+  background:#171D18;
+}
+@media(max-width:800px) {
+  .customer-video-stories .video-card {flex:0 0 clamp(170px,35vw,240px);}
+}
+@media(max-width:560px) {
+  .customer-video-stories .carousel-heading h2 {font-size:clamp(22px,6vw,27px);}
+  .customer-video-stories .video-card {flex:0 0 min(62vw,230px);}
+  .customer-video-stories .video-track {gap:12px;}
+}

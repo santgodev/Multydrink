@@ -172,14 +172,13 @@ function reviewableVideos(items, localReview) {
 export function renderVideoCarousel(items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return '';
-  return `<div class="carousel-heading"><div><h2 id="video-title">MultyDrink en su día a día.</h2></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-label="Reproducir testimonio de ${esc(item.name)}">${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 360px')}</button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p>`;
+  return `<div class="carousel-heading"><div><h2 id="video-title">MultyDrink en su día a día.</h2></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-label="Reproducir testimonio de ${esc(item.name)}">${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 360px')}<span class="video-inline-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="23" height="23" fill="currentColor" focusable="false"><path d="M8 5.8a1 1 0 0 1 1.52-.85l10 6.2a1 1 0 0 1 0 1.7l-10 6.2A1 1 0 0 1 8 18.2V5.8Z"/></svg></span></button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p>`;
 }
 export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return;
   const track = root.querySelector('.video-track');
   const cards = [...track.children];
-  const prev = root.querySelector('[data-carousel-prev]'), next = root.querySelector('[data-carousel-next]');
   let active = null;
   const releasePlayer = () => {
     if (!active) return;
@@ -190,18 +189,27 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     video.replaceWith(button);
     active = null;
   };
-  let index = 0;
-  const controls = () => { const overflow = track.scrollWidth > track.clientWidth + 1; prev.disabled = !overflow || track.scrollLeft <= 1; next.disabled = !overflow || track.scrollLeft >= track.scrollWidth - track.clientWidth - 1; root.querySelector('[data-carousel-status]').textContent = `Testimonio ${index + 1} de ${cards.length}`; };
-  const go = value => { index = Math.max(0, Math.min(cards.length - 1, value)); const left = cards[index].offsetLeft - cards[0].offsetLeft; track.scrollTo({ left, behavior: root.ownerDocument.defaultView.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); controls(); };
-  prev.addEventListener('click', () => go(index - 1)); next.addEventListener('click', () => go(index + 1));
+  // Native scrolling and touch swipes remain available, without visible arrows.
+  const status = root.querySelector('[data-carousel-status]');
+  const announcePosition = () => {
+    const offsets = cards.map(card => Math.abs(card.offsetLeft - cards[0].offsetLeft - track.scrollLeft));
+    const current = offsets.indexOf(Math.min(...offsets));
+    status.textContent = `Testimonio ${current + 1} de ${cards.length}`;
+  };
+  track.addEventListener('scroll', announcePosition, { passive:true });
   track.addEventListener('keydown', event => {
-    if (event.target.closest('video, button')) return;
+    if (event.target !== track) return;
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
-    go(event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 : index + (event.key === 'ArrowRight' ? 1 : -1));
+    const current = cards.reduce((best, card, i) =>
+      Math.abs(card.offsetLeft - cards[0].offsetLeft - track.scrollLeft) <
+      Math.abs(cards[best].offsetLeft - cards[0].offsetLeft - track.scrollLeft) ? i : best, 0);
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 :
+      Math.max(0, Math.min(cards.length - 1, current + (event.key === 'ArrowRight' ? 1 : -1)));
+    track.scrollTo({ left:cards[next].offsetLeft - cards[0].offsetLeft,
+      behavior: root.ownerDocument.defaultView.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
   });
-  track.addEventListener('scroll', () => { const offsets = cards.map(card => Math.abs(card.offsetLeft - cards[0].offsetLeft - track.scrollLeft)); index = offsets.indexOf(Math.min(...offsets)); controls(); });
-  root.ownerDocument.defaultView.addEventListener('resize', controls);
+  announcePosition();
   root.querySelectorAll('[data-play-video]').forEach(button => button.addEventListener('click', () => {
     releasePlayer();
     const item = eligible[Number(button.dataset.playVideo)];
@@ -222,5 +230,4 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     video.src = item.videoSrc;
     video.play()?.catch(() => {});
   }));
-  controls();
 }

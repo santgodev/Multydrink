@@ -7,7 +7,7 @@ import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
-import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderCustomerReviewSection, bindVideoCarousel } from './editorial.js';
+import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderCustomerReviewSection, bindCustomerPhotoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
   const commerce = options.commerce || defaultCommerce;
@@ -80,6 +80,7 @@ export function initApp(doc = document, win = window, options = {}) {
   const videoReview = { localReview: ['127.0.0.1', 'localhost', '[::1]'].includes(win.location.hostname) && new URLSearchParams(win.location.search).get('revision-videos') === '1' };
   $('#video-carousel').innerHTML = renderCustomerReviewSection(archivedTestimonials, videoTestimonials, videoReview);
   $('#video-testimonials').hidden = !$('#video-carousel').children.length;
+  bindCustomerPhotoCarousel($('#video-carousel'));
   bindVideoCarousel($('#video-carousel'), videoTestimonials, videoReview);
   $('#customer-fields').innerHTML = [
     renderField({ name: 'fullName', label: 'Nombre completo', autocomplete: 'name', placeholder: 'Nombre y apellidos', full: true }),

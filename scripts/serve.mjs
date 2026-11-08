@@ -28,7 +28,7 @@ const server = http.createServer(async (req, res) => {
       headers['Accept-Ranges'] = 'bytes';
       const range = req.headers.range;
       if (range) {
-        const match = /^bytes=(\\d*)-(\\d*)$/.exec(range);
+        const match = /^bytes=(\d*)-(\d*)$/.exec(range);
         let from = match?.[1] ? Number(match[1]) : 0;
         let to = match?.[2] ? Number(match[2]) : size - 1;
         if (match && !match[1] && match[2]) {

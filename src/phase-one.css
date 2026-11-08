@@ -2008,3 +2008,35 @@ html.checkout-open { overflow:hidden; }
 @media(max-width:560px) {
   .customer-experiences .customer-video-stories .video-inline-player {border-radius:13px;}
 }
+
+/* Premium video posters: discreet play affordance, no visible carousel navigation. */
+.customer-experiences .customer-video-stories .carousel-heading {
+  justify-content:flex-start;
+}
+.customer-experiences .customer-video-stories .video-card>button .video-inline-play-icon {
+  position:absolute;
+  z-index:3;
+  top:50%;
+  left:50%;
+  width:52px;
+  height:52px;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#fff;
+  background:rgba(28,55,37,.82);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 5px 20px rgba(14,28,17,.25);
+  pointer-events:none;
+  transition:background-color .18s ease, transform .18s ease;
+}
+@media (hover:hover) {
+  .customer-experiences .customer-video-stories .video-card>button:hover .video-inline-play-icon {
+    background:rgba(28,55,37,.96);
+    transform:translate(-50%,-50%) scale(1.06);
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .customer-experiences .customer-video-stories .video-inline-play-icon {transition:none;}
+}

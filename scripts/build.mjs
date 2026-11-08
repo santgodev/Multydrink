@@ -26,6 +26,12 @@ for (const item of configuredImages) {
 // Doctor's approved portrait and explainer video, referenced by the standalone editorial section.
 const doctorFiles = ['assets/multydrink/profesional/dra-erika-piedrahita.jpg', 'assets/multydrink/profesional/dra-erika-multydrink.mp4', 'assets/multydrink/optimized/dra-erika-video-poster-360.webp'];
 for (const file of doctorFiles) { await stat(file); configuredImageFiles.add(file); }
+// Preserve the approved customer originals in the built storefront.
+for (const number of ['01', '02', '03', '04', '05', '06', '08']) {
+  const photo = `assets/multydrink/momentos-compartidos/cliente-${number}.jpeg`;
+  await stat(photo);
+  configuredImageFiles.add(photo);
+}
 // Exact approved Origen photograph, referenced directly by its chapter markup.
 configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
 for (const file of approvedVideoFiles) await stat(file);

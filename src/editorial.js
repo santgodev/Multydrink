@@ -118,6 +118,19 @@ export function bindComparison(root) {
   update(input.value);
 }
 
+// Customer review presentation; numeric ratings are intentionally absent until verified data exists.
+export function renderCustomerReviewSection(testimonials, videos, options = {}) {
+  const collage = 'assets/multydrink/optimized/collage-clientes-960.webp';
+  const clientPhoto = 'assets/multydrink/optimized/gallery-cliente-multydrink-480.webp';
+  const bars = [5, 4, 3, 2, 1].map(star => `<li class="customer-rating-row"><span>${star} <span aria-hidden="true">★</span></span><span class="customer-rating-bar" aria-hidden="true"></span><span aria-label="Sin calificaciones registradas">—</span></li>`).join('');
+  const quotes = testimonials.map(item => `<article class="customer-quote"><div class="customer-quote-head"><h4>${esc(item.name)}</h4><span>Testimonio compartido en video</span></div><p>“${esc(item.comment)}”</p><small>${esc(item.topic)} · ${esc(item.sourceNote)}</small></article>`).join('');
+  return `<header class="customer-reviews-heading"><p class="customer-reviews-kicker">COMUNIDAD MULTYDRINK</p><h2 id="customer-reviews-title">Experiencias reales con MultyDrink</h2><p>Conoce momentos y experiencias compartidas por nuestra comunidad.</p></header>
+    <section class="customer-ratings" aria-labelledby="customer-ratings-title"><div class="customer-ratings-intro"><h3 id="customer-ratings-title">Calificaciones de clientes</h3><p class="customer-ratings-pending">Aún no hay valoraciones registradas.</p><p>Próximamente podrás consultar aquí las calificaciones de quienes compren a través de nuestra página.</p></div><ol class="customer-rating-rows" aria-label="Distribución de calificaciones pendiente">${bars}</ol></section>
+    <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><p>Fotografías de MultyDrink</p></div><div class="customer-photo-grid"><figure class="customer-photo-wide"><img src="${collage}" srcset="assets/multydrink/optimized/collage-clientes-480.webp 480w, assets/multydrink/optimized/collage-clientes-960.webp 960w, assets/multydrink/optimized/collage-clientes-1600.webp 1600w" sizes="(max-width: 720px) 92vw, 70vw" width="960" height="397" alt="Collage compartido por la marca con fotografías de personas y productos MultyDrink" loading="lazy" decoding="async"></figure><figure class="customer-photo-portrait"><img src="${clientPhoto}" width="480" height="640" alt="Clienta mostrando presentaciones de MultyDrink" loading="lazy" decoding="async"></figure></div></section>
+    <section class="customer-video-stories" aria-label="Historias reales en video">${renderVideoCarousel(videos, options)}</section>
+    <section class="customer-comments" aria-labelledby="customer-comments-title"><div class="customer-section-heading"><h3 id="customer-comments-title">Lo que nos cuentan</h3><p>Fragmentos de testimonios reales en video</p></div><div class="customer-quote-grid">${quotes}</div></section>`;
+}
+
 export function eligibleVideos(items) {
   return items.filter(item => item.localReviewApproved === true && item.name && item.poster?.src && item.videoSrc);
 }

@@ -2173,3 +2173,73 @@ html.checkout-open { overflow:hidden; }
     flex:0 0 min(45vw,160px);width:min(45vw,160px);height:200px;
   }
 }
+
+
+/* Reference-aligned social proof: unboxed compact ratings alongside a small photo strip. */
+.video-testimonials.customer-experiences { padding-top:clamp(34px,4vw,60px); }
+.customer-experiences .customer-reviews-heading {margin-bottom:16px;}
+.customer-experiences .community-review-showcase {
+  grid-template-columns:minmax(0,0.75fr) minmax(0,1.4fr);
+  gap:clamp(24px,4vw,56px);
+  align-items:start;
+}
+.customer-experiences .community-review-showcase .customer-ratings {
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  gap:16px;
+}
+.customer-experiences .customer-rating-overview strong {font-size:clamp(25px,2.5vw,34px);}
+.customer-experiences .customer-rating-stars {font-size:clamp(17px,1.5vw,21px);letter-spacing:0;}
+.customer-experiences .customer-rating-source {font-size:12px;}
+.customer-experiences .community-review-showcase .customer-rating-rows {gap:8px;}
+.customer-experiences .community-review-showcase .customer-rating-row {
+  grid-template-columns:30px minmax(0,1fr);
+  gap:9px;
+  font-size:13px;
+}
+.customer-experiences .community-review-showcase .customer-rating-bar {height:7px;}
+.customer-experiences .community-review-showcase .customer-section-heading {min-height:42px;margin-bottom:10px;}
+.customer-experiences .community-review-showcase .customer-recommendation {
+  margin:0;
+  color:#243F30;
+  font-size:clamp(14px,1.35vw,18px);
+  line-height:1.3;
+}
+.customer-experiences .community-review-showcase .customer-recommendation strong {
+  font-size:clamp(21px,2vw,28px);
+}
+.customer-experiences .community-review-showcase .customer-photo-grid {gap:5px;}
+.customer-experiences .community-review-showcase .customer-photo-item {
+  flex:0 0 clamp(112px,10vw,155px);
+  width:clamp(112px,10vw,155px);
+  height:clamp(125px,10.5vw,165px);
+  background:#E7EDE2;
+  border:0;
+  border-radius:5px;
+}
+.customer-experiences .community-review-showcase .customer-photo-controls {gap:5px;}
+.customer-experiences .community-review-showcase .customer-photo-controls button {
+  width:36px;
+  height:36px;
+  font-size:20px;
+  border-color:#C5D2BE;
+}
+@media(max-width:800px) {
+  .customer-experiences .community-review-showcase {grid-template-columns:1fr;gap:22px;}
+  .customer-experiences .community-review-showcase .customer-ratings {display:block;}
+  .customer-experiences .community-review-showcase .customer-rating-rows {margin-top:15px;}
+  .customer-experiences .community-review-showcase .customer-photo-item {
+    flex:0 0 133px;width:133px;height:145px;
+  }
+}
+@media(max-width:560px) {
+  .video-testimonials.customer-experiences {padding-top:32px;}
+  .customer-experiences .community-review-showcase .customer-ratings {display:block;}
+  .customer-experiences .community-review-showcase .customer-photo-item {
+    flex:0 0 124px;width:124px;height:139px;
+  }
+  .customer-experiences .community-review-showcase .customer-section-heading {min-height:40px;}
+}

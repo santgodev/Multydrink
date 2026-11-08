@@ -421,7 +421,7 @@ test('Customer experiences preserve client ratings, disclose pending distributio
   assert.match(section.querySelector('.customer-recommendation').textContent, /99\s*%/);
   assert.equal(section.querySelectorAll('.customer-rating-rows .customer-rating-bar').length, 5);
   assert.equal(section.querySelector('.customer-rating-source').textContent, 'Basado en reseñas');
-  assert.equal(section.querySelectorAll('.customer-rating-bar-fill').length, 0);
+  assert.equal(section.querySelectorAll('.customer-rating-bar-fill').length, 5);
   assert.equal(section.querySelector('#customer-distribution-note'), null);
   assert.equal(section.querySelectorAll('.customer-rating-row > span').length, 10);
   assert.equal(section.querySelectorAll('.customer-rating-row [aria-label="Recuento pendiente"]').length, 0);

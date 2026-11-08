@@ -1994,3 +1994,17 @@ html.checkout-open { overflow:hidden; }
   .customer-experiences .customer-video-stories .video-card { flex-basis:85%; }
   .customer-experiences .customer-video-stories .video-card>button { border-radius:13px; }
 }
+
+/* Customer story playback stays inside its original card (no modal). */
+.customer-experiences .customer-video-stories .video-inline-player {
+  display:block;
+  width:100%;
+  aspect-ratio:4/5;
+  height:auto;
+  border-radius:17px;
+  background:#E6EBDD;
+  object-fit:contain;
+}
+@media(max-width:560px) {
+  .customer-experiences .customer-video-stories .video-inline-player {border-radius:13px;}
+}

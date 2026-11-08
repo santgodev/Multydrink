@@ -2005,3 +2005,10 @@ html.checkout-open { overflow:hidden; }
   .customer-rating-overview { gap:8px; }
   .customer-rating-stars { letter-spacing:0; }
 }
+
+
+/* Decorative five-star emphasis while authentic distribution totals are pending. */
+.customer-experiences .customer-rating-row { grid-template-columns:40px minmax(0,1fr); }
+.customer-experiences .customer-rating-bar { position:relative; display:block; overflow:hidden; }
+.customer-experiences .customer-rating-bar-fill { position:absolute; inset:0 auto 0 0; width:0; background:#748C67; border-radius:inherit; }
+.customer-experiences .customer-rating-bar-fill.is-featured { width:91%; background:#4B6C46; }

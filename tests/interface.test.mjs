@@ -208,7 +208,13 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('#order-entry').inert, false);
   const originalTitle = ctx.$('#order-title').textContent;
   const originalSubtitle = ctx.$('.checkout-subtitle').textContent;
-  const originalDetails = ctx.$('.checkout-details').innerHTML;
+  const originalDetails = {
+    package: ctx.$('#packageId').value,
+    quantity: ctx.$('#quantity').value,
+    count: ctx.$('#summary-count').textContent,
+    subtotal: ctx.$('#summary-subtotal').textContent,
+    total: ctx.$('#summary-total').textContent,
+  };
   fillValid(ctx);
   const submit = () => ctx.$('#order-form').dispatchEvent(new ctx.win.Event('submit', { bubbles: true, cancelable: true }));
   submit(); submit();
@@ -225,7 +231,13 @@ test('Configured submission shows loading, locks duplicate clicks and renders re
   assert.equal(ctx.$('#confirmation-total').textContent, '$425.000 COP');
   assert.equal(ctx.$('#order-title').textContent, originalTitle);
   assert.equal(ctx.$('.checkout-subtitle').textContent, originalSubtitle);
-  assert.equal(ctx.$('.checkout-details').innerHTML, originalDetails);
+  assert.deepEqual({
+    package: ctx.$('#packageId').value,
+    quantity: ctx.$('#quantity').value,
+    count: ctx.$('#summary-count').textContent,
+    subtotal: ctx.$('#summary-subtotal').textContent,
+    total: ctx.$('#summary-total').textContent,
+  }, originalDetails, 'Confirmed checkout preserves selected package and totals');
   assert.equal(ctx.$('#pedido').classList.contains('is-confirmed'), true);
   assert.equal(ctx.$('#pedido').getAttribute('aria-labelledby'), 'confirmation-heading');
   assert.equal(ctx.$('#order-entry').hidden, true);

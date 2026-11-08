@@ -34,7 +34,12 @@ for (const number of ['01', '02', '03', '04', '05', '06', '08']) {
 }
 // Exact approved Origen photograph, referenced directly by its chapter markup.
 configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
-for (const file of approvedVideoFiles) await stat(file);
+for (const file of approvedVideoFiles) {
+  if (!file) continue;
+  await stat(file);
+  // The new story clips are referenced directly from nested assets paths.
+  if (/^assets\/multydrink\/historias-reales\/historia-0[1-3]\.mp4$/.test(file)) configuredImageFiles.add(file);
+}
 // Brand-supplied research bank: copy the original PDF without transforming it.
 const researchPdf = 'assets/multydrink/investigacion/investigaciones-multydrink.pdf';
 if (!(await readFile(researchPdf)).subarray(0, 5).equals(Buffer.from('%PDF-'))) throw new Error('Invalid research PDF');

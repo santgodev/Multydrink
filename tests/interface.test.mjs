@@ -426,7 +426,8 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.equal(section.querySelectorAll('.customer-rating-row [aria-label="Recuento pendiente"]').length, 0);
   assert.equal(section.querySelector('.customer-ratings .customer-ratings-pending'), null);
   assert.equal(section.querySelectorAll('.customer-rating-row').length, 5);
-  assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 2);
+  assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 7);
+  assert.ok([...section.querySelectorAll('.customer-photo-grid img')].every(image => image.getAttribute('loading') === 'lazy' && image.getAttribute('src').startsWith('assets/multydrink/momentos-compartidos/')));
   assert.equal(section.querySelectorAll('.customer-video-stories .video-card').length, 3);
   assert.equal(section.querySelectorAll('.customer-quote').length, 3);
   assert.equal(section.querySelectorAll('.customer-quote .review-stars, .customer-quote .verified-buyer').length, 0);

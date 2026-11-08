@@ -2090,3 +2090,86 @@ html.checkout-open { overflow:hidden; }
   .customer-experiences .customer-section-heading {flex-direction:row;align-items:center;}
   .customer-experiences .customer-photo-controls button {width:40px;height:40px;}
 }
+
+
+/* Community review: one editorial row like the approved reference. */
+.customer-experiences .community-review-showcase {
+  display:grid;
+  grid-template-columns:minmax(0,0.95fr) minmax(0,1.45fr);
+  align-items:start;
+  gap:clamp(20px,3vw,42px);
+}
+.customer-experiences .community-review-showcase .customer-ratings {
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:22px;
+  padding:clamp(16px,2vw,24px);
+  min-width:0;
+}
+.customer-experiences .community-review-showcase .customer-ratings-intro { gap:6px; }
+.customer-experiences .community-review-showcase .customer-recommendation {
+  font-size:clamp(13px,1.3vw,17px);
+}
+.customer-experiences .community-review-showcase .customer-recommendation strong {
+  font-size:clamp(21px,2.1vw,27px);
+}
+.customer-experiences .community-review-showcase .customer-rating-rows { gap:8px; }
+.customer-experiences .community-review-showcase .customer-gallery {
+  min-width:0;
+  margin-top:0;
+}
+.customer-experiences .community-review-showcase .customer-section-heading {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 0 14px;
+}
+.customer-experiences .community-review-showcase .customer-section-heading h3 {
+  font-size:clamp(17px,1.75vw,23px);
+}
+.customer-experiences .community-review-showcase .customer-photo-grid {
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  padding:1px 0 3px;
+  min-width:0;
+}
+.customer-experiences .community-review-showcase .customer-photo-grid::-webkit-scrollbar { display:none; }
+.customer-experiences .community-review-showcase .customer-photo-item {
+  flex:0 0 clamp(116px,10.3vw,152px);
+  width:clamp(116px,10.3vw,152px);
+  height:clamp(150px,13.5vw,190px);
+  aspect-ratio:auto;
+  border-radius:10px;
+}
+@media(max-width:800px) {
+  .customer-experiences .community-review-showcase { grid-template-columns:1fr;gap:24px; }
+  .customer-experiences .community-review-showcase .customer-ratings {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:18px;
+  }
+  .customer-experiences .community-review-showcase .customer-photo-item {
+    flex:0 0 145px;width:145px;height:185px;
+  }
+}
+@media(max-width:560px) {
+  .customer-experiences .community-review-showcase .customer-ratings {
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .customer-experiences .community-review-showcase .customer-photo-grid {
+    margin-right:-8px;
+    padding-right:8px;
+  }
+  .customer-experiences .community-review-showcase .customer-photo-item {
+    flex:0 0 min(45vw,160px);width:min(45vw,160px);height:200px;
+  }
+}

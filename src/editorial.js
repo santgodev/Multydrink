@@ -186,6 +186,7 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     video.pause();
     video.removeAttribute('src');
     video.load();
+    video.nextElementSibling?.matches('.video-playback-notice') && video.nextElementSibling.remove();
     video.replaceWith(button);
     active = null;
   };
@@ -216,8 +217,10 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     const video = root.ownerDocument.createElement('video');
     video.className = 'video-inline-player';
     video.controls = true;
-    video.preload = 'none';
+    video.preload = 'metadata';
     video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
     video.setAttribute('aria-label', `Testimonio de ${item.name}`);
     if (item.poster?.src) video.poster = item.poster.src;
     if (item.captionsSrc) {
@@ -228,6 +231,26 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
     button.replaceWith(video);
     active = { button, video };
     video.src = item.videoSrc;
-    video.play()?.catch(() => {});
+    // Keep native inline playback on mobile and explain media errors instead
+    // of silently swallowing failures when the browser cannot load a clip.
+    const notice = root.ownerDocument.createElement('p');
+    notice.className = 'video-playback-notice';
+    notice.setAttribute('role', 'status');
+    notice.hidden = true;
+    video.after(notice);
+    const explain = () => {
+      notice.textContent = 'No se pudo reproducir el video. Comprueba la conexión e inténtalo de nuevo.';
+      notice.hidden = false;
+    };
+    video.addEventListener('error', explain);
+    video.addEventListener('playing', () => { notice.hidden = true; });
+    const playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.catch(() => {
+        // If the browser blocked the initial programmatic request, native
+        // controls can still start playback after another direct tap.
+        if (video.error) explain();
+      });
+    }
   }));
 }

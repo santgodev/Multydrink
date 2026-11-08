@@ -86,6 +86,9 @@ test('Each story plays inline in its own card, without a dialog, and stops the p
     const root = win.document.body;
     bindVideoCarousel(root, videoTestimonials);
     assert.equal(root.querySelector('dialog'), null);
+    assert.equal(root.querySelectorAll('.carousel-controls [data-carousel-prev], .carousel-controls [data-carousel-next]').length, 0);
+    assert.equal(root.querySelectorAll('.video-inline-play-icon').length, 3);
+    assert.ok([...root.querySelectorAll('.video-card>button')].every(button => button.getAttribute('aria-label')?.startsWith('Reproducir testimonio')));
     assert.equal(root.querySelectorAll('video').length, 0);
     assert.equal(played, 0);
     const buttons = [...root.querySelectorAll('[data-play-video]')];

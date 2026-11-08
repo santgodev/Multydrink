@@ -102,7 +102,16 @@ test('Each story plays inline in its own card, without a dialog, and stops the p
       assert.ok(video);
       assert.equal(video.closest('.video-card'), root.querySelectorAll('.video-card')[index]);
       assert.equal(video.getAttribute('src'), videoTestimonials[index].videoSrc);
-      assert.equal(video.preload, 'none');
+      assert.equal(video.preload, 'metadata');
+      assert.equal(video.playsInline, true);
+      assert.equal(video.hasAttribute('playsinline'), true);
+      const notice = video.nextElementSibling;
+      assert.equal(notice.hidden, true);
+      video.dispatchEvent(new win.Event('error'));
+      assert.equal(notice.hidden, false);
+      assert.match(notice.textContent, /No se pudo reproducir/);
+      video.dispatchEvent(new win.Event('playing'));
+      assert.equal(notice.hidden, true);
       assert.equal(video.controls, true);
       assert.equal(root.querySelectorAll('.video-inline-player').length, 1);
     }

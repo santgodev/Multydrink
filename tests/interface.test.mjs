@@ -417,7 +417,10 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   const ctx = setup();
   const section = ctx.$('#video-testimonials');
   assert.equal(section.hidden, false);
-  assert.ok(section.querySelector('.customer-ratings-pending').textContent.includes('Aún no hay valoraciones registradas'));
+  assert.equal(section.querySelector('.customer-rating-overview strong').textContent, '4,9');
+  assert.match(section.querySelector('.customer-recommendation').textContent, /99\s*%/);
+  assert.equal(section.querySelectorAll('.customer-rating-rows .customer-rating-bar').length, 5);
+  assert.equal(section.querySelector('.customer-ratings .customer-ratings-pending'), null);
   assert.equal(section.querySelectorAll('.customer-rating-row').length, 5);
   assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 2);
   assert.equal(section.querySelectorAll('.customer-video-stories .video-card').length, 3);

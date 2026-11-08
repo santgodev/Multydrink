@@ -45,7 +45,11 @@ test('Community data stays honest and video requests are absent from initial mar
     assert.equal(root.querySelector('.customer-rating-overview strong').textContent, '4,9');
     assert.match(root.querySelector('.customer-recommendation').textContent, /99 %/);
     assert.equal(root.querySelectorAll('.customer-rating-bar').length, 5);
-    assert.equal(root.querySelectorAll('.customer-rating-bar-fill, [role="progressbar"]').length, 0);
+    assert.equal(root.querySelectorAll('.customer-rating-bar-fill').length, 5);
+    assert.equal(root.querySelectorAll('[role="progressbar"]').length, 0);
+    assert.equal(root.querySelectorAll('.customer-rating-bar-fill')[0].style.width, '90%');
+    assert.equal(root.querySelectorAll('.customer-rating-bar-fill')[1].style.width, '10%');
+    assert.ok([...root.querySelectorAll('.customer-rating-bar-fill')].slice(2).every(el => el.style.width === '0%'));
     assert.equal(root.querySelector('#customer-distribution-note'), null);
     assert.equal(root.querySelectorAll('video, source').length, 0);
     assert.equal(root.querySelectorAll('.video-poster').length, 3);

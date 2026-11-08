@@ -122,13 +122,14 @@ export function initApp(doc = document, win = window, options = {}) {
   }
   if (localDemo) {
     $('#order-availability').textContent = 'SIMULACIÓN LOCAL · Usa datos ficticios. No se crea un pedido real, no se envían ni guardan datos y no se realizan pagos ni notificaciones.';
+    $('#order-availability').hidden = false;
     $('#submit-order').disabled = false;
     $('#submit-order').textContent = 'SIMULAR PEDIDO · SIN ENVÍO DE DATOS';
     $('#privacy-help').textContent = 'Validación de prueba con datos ficticios. Esta simulación no registra consentimiento ni sustituye la política definitiva del vendedor.';
     $('#order-form').setAttribute('autocomplete', 'off');
     $$('#order-form input').forEach(input => input.setAttribute('autocomplete', 'off'));
   } else if (ready) {
-    $('#order-availability').textContent = commerce.shippingDescription;
+    // Delivery price and conditions appear once inside the order summary.
     $('#submit-order').disabled = false;
     $('#submit-order').innerHTML = `CONFIRMAR PEDIDO · PAGO EN CASA ${icon('arrow')}`;
     $('#conditions-dialog').querySelector('p:last-child').textContent = `Vendedor: ${commerce.merchantName}. ${commerce.shippingDescription} Consulta sus condiciones completas antes de enviar el pedido.`;
@@ -156,7 +157,7 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#summary-savings').textContent = money(totals.savings);
     $('#summary-shipping').textContent = totals.shippingFee === null ? 'Por confirmar' : totals.shippingFee === 0 ? 'Incluido' : money(totals.shippingFee);
     $('#summary-total').textContent = totals.total === null ? 'Por confirmar' : money(totals.total);
-    if (totals.total !== null) $('#shipping-note').textContent = commerce.shippingDescription || 'Pago contra entrega. No se cobra desde esta página.';
+    if (totals.total !== null) $('#shipping-note').textContent = 'Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.';
   }
   function selectPackage(value) {
     if (!getPackage(value) || sending || confirmed) return;

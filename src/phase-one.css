@@ -2243,3 +2243,27 @@ html.checkout-open { overflow:hidden; }
   }
   .customer-experiences .community-review-showcase .customer-section-heading {min-height:40px;}
 }
+
+
+/* New portrait story clips: original video frame, no unrelated legacy poster. */
+.customer-video-stories .video-card>button {
+  aspect-ratio:9/13;
+  background:linear-gradient(145deg,#243F30,#101D16);
+}
+.customer-video-stories .video-card-preview {
+  display:block;
+  width:100%;
+  height:100%;
+  position:absolute;
+  inset:0;
+  z-index:1;
+  object-fit:contain;
+  pointer-events:none;
+}
+.customer-video-stories .video-play,
+.customer-video-stories .video-watch {z-index:2;}
+.customer-video-stories .video-track {
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.customer-video-stories .video-track::-webkit-scrollbar {display:none;}

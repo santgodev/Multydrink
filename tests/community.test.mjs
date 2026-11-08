@@ -46,7 +46,7 @@ test('Community data stays honest and video requests are absent from initial mar
     assert.match(root.querySelector('.customer-recommendation').textContent, /99 %/);
     assert.equal(root.querySelectorAll('.customer-rating-bar').length, 5);
     assert.equal(root.querySelectorAll('.customer-rating-bar-fill, [role="progressbar"]').length, 0);
-    assert.match(root.querySelector('#customer-distribution-note').textContent, /pendiente/);
+    assert.equal(root.querySelector('#customer-distribution-note'), null);
     assert.equal(root.querySelectorAll('video, source').length, 0);
     assert.equal(root.querySelectorAll('.video-poster').length, 3);
     assert.ok([...root.querySelectorAll('img')].every(img => img.loading === 'lazy' && img.width > 0 && img.height > 0));
@@ -75,7 +75,7 @@ test('Photo arrows and keyboard use the same scroll track and respect reduced mo
   } finally { win.happyDOM.abort(); }
 });
 
-test('Each new story opens the correct MP4 on request and releases it on close', async () => {
+test('Each story plays inline in its own card, without a dialog, and stops the previous video', async () => {
   const win = new Window();
   try {
     let played = 0, paused = 0;
@@ -85,20 +85,22 @@ test('Each new story opens the correct MP4 on request and releases it on close',
     win.document.body.innerHTML = renderVideoCarousel(videoTestimonials);
     const root = win.document.body;
     bindVideoCarousel(root, videoTestimonials);
+    assert.equal(root.querySelector('dialog'), null);
+    assert.equal(root.querySelectorAll('video').length, 0);
     assert.equal(played, 0);
-    for (const [index, trigger] of [...root.querySelectorAll('[data-play-video]')].entries()) {
+    const buttons = [...root.querySelectorAll('[data-play-video]')];
+    for (const [index, trigger] of buttons.entries()) {
       trigger.click();
-      const video = root.querySelector('video');
+      const video = root.querySelector('.video-inline-player');
+      assert.ok(video);
+      assert.equal(video.closest('.video-card'), root.querySelectorAll('.video-card')[index]);
       assert.equal(video.getAttribute('src'), videoTestimonials[index].videoSrc);
       assert.equal(video.preload, 'none');
       assert.equal(video.controls, true);
-      assert.equal(root.querySelector('dialog').open, true);
-      root.querySelector('[data-video-close]').click();
-      await new Promise(resolve => setTimeout(resolve, 0));
-      assert.equal(root.querySelector('video'), null);
-      assert.equal(win.document.activeElement, trigger);
+      assert.equal(root.querySelectorAll('.video-inline-player').length, 1);
     }
     assert.equal(played, 3);
-    assert.equal(paused, 3);
+    assert.equal(paused, 2);
+    assert.equal(root.querySelectorAll('[data-play-video]').length, 2);
   } finally { await win.happyDOM.abort(); }
 });

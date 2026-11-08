@@ -136,9 +136,40 @@ export function renderCustomerReviewSection(testimonials, videos, options = {}) 
   const quotes = testimonials.map(item => `<article class="customer-quote"><div class="customer-quote-head"><h4>${esc(item.name)}</h4><span>Testimonio compartido en video</span></div><p>“${esc(item.comment)}”</p><small>${esc(item.topic)} · ${esc(item.sourceNote)}</small></article>`).join('');
   return `<header class="customer-reviews-heading"><h2 id="customer-reviews-title" class="customer-reviews-kicker">COMUNIDAD MULTYDRINK</h2></header>
     <section class="customer-ratings" aria-label="Resumen de valoraciones proporcionado por el cliente"><div class="customer-ratings-intro"><p class="customer-rating-overview"><strong>4,9</strong><span class="customer-rating-stars" aria-label="4,9 de 5 estrellas">★★★★★</span></p><p class="customer-rating-source">Basado en reseñas</p><p class="customer-recommendation"><strong>99 %</strong> recomendaría MultyDrink</p></div><ol class="customer-rating-rows" aria-label="Distribución de estrellas pendiente de recuentos reales">${bars}</ol></section>
-    <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><p>Fotografías de MultyDrink</p></div><div class="customer-photo-grid">${customerPhotoMarkup}</div></section>
+    <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><div class="customer-photo-controls" aria-label="Navegación de fotografías"><button type="button" data-customer-photo-prev aria-label="Fotografías anteriores">←</button><button type="button" data-customer-photo-next aria-label="Fotografías siguientes">→</button></div></div><div class="customer-photo-grid" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Fotografías de la comunidad MultyDrink">${customerPhotoMarkup}</div></section>
     <section class="customer-video-stories" aria-label="Historias reales en video">${renderVideoCarousel(videos, options)}</section>
     <section class="customer-comments" aria-labelledby="customer-comments-title"><div class="customer-section-heading"><h3 id="customer-comments-title">Lo que nos cuentan</h3><p>Fragmentos de testimonios reales en video</p></div><div class="customer-quote-grid">${quotes}</div></section>`;
+}
+
+export function bindCustomerPhotoCarousel(root) {
+  if (!root) return;
+  const track = root.querySelector('.customer-photo-grid');
+  const prev = root.querySelector('[data-customer-photo-prev]');
+  const next = root.querySelector('[data-customer-photo-next]');
+  if (!track || !prev || !next) return;
+  const updateControls = () => {
+    const max = Math.max(0, track.scrollWidth - track.clientWidth);
+    prev.disabled = max < 2 || track.scrollLeft <= 2;
+    next.disabled = max < 2 || track.scrollLeft >= max - 2;
+  };
+  const move = direction => {
+    const item = track.querySelector('.customer-photo-item');
+    if (!item) return;
+    const gap = parseFloat(root.ownerDocument.defaultView.getComputedStyle(track).gap) || 0;
+    const delta = item.getBoundingClientRect().width + gap;
+    const reduceMotion = root.ownerDocument.defaultView.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    track.scrollBy({ left: direction * delta, behavior: reduceMotion ? 'instant' : 'smooth' });
+  };
+  prev.addEventListener('click', () => move(-1));
+  next.addEventListener('click', () => move(1));
+  track.addEventListener('scroll', updateControls, { passive: true });
+  track.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    move(event.key === 'ArrowRight' ? 1 : -1);
+  });
+  root.ownerDocument.defaultView.addEventListener('resize', updateControls);
+  updateControls();
 }
 
 export function eligibleVideos(items) {

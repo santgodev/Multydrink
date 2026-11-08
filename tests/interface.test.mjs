@@ -427,6 +427,10 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.equal(section.querySelector('.customer-ratings .customer-ratings-pending'), null);
   assert.equal(section.querySelectorAll('.customer-rating-row').length, 5);
   assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 7);
+  assert.equal(section.querySelectorAll('.customer-photo-item').length, 7);
+  assert.ok(section.querySelector('[data-customer-photo-prev]'));
+  assert.ok(section.querySelector('[data-customer-photo-next]'));
+  assert.equal(section.querySelector('.customer-photo-grid').getAttribute('aria-roledescription'), 'carrusel');
   assert.ok([...section.querySelectorAll('.customer-photo-grid img')].every(image => image.getAttribute('loading') === 'lazy' && image.getAttribute('src').startsWith('assets/multydrink/momentos-compartidos/')));
   assert.equal(section.querySelectorAll('.customer-video-stories .video-card').length, 3);
   assert.equal(section.querySelectorAll('.customer-quote').length, 3);

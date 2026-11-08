@@ -29,6 +29,7 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(ctx.$('#sticky-price').textContent, '$425.000');
   assert.equal(ctx.$('#summary-subtotal').textContent, '$425.000');
   ctx.$('input[value="individual"]').click();
+  assert.equal(ctx.$('.order-summary .summary-saving').hidden, true);
   assert.equal(ctx.$('#packageId').value, 'individual');
   assert.equal(ctx.$('#sticky-price').textContent, '$110.000');
   assert.equal(ctx.$('input[value="individual"]').checked, true);
@@ -38,6 +39,7 @@ test('Package selection synchronizes cards, form, sticky price and quantity tota
   assert.equal(ctx.$('#summary-total').textContent, '$220.000');
   assert.equal(ctx.$('#summary-shipping').textContent, 'Incluido');
   fill(ctx, 'packageId', 'familiar', 'change');
+  assert.equal(ctx.$('.order-summary .summary-saving').hidden, false);
   assert.equal(ctx.$('#summary-subtotal').textContent, '$850.000');
   assert.equal(ctx.$('#summary-savings').textContent, '$470.000');
   assert.equal(ctx.$('input[value="familiar"]').checked, true);
@@ -117,6 +119,19 @@ test('Checkout has one order flow and mobile-first summary, delivery, final acti
       '¡ESTÁS A UN PASO DE RECIBIR MULTYDRINK EN CASA!');
     ctx.$('#quantity-more').click();
     assert.equal(ctx.$('#summary-total').textContent, '$850.000');
+  } finally { ctx.win.happyDOM.abort(); }
+});
+
+test('Mobile checkout can initialize and close with the X button', () => {
+  const ctx = setup();
+  try {
+    Object.defineProperty(ctx.win, 'innerWidth', { configurable:true, value:390 });
+    ctx.win.dispatchEvent(new ctx.win.Event('resize'));
+    ctx.$('.nav-purchase').click();
+    assert.equal(ctx.$('#pedido').open, true);
+    ctx.$('#pedido .checkout-header [data-close]').click();
+    assert.equal(ctx.$('#pedido').open, false);
+    assert.equal(ctx.doc.documentElement.classList.contains('checkout-open'), false);
   } finally { ctx.win.happyDOM.abort(); }
 });
 

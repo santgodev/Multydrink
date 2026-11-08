@@ -411,3 +411,20 @@ test('Loopback demo clearly disclaims a real order and restores the complete che
   assert.equal(ctx.app.getState().confirmed, false);
   await ctx.win.happyDOM.abort();
 });
+
+
+test('Customer experiences present unrated stars, real photos, videos and archived quotes without fake verification', () => {
+  const ctx = setup();
+  const section = ctx.$('#video-testimonials');
+  assert.equal(section.hidden, false);
+  assert.ok(section.querySelector('.customer-ratings-pending').textContent.includes('Aún no hay valoraciones registradas'));
+  assert.equal(section.querySelectorAll('.customer-rating-row').length, 5);
+  assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 2);
+  assert.equal(section.querySelectorAll('.customer-video-stories .video-card').length, 3);
+  assert.equal(section.querySelectorAll('.customer-quote').length, 3);
+  assert.equal(section.querySelectorAll('.customer-quote .review-stars, .customer-quote .verified-buyer').length, 0);
+  assert.ok(section.textContent.includes('Manuela'));
+  assert.ok(section.textContent.includes('Kim Cuervo'));
+  assert.ok(section.textContent.includes('Juan Alcántara Medina'));
+  ctx.win.happyDOM.abort();
+});

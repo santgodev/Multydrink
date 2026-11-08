@@ -426,6 +426,8 @@ test('Customer experiences present unrated stars, real photos, videos and archiv
   assert.equal(section.querySelectorAll('.customer-rating-row [aria-label="Recuento pendiente"]').length, 0);
   assert.equal(section.querySelector('.customer-ratings .customer-ratings-pending'), null);
   assert.equal(section.querySelectorAll('.customer-rating-row').length, 5);
+  assert.ok(section.querySelector('.community-review-showcase > .customer-ratings'));
+  assert.ok(section.querySelector('.community-review-showcase > .customer-gallery'));
   assert.equal(section.querySelectorAll('.customer-photo-grid img').length, 7);
   assert.equal(section.querySelectorAll('.customer-photo-item').length, 7);
   assert.ok(section.querySelector('[data-customer-photo-prev]'));

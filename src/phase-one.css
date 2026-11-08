@@ -1972,8 +1972,8 @@ html.checkout-open { overflow:hidden; }
 .customer-comments { margin-top:clamp(35px,5vw,64px); }
 .customer-comments .customer-section-heading { align-items:baseline;margin-bottom:20px; }
 .customer-comments .customer-section-heading h3 { font-size:clamp(20px,2.2vw,29px);line-height:1.2; }
-.customer-comments .customer-quote-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:16px; }
-.customer-comments .customer-quote { display:grid;gap:12px;min-width:0;padding:20px;border:1px solid #DAE3D5;border-radius:12px;background:#fff; }
+.customer-comments .customer-quote-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:16px; }
+.customer-comments .customer-quote { display:grid;grid-template-rows:auto 1fr auto;gap:12px;min-width:0;padding:20px;border:1px solid #DAE3D5;border-radius:12px;background:#fff; }
 .customer-comments .customer-quote h4 { margin:0;font-family:var(--heading);font-size:15px;font-weight:600;line-height:1.4;color:#243F30; }
 .customer-comments .customer-quote blockquote { margin:0; }
 .customer-comments .customer-quote blockquote p { margin:0;font-size:15px;line-height:1.6;color:#354836; }

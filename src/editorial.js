@@ -125,7 +125,7 @@ export function renderCustomerReviewSection(testimonials, videos, options = {}) 
   const quotes = testimonials.map(item => `<article class="customer-quote"><h4>${esc(item.name)}</h4><blockquote><p>&ldquo;${esc(item.comment)}&rdquo;</p></blockquote><p class="customer-quote-source">${esc(item.sourceNote)}</p></article>`).join('');
   return `<header class="customer-reviews-heading"><h2 id="customer-reviews-title" class="customer-reviews-kicker">COMUNIDAD MULTYDRINK</h2></header>
     <div class="community-review-showcase">
-      <section class="customer-ratings" aria-label="Resumen de valoraciones proporcionado por el cliente"><div class="customer-ratings-intro"><p class="customer-rating-overview"><strong>4,9</strong><span class="customer-rating-stars" aria-label="4,9 de 5 estrellas">★★★★★</span></p><p class="customer-rating-source">Basado en reseñas</p></div><p class="customer-recommendation"><strong>99 %</strong> recomendaría MultyDrink</p><ol class="customer-rating-rows" aria-label="Distribución de estrellas pendiente de recuentos reales" aria-describedby="customer-distribution-note">${bars}</ol><p id="customer-distribution-note" class="customer-distribution-note">Distribución por estrellas pendiente de consolidaciÃ³n.</p></section>
+      <section class="customer-ratings" aria-label="Resumen de valoraciones proporcionado por el cliente"><div class="customer-ratings-intro"><p class="customer-rating-overview"><strong>4,9</strong><span class="customer-rating-stars" aria-label="4,9 de 5 estrellas">★★★★★</span></p><p class="customer-rating-source">Basado en reseñas</p></div><p class="customer-recommendation"><strong>99 %</strong> recomendaría MultyDrink</p><ol class="customer-rating-rows" aria-label="Distribución de estrellas pendiente de recuentos reales">${bars}</ol></section>
       <section class="customer-gallery" aria-labelledby="customer-gallery-title"><div class="customer-section-heading"><h3 id="customer-gallery-title">Momentos compartidos</h3><div class="customer-photo-controls" aria-label="Navegación de fotografías"><button type="button" data-customer-photo-prev aria-label="Fotografías anteriores">←</button><button type="button" data-customer-photo-next aria-label="Fotografías siguientes">→</button></div></div><div class="customer-photo-grid" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Fotografías de la comunidad MultyDrink">${customerPhotoMarkup}</div></section>
     </div>
     <section class="customer-video-stories" aria-label="Historias reales en video">${renderVideoCarousel(videos, options)}</section>
@@ -172,7 +172,7 @@ function reviewableVideos(items, localReview) {
 export function renderVideoCarousel(items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
   if (!eligible.length) return '';
-  return `<div class="carousel-heading"><div><h2 id="video-title">MultyDrink en su día a día.</h2></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-haspopup="dialog" aria-label="Reproducir testimonio de ${esc(item.name)}">${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 360px')}</button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p><dialog class="video-dialog" aria-labelledby="video-dialog-title"><button type="button" data-video-close class="dialog-close" aria-label="Cerrar video">×</button><h3 id="video-dialog-title"></h3><div data-video-player></div></dialog>`;
+  return `<div class="carousel-heading"><div><h2 id="video-title">MultyDrink en su día a día.</h2></div><div class="carousel-controls"><button type="button" data-carousel-prev aria-label="Testimonio anterior">←</button><button type="button" data-carousel-next aria-label="Siguiente testimonio">→</button></div></div><ul class="video-track" tabindex="0" aria-label="Testimonios en video">${eligible.map((item, index) => `<li class="video-card"><button type="button" data-play-video="${index}" aria-label="Reproducir testimonio de ${esc(item.name)}">${imageMarkup(item.poster, 'video-poster', '(max-width: 560px) 85vw, (max-width: 800px) 45vw, 360px')}</button></li>`).join('')}</ul><p class="sr-only" data-carousel-status aria-live="polite"></p>`;
 }
 export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const eligible = reviewableVideos(items, localReview);
@@ -180,40 +180,47 @@ export function bindVideoCarousel(root, items, { localReview = false } = {}) {
   const track = root.querySelector('.video-track');
   const cards = [...track.children];
   const prev = root.querySelector('[data-carousel-prev]'), next = root.querySelector('[data-carousel-next]');
-  const dialog = root.querySelector('dialog'), player = root.querySelector('[data-video-player]');
-  let trigger = null;
-  const releasePlayer = () => { const video = player.querySelector('video'); if (video) { video.pause(); video.removeAttribute('src'); video.load(); } player.replaceChildren(); };
+  let active = null;
+  const releasePlayer = () => {
+    if (!active) return;
+    const { video, button } = active;
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    video.replaceWith(button);
+    active = null;
+  };
   let index = 0;
   const controls = () => { const overflow = track.scrollWidth > track.clientWidth + 1; prev.disabled = !overflow || track.scrollLeft <= 1; next.disabled = !overflow || track.scrollLeft >= track.scrollWidth - track.clientWidth - 1; root.querySelector('[data-carousel-status]').textContent = `Testimonio ${index + 1} de ${cards.length}`; };
   const go = value => { index = Math.max(0, Math.min(cards.length - 1, value)); const left = cards[index].offsetLeft - cards[0].offsetLeft; track.scrollTo({ left, behavior: root.ownerDocument.defaultView.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); controls(); };
   prev.addEventListener('click', () => go(index - 1)); next.addEventListener('click', () => go(index + 1));
-  track.addEventListener('keydown', event => { if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return; event.preventDefault(); go(event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 : index + (event.key === 'ArrowRight' ? 1 : -1)); });
+  track.addEventListener('keydown', event => {
+    if (event.target.closest('video, button')) return;
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    go(event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 : index + (event.key === 'ArrowRight' ? 1 : -1));
+  });
   track.addEventListener('scroll', () => { const offsets = cards.map(card => Math.abs(card.offsetLeft - cards[0].offsetLeft - track.scrollLeft)); index = offsets.indexOf(Math.min(...offsets)); controls(); });
   root.ownerDocument.defaultView.addEventListener('resize', controls);
   root.querySelectorAll('[data-play-video]').forEach(button => button.addEventListener('click', () => {
-    trigger = button;
     releasePlayer();
     const item = eligible[Number(button.dataset.playVideo)];
     const video = root.ownerDocument.createElement('video');
-    video.controls = true; video.preload = 'none'; video.playsInline = true; if (item.poster?.src) video.poster = item.poster.src; video.src = item.videoSrc;
+    video.className = 'video-inline-player';
+    video.controls = true;
+    video.preload = 'none';
+    video.playsInline = true;
+    video.setAttribute('aria-label', `Testimonio de ${item.name}`);
+    if (item.poster?.src) video.poster = item.poster.src;
     if (item.captionsSrc) {
       const captions = root.ownerDocument.createElement('track');
       captions.kind = 'captions'; captions.src = item.captionsSrc; captions.srclang = 'es'; captions.label = 'Español'; captions.default = true;
       video.append(captions);
     }
-    player.replaceChildren(video);
-    if (item.transcript) {
-      const transcript = root.ownerDocument.createElement('details');
-      const summary = root.ownerDocument.createElement('summary'); summary.textContent = 'Leer transcripción';
-      const text = root.ownerDocument.createElement('p'); text.textContent = item.transcript;
-      transcript.append(summary, text);
-      player.append(transcript);
-    }
-    root.querySelector('#video-dialog-title').textContent = item.name; if (!dialog.open) dialog.showModal();
+    button.replaceWith(video);
+    active = { button, video };
+    video.src = item.videoSrc;
     video.play()?.catch(() => {});
   }));
-  root.querySelector('[data-video-close]').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => { releasePlayer(); trigger?.focus({ preventScroll: true }); });
   controls();
 }
-

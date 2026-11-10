@@ -83,6 +83,13 @@ export const approvedPrivacyPolicy = Object.freeze({
       "No vendemos ni comercializamos tus datos personales. Los conservamos durante el tiempo necesario para gestionar las compras y cumplir las obligaciones legales, y los eliminamos cuando corresponda."
     ],
     [
+      "Cookies, medición publicitaria y seguridad",
+      "Utilizamos Cloudflare Turnstile en el formulario de pedidos para proteger el servicio frente a envíos automatizados y actividades abusivas. Esta verificación puede implicar el tratamiento de información técnica del navegador y la conexión con fines de seguridad.",
+      "Con tu autorización independiente, podemos activar el píxel de Meta (Facebook e Instagram) para medir visitas, consultas del producto, aperturas del formulario y pedidos registrados correctamente. Esta tecnología puede utilizar cookies e identificadores del navegador y transmitir información técnica y de interacción a Meta para la medición de campañas publicitarias.",
+      "Las cookies de medición de Meta son opcionales. Puedes aceptarlas o rechazarlas desde el aviso del sitio, así como cambiar tu elección desde «Configurar cookies» en el pie de página. Rechazarlas no impide navegar, realizar pedidos ni utilizar las verificaciones de seguridad.",
+      "No incluimos nombre, documento de identidad, teléfono, correo ni dirección del comprador en los eventos publicitarios que enviamos explícitamente desde el sitio. Para consultar el tratamiento realizado por Meta puedes revisar su política en https://www.facebook.com/privacy/policy/."
+    ],
+    [
       "Tus derechos",
       "Puedes conocer, actualizar, corregir y solicitar la eliminación de tus datos personales, así como revocar tu autorización cuando corresponda legalmente.",
       "Para ejercer estos derechos, puedes escribir a dorapatriciaortiz4@gmail.com o comunicarte al +57 310 823 2738.",

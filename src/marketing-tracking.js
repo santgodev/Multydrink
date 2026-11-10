@@ -18,8 +18,10 @@ export function initMarketingTracking({ doc = document, win = window, enabled = 
   }
   function track(name, data) {
     if (!accepted || !started || typeof win.fbq !== 'function') return;
-    if (data) win.fbq('track', name, data);
-    else win.fbq('track', name);
+    try {
+      if (data) win.fbq('track', name, data);
+      else win.fbq('track', name);
+    } catch { /* Advertising must never interrupt the checkout. */ }
   }
   function startPixel() {
     if (started) return;
@@ -41,7 +43,8 @@ export function initMarketingTracking({ doc = document, win = window, enabled = 
       script.src = 'https://connect.facebook.net/en_US/fbevents.js';
       doc.head.append(script);
     }
-    win.fbq('init', META_PIXEL_ID);
+    try { win.fbq('init', META_PIXEL_ID); }
+    catch { return; }
     track('PageView');
     track('ViewContent', { content_name: 'MultyDrink', content_type: 'product' });
   }

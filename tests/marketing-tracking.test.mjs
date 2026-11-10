@@ -64,14 +64,19 @@ test('A saved decision prevents repeated consent prompts', () => {
   } finally { win.happyDOM.abort(); }
 });
 
-test('Local and demo environments never generate marketing events', () => {
+test('Local preview shows consent controls but never generates Meta events', () => {
   const { win, calls, doc } = fixture('http://localhost:4173/?pedido-demo=1');
   try {
     const tracker = initMarketingTracking({ doc, win });
     tracker.checkout({ packageId: 'familiar', value: 425000 });
     tracker.lead({ packageId: 'familiar', value: 425000 });
-    assert.equal(tracker.getConsent(), 'disabled');
+    assert.equal(tracker.getConsent(), 'pending');
+    assert.equal(doc.querySelector('.marketing-consent').hidden, false);
+    doc.querySelector('[data-marketing-accept]').click();
+    assert.equal(tracker.getConsent(), 'accepted');
+    tracker.checkout({ packageId: 'familiar', value: 425000 });
+    tracker.lead({ packageId: 'familiar', value: 425000 });
     assert.equal(calls.length, 0);
-    assert.equal(doc.querySelector('.marketing-consent'), null);
+    assert.equal(doc.querySelectorAll('script[src*="fbevents"]').length, 0);
   } finally { win.happyDOM.abort(); }
 });

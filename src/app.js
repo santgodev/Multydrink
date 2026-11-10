@@ -7,6 +7,7 @@ import { serializeStructuredData } from './seo.js';
 import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
+import { initMarketingTracking } from './marketing-tracking.js';
 import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderCustomerReviewSection, bindCustomerPhotoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
@@ -23,6 +24,7 @@ export function initApp(doc = document, win = window, options = {}) {
     && ['http:', 'https:'].includes(win.location.protocol)
     && new URLSearchParams(win.location.search).get('pedido-demo') === '1';
   const client = localDemo ? null : createOrderClient(commerce, options.fetcher || globalThis.fetch);
+  const marketing = options.marketing || initMarketingTracking({ doc, win });
   const touched = new Set();
   const ready = isOrderingEnabled(commerce);
   const turnstile = !localDemo && ready ? (options.turnstile || createOrderTurnstile({ win, doc, siteKey: commerce.turnstileSiteKey, container: $('#order-turnstile') })) : null;
@@ -256,6 +258,7 @@ export function initApp(doc = document, win = window, options = {}) {
     checkoutScroll = win.scrollY;
     savedBodyStyle = doc.body.getAttribute('style');
     checkout.showModal();
+    if (!confirmed && !localDemo) marketing.checkout({ packageId: selected, value: calculateOrder(selected, quantity, commerce.shippingFee).total });
     Object.assign(doc.body.style, { position: 'fixed', top: `-${checkoutScroll}px`, width: '100%', overflow: 'hidden' });
     doc.documentElement.classList.add('checkout-open');
     checkout.scrollTop = 0;
@@ -420,6 +423,7 @@ export function initApp(doc = document, win = window, options = {}) {
     try {
       const result = await client.submit(data, verificationToken);
       confirmed = true;
+      marketing.lead({ packageId: data.packageId, value: result.total });
       $('#confirmation-detail').textContent = result.orderId;
       $('#confirmation-total').textContent = `${money(result.total)} COP`;
       setReceiptVisible(true);

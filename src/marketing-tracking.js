@@ -1,20 +1,44 @@
 // Meta advertising measurement is optional and never part of checkout security.
 // No Meta request, script or pixel is inserted until the visitor accepts.
 export const META_PIXEL_ID = '1615961720211982';
-const CHOICE_KEY = 'multydrink-marketing-consent-v1';
+export const COOKIE_NOTICE_VERSION = 'cookies-2026-11-10';
+const CHOICE_KEY = 'multydrink-marketing-consent-v2';
+
+function isLocalPreview(hostname) {
+  const host = hostname.toLowerCase();
+  if (host === 'localhost' || host.endsWith('.localhost') || host === '::1' || host === '[::1]') return true;
+  if (!/^(?:\\d{1,3}\\.){3}\\d{1,3}$/.test(host)) return false;
+  const parts = host.split('.').map(Number);
+  if (parts.some(part => part > 255)) return false;
+  return parts[0] === 10
+    || parts[0] === 127
+    || (parts[0] === 192 && parts[1] === 168)
+    || (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31)
+    || (parts[0] === 169 && parts[1] === 254);
+}
 
 export function initMarketingTracking({ doc = document, win = window, enabled = true } = {}) {
   let accepted = false;
   let started = false;
   // The local simulation and automated tests must never generate production events.
-  const local = ['localhost', '127.0.0.1', '[::1]'].includes(win.location.hostname);
+  const local = isLocalPreview(win.location.hostname);
   if (!enabled) return { checkout() {}, lead() {}, getConsent: () => 'disabled' };
 
   function savedChoice() {
-    try { return win.localStorage.getItem(CHOICE_KEY); } catch { return null; }
+    try {
+      const record = JSON.parse(win.localStorage.getItem(CHOICE_KEY) || 'null');
+      if (record?.version !== COOKIE_NOTICE_VERSION) return null;
+      return ['accepted', 'rejected'].includes(record.decision) ? record.decision : null;
+    } catch { return null; }
   }
   function saveChoice(choice) {
-    try { win.localStorage.setItem(CHOICE_KEY, choice); } catch { /* session choice only */ }
+    try {
+      win.localStorage.setItem(CHOICE_KEY, JSON.stringify({
+        decision: choice,
+        version: COOKIE_NOTICE_VERSION,
+        decidedAt: new Date().toISOString(),
+      }));
+    } catch { /* session choice only; no personal data collected */ }
   }
   function track(name, data) {
     if (!accepted || !started || typeof win.fbq !== 'function') return;

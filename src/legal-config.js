@@ -35,11 +35,11 @@ export function legalFact(key, commerce, business = legalBusiness) {
 
 // Client-approved public policy. Other legal documents remain drafts.
 export const approvedPrivacyPolicy = Object.freeze({
-  "version": "2026-11-03",
+  "version": "2026-11-10",
   "url": "#privacy-dialog",
   "title": "Política de Tratamiento de Datos Personales",
   "businessName": "MultyDrink Colombia",
-  "updated": "3 de noviembre de 2026",
+  "updated": "10 de noviembre de 2026",
   "sections": [
     [
       "Responsable del tratamiento",

@@ -19,6 +19,11 @@ test('Meta tracking is disabled by default, no events until acceptance, and refu
     assert.equal(tracker.getConsent(), 'pending');
     assert.equal(doc.querySelector('.marketing-consent').hidden, false);
     assert.equal(doc.querySelectorAll('script[src*="fbevents"]').length, 0);
+    assert.match(doc.querySelector('.marketing-consent').textContent, /Usamos cookies opcionales para medir nuestras campañas publicitarias/);
+    assert.match(doc.querySelector('.footer-columns button').textContent, /Preferencias de cookies/);
+    doc.getElementById('privacy-dialog').innerHTML = '<div class="legal-content"><section id="privacy-cookies">Cookies</section></div>';
+    doc.querySelector('[data-marketing-policy]').click();
+    assert.equal(doc.getElementById('privacy-dialog').open, true);
     tracker.checkout({ packageId: 'individual', value: 110000 });
     tracker.lead({ packageId: 'individual', value: 110000 });
     assert.equal(calls.length, 0);

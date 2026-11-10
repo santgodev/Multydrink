@@ -16,9 +16,8 @@ export const commerce = Object.freeze({
   // Seller identified in the approved policies. Endpoint remains disabled until Worker validation.
   merchantName: 'Dora Patricia Ortiz',
   privacyPolicyUrl: approvedPrivacyPolicy.url,
-  // Backend contract remains on the last validated version until the Worker supports the updated policy.
-  // Do not silently change this when editing website legal copy.
-  privacyPolicyVersion: '2026-11-03',
+  // Must be deployed together with the Worker's POLICY_VERSION to avoid order rejection.
+  privacyPolicyVersion: approvedPrivacyPolicy.version,
   // null = not confirmed; 0 means explicitly confirmed free delivery.
   shippingFee: 0,
   shippingDescription: 'Envío incluido en ambos paquetes. La cobertura y el plazo se confirman para tu dirección. Pago contra entrega.',

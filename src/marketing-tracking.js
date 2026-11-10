@@ -8,7 +8,7 @@ export function initMarketingTracking({ doc = document, win = window, enabled = 
   let started = false;
   // The local simulation and automated tests must never generate production events.
   const local = ['localhost', '127.0.0.1', '[::1]'].includes(win.location.hostname);
-  if (!enabled || local) return { checkout() {}, lead() {}, getConsent: () => 'disabled' };
+  if (!enabled) return { checkout() {}, lead() {}, getConsent: () => 'disabled' };
 
   function savedChoice() {
     try { return win.localStorage.getItem(CHOICE_KEY); } catch { return null; }
@@ -24,7 +24,7 @@ export function initMarketingTracking({ doc = document, win = window, enabled = 
     } catch { /* Advertising must never interrupt the checkout. */ }
   }
   function startPixel() {
-    if (started) return;
+    if (local || started) return;
     started = true;
     // Bootstrap from the advertiser-provided Meta Pixel code; without noscript,
     // so rejecting cookies never produces a fallback tracking request.

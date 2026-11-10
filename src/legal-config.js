@@ -35,11 +35,11 @@ export function legalFact(key, commerce, business = legalBusiness) {
 
 // Client-approved public policy. Other legal documents remain drafts.
 export const approvedPrivacyPolicy = Object.freeze({
-  "version": "2026-11-03",
+  "version": "2026-11-10",
   "url": "#privacy-dialog",
   "title": "Política de Tratamiento de Datos Personales",
   "businessName": "MultyDrink Colombia",
-  "updated": "3 de noviembre de 2026",
+  "updated": "10 de noviembre de 2026",
   "sections": [
     [
       "Responsable del tratamiento",
@@ -81,6 +81,13 @@ export const approvedPrivacyPolicy = Object.freeze({
       "Tu información se almacena mediante herramientas digitales de acceso restringido y se utiliza únicamente para las finalidades indicadas.",
       "Podremos compartir los datos necesarios con los proveedores encargados de gestionar las entregas y prestar servicios relacionados con tu pedido.",
       "No vendemos ni comercializamos tus datos personales. Los conservamos durante el tiempo necesario para gestionar las compras y cumplir las obligaciones legales, y los eliminamos cuando corresponda."
+    ],
+    [
+      "Cookies, medición publicitaria y seguridad",
+      "Utilizamos Cloudflare Turnstile en el formulario de pedidos para proteger el servicio frente a envíos automatizados y actividades abusivas. Esta verificación puede implicar el tratamiento de información técnica del navegador y la conexión con fines de seguridad.",
+      "Con tu autorización independiente, podemos activar el píxel de Meta (Facebook e Instagram) para medir visitas, consultas del producto, aperturas del formulario y pedidos registrados correctamente. Esta tecnología puede utilizar cookies e identificadores del navegador y transmitir información técnica y de interacción a Meta para la medición de campañas publicitarias.",
+      "Las cookies de medición de Meta son opcionales. Puedes aceptarlas o rechazarlas desde el aviso del sitio y revisar o cambiar posteriormente tu decisión en «Preferencias de cookies», disponible en el pie de página. Rechazarlas no impide navegar, realizar pedidos ni utilizar las verificaciones de seguridad.",
+      "No incluimos nombre, documento de identidad, teléfono, correo ni dirección del comprador en los eventos publicitarios que enviamos explícitamente desde el sitio. Para consultar el tratamiento realizado por Meta puedes revisar su política en https://www.facebook.com/privacy/policy/."
     ],
     [
       "Tus derechos",

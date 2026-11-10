@@ -16,6 +16,7 @@ export const commerce = Object.freeze({
   // Seller identified in the approved policies. Endpoint remains disabled until Worker validation.
   merchantName: 'Dora Patricia Ortiz',
   privacyPolicyUrl: approvedPrivacyPolicy.url,
+  // Must be deployed together with the Worker's POLICY_VERSION to avoid order rejection.
   privacyPolicyVersion: approvedPrivacyPolicy.version,
   // null = not confirmed; 0 means explicitly confirmed free delivery.
   shippingFee: 0,

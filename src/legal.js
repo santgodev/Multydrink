@@ -46,7 +46,7 @@ export function initLegalDrafts(doc, win, commerce = defaultCommerce) {
     dialog.classList.add('legal-dialog');
     dialog.innerHTML = `<header class="legal-header"><p class="eyebrow">${policy.approved ? escape(policy.businessName) : 'BORRADOR · REVISIÓN LOCAL'}</p><h2 id="${policy.id}-title">${escape(policy.title)}</h2><button type="button" class="dialog-close" aria-label="Cerrar ${escape(policy.title)}" data-close autofocus>×</button></header>
       <div class="legal-content" ${policy.approved ? 'data-policy-version' : 'data-draft-version'}="${escape(policy.approved ? policy.version : legalDraftVersion)}">${policy.approved ? (policy.updated ? `<p class="legal-policy-meta">Última actualización: ${escape(policy.updated)}</p>` : '') : '<p class="legal-draft-note">Pendiente de aprobación jurídica y comercial. No vigente. La información marcada como pendiente aún no está confirmada. Los pedidos siguen deshabilitados.</p>'}
-      ${policy.sections.map(([title, ...blocks], index) => `<section><h3><span class="legal-section-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>${escape(title)}</h3>${blocks.map(renderLegalBlock).join('')}</section>`).join('')}
+      ${policy.sections.map(([title, ...blocks], index) => `<section${policy.id === 'privacy' && title === 'Cookies, medición publicitaria y seguridad' ? ' id="privacy-cookies"' : ''}><h3><span class="legal-section-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>${escape(title)}</h3>${blocks.map(renderLegalBlock).join('')}</section>`).join('')}
       ${policy.id === 'contact' ? '<p><a href="https://www.sic.gov.co/" target="_blank" rel="noopener noreferrer">Superintendencia de Industria y Comercio (abre otra pestaña)</a></p>' : ''}
       </div>`;
   }

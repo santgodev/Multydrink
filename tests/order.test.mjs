@@ -133,7 +133,8 @@ test('Approved policy version reaches the Worker contract through a mocked order
   let payload;
   const client=createOrderClient({...configured,privacyPolicyVersion:commerce.privacyPolicyVersion},async (_,request)=>{payload=JSON.parse(request.body);return new Response(JSON.stringify(receipt));});
   await client.submit(valid,'test-turnstile-token');
-  assert.deepEqual(payload.consent,{accepted:true,policyVersion:'2026-11-03'});
+  assert.deepEqual(payload.consent,{accepted:true,policyVersion:commerce.privacyPolicyVersion});
+  assert.equal(commerce.privacyPolicyVersion,'2026-11-10');
   assert.equal(isOrderingEnabled(commerce),true);
   assert.equal(commerce.orderEndpoint,'https://multydrink-orders-api.santgodev.workers.dev/orders');
 });

@@ -66,9 +66,8 @@ export function initMarketingTracking({ doc = document, win = window, enabled = 
     saveChoice(value);
     banner.hidden = true;
     if (accepted) startPixel();
-    // A rejection after previous acceptance stops new events; a reload is
-    // required to prevent Meta's already-loaded library from running further.
-    // No unapproved browser identifiers are read or sent by this module.
+    // After withdrawal, reload to discard the already-loaded Meta library.
+    if (!accepted && started) win.location.reload();
   }
   banner.querySelector('[data-marketing-accept]').addEventListener('click', () => choose('accepted'));
   banner.querySelector('[data-marketing-reject]').addEventListener('click', () => choose('rejected'));

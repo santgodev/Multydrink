@@ -23,7 +23,7 @@
 
 ## Contrato de pedidos y política vigente
 
-El documento web ampliado con información de Meta y cookies se identifica como `2026-11-10`, mientras el campo `consent.policyVersion` enviado en pedidos conserva temporalmente `2026-11-03`, que es el contrato del Worker previamente validado. La preferencia publicitaria usa `cookies-2026-11-10`. **Esta separación es transitoria, no acredita que el backend haya aceptado ni registrado la versión nueva del documento**. Antes del lanzamiento comercial es necesario acordar con el responsable legal la versión de la política y actualizar/verificar de forma coordinada el contrato y registro del Worker si debe registrar `2026-11-10`. No cambiar el valor de pedidos unilateralmente.
+El documento web ampliado con información de Meta y cookies se identifica como `2026-11-10`, y el campo `consent.policyVersion` en la rama también envía `2026-11-10` para esa misma política. La preferencia publicitaria usa `cookies-2026-11-10`. **No publicar la rama hasta aprobar la política y coordinar el valor `POLICY_VERSION=2026-11-10` con Cloudflare**. El Worker desplegado aún espera `2026-11-03`; si se publica solo la web, se rechazarán pedidos por versión inválida.
 
 ## Validaciones
 
@@ -42,6 +42,6 @@ No se modificaron precios, diseño aprobado de las secciones, formulario, Google
 
 - El código de `cloudflare/multydrink-orders-worker.js` valida en pedidos públicos `consent.policyVersion === env.POLICY_VERSION` (líneas 104–106 y 211); `DEV_POLICY_VERSION` es solo para el modo interno de prueba y no debe confundirse con producción.
 - Confirmar en Cloudflare el valor actual de `POLICY_VERSION` y la aprobación del responsable para publicar la política web `2026-11-10`. No asumir el valor desplegado únicamente por lo que aparece en GitHub.
-- Como las versiones `2026-11-03` y `2026-11-10` son distintas, **no actualizar `POLICY_VERSION` de forma aislada**: eso puede rechazar temporalmente pedidos de la web existente. Coordinar en una sola ventana la actualización del formulario web, el parámetro `POLICY_VERSION` y la prueba controlada del contrato, sin alterar la lógica del Worker ni Google Sheets.
+- La rama web ahora envía `2026-11-10`, mientras el Worker desplegado sigue esperando `2026-11-03`. **No fusionar ni publicar solo uno de los cambios**. Coordinar en una sola ventana la actualización del formulario web, el parámetro `POLICY_VERSION` y la prueba controlada del contrato, sin alterar la lógica del Worker ni Google Sheets.
 - No fusionar ni publicar el PR hasta disponer de esa coordinación y de la revisión legal final. Ejecutar una sola validación integral de pruebas nuevas, build y verificación de dominio; después usar Test Events de Meta en el dominio real.
 - Las comprobaciones con pedidos ficticios y la limpieza de Sheets corresponden a la fase posterior a la publicación de pruebas; los eventos enviados a Meta pueden permanecer en sus informes.

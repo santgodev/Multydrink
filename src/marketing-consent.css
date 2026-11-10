@@ -1,0 +1,13 @@
+/* Cookie preferences: fixed, unobtrusive, independent of the checkout. */
+.marketing-consent{position:fixed;z-index:110;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));max-width:820px;margin-inline:auto;display:flex;align-items:center;gap:20px;padding:18px 20px;border:1px solid #d8dfd0;border-radius:14px;background:#fff;color:#1c261a;box-shadow:0 12px 46px #0004;font-family:Montserrat,Arial,sans-serif}
+.marketing-consent[hidden]{display:none!important}
+.marketing-consent__content{flex:1;min-width:0}
+.marketing-consent strong{font-size:13px;color:#1c261a}
+.marketing-consent p{font-size:11px;line-height:1.65;margin-top:5px;color:#41483c}
+.marketing-consent__content button{background:none;border:0;color:#344d2b;padding:0;text-decoration:underline;text-underline-offset:2px;font:inherit}
+.marketing-consent__actions{display:flex;gap:9px;flex-wrap:wrap}
+.marketing-consent__actions button{border:1px solid #456038;border-radius:999px;padding:10px 17px;font-size:11px;font-weight:700;min-height:42px}
+.marketing-consent__actions [data-marketing-reject]{background:#fff;color:#344d2b}
+.marketing-consent__actions [data-marketing-accept]{background:#345328;color:#fff}
+.marketing-consent button:focus-visible{outline:2px solid #345328;outline-offset:3px}
+@media(max-width:650px){.marketing-consent{flex-direction:column;align-items:stretch;gap:12px;padding:15px;bottom:calc(10px + env(safe-area-inset-bottom))}.marketing-consent__actions{display:grid;grid-template-columns:1fr 1fr}.marketing-consent__actions button{width:100%}}

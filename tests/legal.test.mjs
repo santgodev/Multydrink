@@ -74,7 +74,10 @@ test('External privacy policy is never overwritten; merchant configuration canno
   const win=setup('https://multydrincolombia.com/');
   initLegalDrafts(win.document,win);
   const policy=win.document.querySelector('#privacy-dialog');
-  assert.equal(policy.querySelectorAll('.legal-content section').length,7);
+  assert.equal(policy.querySelectorAll('.legal-content section').length,8);
+  assert.match(policy.textContent, /Cookies, medición publicitaria y seguridad/);
+  assert.match(policy.textContent, /Cloudflare Turnstile/);
+  assert.match(policy.textContent, /píxel de Meta/);
   for(const text of ['Dora Patricia Ortiz','Cra. 24B #33B-125','dorapatriciaortiz4@gmail.com','+57 310 823 2738','https://multydrincolombia.com','10 días hábiles','15 días hábiles','Esta autorización no incluye el envío de publicidad.','3 de noviembre de 2026']) assert.ok(policy.textContent.includes(text),text);
   assert.doesNotMatch(policy.textContent,/pendiente de confirmar|BORRADOR|No vigente/);
   assert.equal(commerce.privacyPolicyVersion,approvedPrivacyPolicy.version);

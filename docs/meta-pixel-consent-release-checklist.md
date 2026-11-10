@@ -23,7 +23,7 @@
 
 ## Contrato de pedidos y política vigente
 
-La versión utilizada por el contrato del checkout/Worker permanece `2026-11-03`: **no se ha modificado** para evitar romper la compatibilidad de pedidos. La sección sobre cookies y Meta es posterior a esa fecha. Antes de publicar es necesario **aprobar y coordinar una actualización/versionado del documento de privacidad con el backend**; no presentar la versión histórica como si ya identificara de forma inequívoca el nuevo texto. La versión del aviso de cookies es independiente de la versión de consentimiento de datos para el pedido.
+El documento web ampliado con información de Meta y cookies se identifica como `2026-11-10`, mientras el campo `consent.policyVersion` enviado en pedidos conserva temporalmente `2026-11-03`, que es el contrato del Worker previamente validado. La preferencia publicitaria usa `cookies-2026-11-10`. **Esta separación es transitoria, no acredita que el backend haya aceptado ni registrado la versión nueva del documento**. Antes del lanzamiento comercial es necesario acordar con el responsable legal la versión de la política y actualizar/verificar de forma coordinada el contrato y registro del Worker si debe registrar `2026-11-10`. No cambiar el valor de pedidos unilateralmente.
 
 ## Validaciones
 

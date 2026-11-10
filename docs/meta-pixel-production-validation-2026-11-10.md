@@ -54,3 +54,12 @@
 2. No pedir repetir pruebas de pedidos, de compilación o tests ya documentados sin un cambio posterior o una evidencia de nueva regresión.
 3. No tocar otras secciones, visuales aprobados ni el contrato de pedidos para trabajar en Meta Pixel/atribución.
 4. Mantener el despliegue automático desde `main` en Hostinger y revisar rollout activo en Cloudflare cuando cambien variables de Worker.
+
+## Actualización de validación de Meta Pixel — 10/11/2026, tarde
+
+- Se abrió en Meta Events Manager la pestaña **Probar eventos**, canal **Sitio web**, para el píxel `1615961720211982`. El usuario aportó capturas de la extensión Asistente de Meta Pixel en el dominio público `multydrincolombia.com`.
+- **`PageView`: Activo**; **`ViewContent`: Activo** en la primera captura.
+- **`InitiateCheckout`: Activo** después de abrir el formulario en la siguiente captura.
+- **`Lead`: Activo** en la captura posterior, tras realizar una nueva prueba de pedido según la secuencia de la conversación. El asistente mostró también `SubscribedButtonClick` como detección automática, evento ajeno a los cuatro configurados.
+- **Alcance de esta evidencia:** confirma detección por el Asistente de Meta Pixel en el navegador; falta comprobar que los eventos se vean en el historial de **Probar eventos de Events Manager** y relacionar la prueba `Lead` con el recibo/número del nuevo pedido y su fila de Sheets. No asumir que esos pasos ya fueron comprobados.
+- Todavía falta comprobar en Network que el píxel no se cargue ni transmita eventos al **rechazar** el consentimiento en una sesión limpia; no repetir innecesariamente pruebas de pedidos ya cerradas.

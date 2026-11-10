@@ -37,3 +37,11 @@ El documento web ampliado con información de Meta y cookies se identifica como 
 ## Fuera de alcance
 
 No se modificaron precios, diseño aprobado de las secciones, formulario, Google Sheets, Cloudflare Worker, comprobaciones Turnstile ni publicación Hostinger.
+
+## Secuencia coordinada de publicación y compatibilidad
+
+- El código de `cloudflare/multydrink-orders-worker.js` valida en pedidos públicos `consent.policyVersion === env.POLICY_VERSION` (líneas 104–106 y 211); `DEV_POLICY_VERSION` es solo para el modo interno de prueba y no debe confundirse con producción.
+- Confirmar en Cloudflare el valor actual de `POLICY_VERSION` y la aprobación del responsable para publicar la política web `2026-11-10`. No asumir el valor desplegado únicamente por lo que aparece en GitHub.
+- Como las versiones `2026-11-03` y `2026-11-10` son distintas, **no actualizar `POLICY_VERSION` de forma aislada**: eso puede rechazar temporalmente pedidos de la web existente. Coordinar en una sola ventana la actualización del formulario web, el parámetro `POLICY_VERSION` y la prueba controlada del contrato, sin alterar la lógica del Worker ni Google Sheets.
+- No fusionar ni publicar el PR hasta disponer de esa coordinación y de la revisión legal final. Ejecutar una sola validación integral de pruebas nuevas, build y verificación de dominio; después usar Test Events de Meta en el dominio real.
+- Las comprobaciones con pedidos ficticios y la limpieza de Sheets corresponden a la fase posterior a la publicación de pruebas; los eventos enviados a Meta pueden permanecer en sus informes.

@@ -52,17 +52,20 @@ export function initMarketingTracking({ doc = document, win = window, enabled = 
   const banner = doc.createElement('section');
   banner.className = 'marketing-consent';
   banner.setAttribute('aria-label', 'Preferencias de cookies');
-  banner.innerHTML = '<div class="marketing-consent__content"><div class="marketing-consent__heading"><svg class="marketing-consent__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg><strong>Ayúdanos a mejorar tu experiencia</strong></div><p>Utilizamos cookies para medir el resultado de nuestras campañas en Facebook e Instagram y seguir mejorando nuestra página. Con tu autorización, podemos conocer qué contenidos generan más interés. <button type="button" data-marketing-policy>Ver política de privacidad.</button></p></div><div class="marketing-consent__actions"><button type="button" data-marketing-reject>Rechazar</button><button type="button" data-marketing-accept>Aceptar</button></div>';
+  banner.innerHTML = '<div class="marketing-consent__content"><div class="marketing-consent__heading"><svg class="marketing-consent__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg><strong>Tu privacidad importa</strong></div><p>Usamos cookies opcionales para medir nuestras campañas publicitarias y mejorar tu experiencia en MultyDrink. <button type="button" data-marketing-policy>Conoce más sobre las cookies.</button></p></div><div class="marketing-consent__actions"><button type="button" data-marketing-reject>Rechazar</button><button type="button" data-marketing-accept>Aceptar</button></div>';
   const footerLinks = doc.querySelector('.footer-columns > div:nth-child(2)');
   const preferences = doc.createElement('button');
   preferences.type = 'button';
   preferences.className = 'legal-button';
-  preferences.textContent = 'Configurar cookies';
+  preferences.textContent = 'Preferencias de cookies';
   preferences.addEventListener('click', () => { banner.hidden = false; });
   footerLinks?.append(preferences);
   banner.querySelector('[data-marketing-policy]').addEventListener('click', () => {
     const privacy = doc.getElementById('privacy-dialog');
-    if (privacy && !privacy.open) privacy.showModal();
+    if (!privacy) return;
+    if (!privacy.open) privacy.showModal();
+    const section = privacy.querySelector('#privacy-cookies');
+    if (section?.scrollIntoView) section.scrollIntoView({ block: 'start' });
   });
   function choose(value) {
     accepted = value === 'accepted';

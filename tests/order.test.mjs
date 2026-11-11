@@ -129,6 +129,17 @@ test('HTTP errors and malformed receipts cannot produce a confirmed order', asyn
   }
 });
 
+test('Optional order origin is sent with the order and does not require marketing consent', async () => {
+  let payload;
+  const client = createOrderClient(configured, async (_, request) => {
+    payload = JSON.parse(request.body);
+    return new Response(JSON.stringify(receipt));
+  }, 'Instagram');
+  await client.submit(valid, 'test-turnstile-token');
+  assert.equal(payload.origin, 'Instagram');
+  assert.deepEqual(payload.consent, { accepted: true, policyVersion: 'test-v1' });
+});
+
 test('Approved policy version reaches the Worker contract through a mocked order only', async () => {
   let payload;
   const client=createOrderClient({...configured,privacyPolicyVersion:commerce.privacyPolicyVersion},async (_,request)=>{payload=JSON.parse(request.body);return new Response(JSON.stringify(receipt));});

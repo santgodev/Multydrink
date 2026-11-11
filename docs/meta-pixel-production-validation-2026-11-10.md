@@ -63,3 +63,10 @@
 - **`Lead`: Activo** en la captura posterior, tras realizar una nueva prueba de pedido según la secuencia de la conversación. El asistente mostró también `SubscribedButtonClick` como detección automática, evento ajeno a los cuatro configurados.
 - **Alcance de esta evidencia:** confirma detección por el Asistente de Meta Pixel en el navegador; falta comprobar que los eventos se vean en el historial de **Probar eventos de Events Manager** y relacionar la prueba `Lead` con el recibo/número del nuevo pedido y su fila de Sheets. No asumir que esos pasos ya fueron comprobados.
 - Todavía falta comprobar en Network que el píxel no se cargue ni transmita eventos al **rechazar** el consentimiento en una sesión limpia; no repetir innecesariamente pruebas de pedidos ya cerradas.
+
+## Confirmación de recepción en Meta Events Manager — 10/11/2026
+
+- En la vista Información general de Meta Events Manager, para el píxel `1615961720211982`, la usuaria compartió captura donde figuran **ViewContent**, **PageView** e **InitiateCheckout** como activos y con 2 eventos registrados cada uno en el momento de la captura.
+- La usuaria corrigió el rango de fechas para incluir el 10 de noviembre y confirmó explícitamente que **Lead también figura en la lista**. Esta confirmación es testimonial de la usuaria, sin una segunda captura de la fila Lead en Events Manager; el asistente de Meta Pixel ya había mostrado **Lead · Activo**.
+- **Estado cerrado:** detección de los 4 eventos en navegador y recepción de los 4 eventos reportada en Meta Events Manager. No solicitar nuevas pruebas de estos cuatro eventos sin regresión posterior.
+- **Pendientes independientes:** verificar ausencia de requests publicitarios al rechazar cookies en sesión nueva; identificar y limpiar la fila del pedido ficticio generado para Lead (además de `MD-D41DD925` si aún existe). No modificar otras filas ni repetir pruebas de checkout para cerrar esas tareas.

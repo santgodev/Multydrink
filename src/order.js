@@ -1,4 +1,5 @@
 import { commerce, departments, packages } from './config.js';
+import { UNKNOWN_ORIGIN } from './order-origin.js';
 
 export const money = value => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(value).replace(/\s/g, '');
 export const getPackage = id => packages.find(item => item.id === id);
@@ -39,7 +40,7 @@ export function isOrderingEnabled(config = commerce) {
 }
 export class OrderError extends Error { constructor(message, code) { super(message); this.name = 'OrderError'; this.code = code; } }
 
-export function createOrderClient(config = commerce, fetcher = globalThis.fetch) {
+export function createOrderClient(config = commerce, fetcher = globalThis.fetch, origin = UNKNOWN_ORIGIN) {
   let pending = false;
   let retryKey = null;
   let retryFingerprint = null;
@@ -57,6 +58,7 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch)
         items: [{ packageId: values.packageId, quantity: Number(values.quantity) }],
         turnstileToken,
         paymentMethod: 'cash_on_delivery',
+        origin,
         consent: { accepted: true, policyVersion: config.privacyPolicyVersion },
       };
       // Exclude the one-time Turnstile token so retries reuse the same idempotency key.

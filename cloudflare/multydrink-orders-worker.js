@@ -113,7 +113,12 @@ function validarPedido(datos, solicitudId, versionPolitica) {
       direccion: texto(c.address), barrio: texto(c.neighborhood),
       interior: texto(c.unit), referencia: texto(c.instructions),
       correo: texto(c.email), presentacion: item.packageId,
-      cantidad: item.quantity, aceptaPrivacidad: true
+      cantidad: item.quantity, aceptaPrivacidad: true,
+      // Optional order-origin label only; never an advertising identifier or personal URL.
+      origen: typeof datos.origin === 'string' && [
+        'Instagram', 'Facebook', 'WhatsApp', 'TikTok', 'Google',
+        'Otro sitio web', 'Otro enlace identificado', 'Directo / desconocido'
+      ].includes(datos.origin) ? datos.origin : 'Directo / desconocido'
     },
     totalCalculado: CATALOGO[item.packageId].precio * item.quantity
   };

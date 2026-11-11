@@ -8,6 +8,7 @@ import { applyImage } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
 import { initMarketingTracking } from './marketing-tracking.js';
+import { detectOrderOrigin } from './order-origin.js';
 import { renderResearch, renderNutrition, renderFinalOffers, renderFaqCategories, renderFaqPanels, bindTabs, bindIngredientCounter, renderComparison, bindComparison, renderCustomerReviewSection, bindCustomerPhotoCarousel, bindVideoCarousel } from './editorial.js';
 
 export function initApp(doc = document, win = window, options = {}) {
@@ -23,7 +24,8 @@ export function initApp(doc = document, win = window, options = {}) {
   const localDemo = ['localhost', '127.0.0.1', '[::1]'].includes(win.location.hostname)
     && ['http:', 'https:'].includes(win.location.protocol)
     && new URLSearchParams(win.location.search).get('pedido-demo') === '1';
-  const client = localDemo ? null : createOrderClient(commerce, options.fetcher || globalThis.fetch);
+  const orderOrigin = detectOrderOrigin(win.location.href, doc.referrer);
+  const client = localDemo ? null : createOrderClient(commerce, options.fetcher || globalThis.fetch, orderOrigin);
   const marketing = options.marketing || initMarketingTracking({ doc, win });
   const touched = new Set();
   const ready = isOrderingEnabled(commerce);

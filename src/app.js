@@ -4,7 +4,7 @@ import { icon, renderDepartments, renderProductFaqs, renderField, renderGallery,
 import { productMedia, comparisonMedia, videoTestimonials } from './media.js';
 import { archivedTestimonials } from './archived-testimonials.js';
 import { serializeStructuredData } from './seo.js';
-import { applyImage } from './images.js';
+import { applyImage, imageSrcset } from './images.js';
 import { initLegalDrafts } from './legal.js';
 import { createOrderTurnstile } from './turnstile.js';
 import { initMarketingTracking } from './marketing-tracking.js';
@@ -212,7 +212,14 @@ export function initApp(doc = document, win = window, options = {}) {
       // Native controls start playback explicitly; preload=none defers the MP4.
       if (video.getAttribute('src') !== item.videoSrc) video.src = item.videoSrc;
     }
-    applyImage(hero, item, "(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px");
+    const sizes = "(max-width: 560px) calc(100vw - 48px), (max-width: 800px) 520px, (max-width: 1100px) 44vw, 520px";
+    const srcset = imageSrcset(item);
+    // Preserve the server-rendered image when its responsive sources already match.
+    if (hero.getAttribute('src') !== item.src
+      || (hero.getAttribute('srcset') || '') !== srcset
+      || (hero.getAttribute('sizes') || '') !== (srcset ? sizes : '')) {
+      applyImage(hero, item, sizes);
+    }
     $('#gallery-full').href = isVideo ? item.videoSrc : item.src;
     $('#gallery-full').textContent = isVideo ? 'Abrir video ↗' : 'Ampliar ↗';
     $('#gallery-full').setAttribute('aria-label', `${isVideo ? 'Abrir video' : 'Ampliar'}: ${item.label}. Abre en una pestaña nueva`);

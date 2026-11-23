@@ -98,7 +98,7 @@ export function initApp(doc = document, win = window, options = {}) {
     renderField({ name: 'instructions', label: 'Referencia o instrucciones de entrega', placeholder: 'Un punto de referencia o indicación adicional', optional: true, full: true, maxLength: 300 }),
     renderField({ name: 'email', label: 'Correo electrónico', type: 'email', autocomplete: 'email', placeholder: 'nombre@correo.com', optional: true, full: true, maxLength: 254 }),
   ].join('');
-  $('#packageId').innerHTML = packages.map(item => `<option value="${item.id}">${item.name} · ${item.sachets} sobres</option>`).join('');
+  $('#packageId').innerHTML = packages.map(item => `<option value="${item.id}">${item.name} — ${item.boxes} cajas — ${item.sachets} sobres — ${money(item.price)} COP</option>`).join('');
   $$('[data-icon]').forEach(element => { element.innerHTML = icon(element.dataset.icon); });
   $('#year').textContent = String(new Date().getFullYear());
   if (commerce.sanitaryRegistration && commerce.sanitarySourceUrl) {
@@ -147,20 +147,18 @@ export function initApp(doc = document, win = window, options = {}) {
     $('#quantity').value = String(quantity);
     $('#quantity-less').disabled = quantity <= 1 || sending || confirmed;
     $('#quantity-more').disabled = quantity >= commerce.maxQuantity || sending || confirmed;
-    $('#sticky-package').textContent = `${item.name} · ${item.sachets} sobres`;
+    $('#sticky-package').textContent = `${item.name} · ${item.boxes} cajas · ${item.sachets} sobres`;
     $('#sticky-price').textContent = money(item.price);
-    $('#sticky-reference').textContent = item.id === 'individual' ? '' : money(item.referencePrice);
-    $('#sticky-reference').hidden = item.id === 'individual';
-    const selectedPhoto = item.id === 'individual' ? productMedia.individual : productMedia.family;
+    $('#sticky-reference').textContent = '';
+    $('#sticky-reference').hidden = true;
+    const selectedPhoto = item.image;
     applyImage($('.sticky-inner > img'), { ...selectedPhoto, src: selectedPhoto.thumbnail || selectedPhoto.src, variants: undefined, alt: '' }, '54px');
     $('.sticky-inner > img').dataset.package = selected;
     applyImage($('.order-preview img'), selectedPhoto, '120px');
     $('#summary-package').textContent = `${quantity} × ${item.name}`;
-    $('#summary-unit').textContent = money(item.price) + ' c/u';
+    $('#summary-unit').textContent = money(item.price) + ' COP por kit';
     $('#summary-count').textContent = `${totals.boxes} ${totals.boxes === 1 ? 'caja' : 'cajas'} · ${totals.sachets} sobres en total`;
     $('#summary-subtotal').textContent = money(totals.subtotal);
-    $('#summary-savings').textContent = money(totals.savings);
-    $('.order-summary .summary-saving').hidden = item.id === 'individual';
     $('#summary-shipping').textContent = totals.shippingFee === null ? 'Por confirmar' : totals.shippingFee === 0 ? 'Incluido' : money(totals.shippingFee);
     $('#summary-total').textContent = totals.total === null ? 'Por confirmar' : money(totals.total);
     if (totals.total !== null) $('#shipping-note').textContent = 'Pago contra entrega, sin anticipos. La cobertura y el plazo de entrega se confirman según tu dirección.';
@@ -194,7 +192,6 @@ export function initApp(doc = document, win = window, options = {}) {
     else {
       $('#summary-total').textContent = 'Revisa la cantidad';
       $('#summary-subtotal').textContent = '—';
-      $('#summary-savings').textContent = '—';
       $('#summary-count').textContent = 'Selecciona una cantidad válida para calcular tu pedido.';
     }
   }
@@ -297,6 +294,8 @@ export function initApp(doc = document, win = window, options = {}) {
     link.setAttribute('aria-controls', 'pedido');
     link.addEventListener('click', event => {
       event.preventDefault(); closeMenu();
+      // An unknown offer must not open checkout with another selected kit.
+      if (link.dataset.orderPackage && !getPackage(link.dataset.orderPackage)) return;
       if (link.dataset.orderPackage) selectPackage(link.dataset.orderPackage);
       openCheckout(link);
     });

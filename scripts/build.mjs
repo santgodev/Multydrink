@@ -34,6 +34,8 @@ for (const file of doctorFiles) { await stat(file); configuredImageFiles.add(fil
 // Original customer photographs remain in the repository; only optimized thumbnails ship.
 // Exact approved Origen photograph, referenced directly by its chapter markup.
 configuredImageFiles.add('assets/multydrink/optimized/origen-cafe-multydrink.png');
+// Preserve the exact client-approved two-box PNG used only by the lower ritual kit.
+configuredImageFiles.add('assets/multydrink-kit-ritual-2-cajas.png');
 for (const file of approvedVideoFiles) {
   if (!file) continue;
   await stat(file);

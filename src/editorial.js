@@ -1,7 +1,7 @@
 import { packages, ingredientGroups, research, nutrition, faqCategories, faqs } from './config.js';
 import { productMedia, customerPhotos } from './media.js';
 import { escapeHTML as esc, icon, renderFaqs } from './components.js';
-import { money } from './order.js';
+import { money, packageSavings } from './order.js';
 import { imageAttributes } from './images.js';
 
 export function renderEditorialIngredients() {
@@ -18,8 +18,12 @@ export function renderNutrition() {
 
 export function renderFinalOffers() {
   return packages.map(item => {
-    const photo = item.id === 'individual' ? productMedia.individual : productMedia.family;
-    return `<article class="final-offer ${item.id === 'familiar' ? 'final-offer-family' : 'final-offer-individual'}"><div class="offer-photo ${photo ? '' : 'without-photo'}">${photo ? `<img ${imageAttributes(photo, '(max-width: 560px) 85vw, 420px')} loading="lazy">` : `<span class="offer-count">${item.sachets}<small>SOBRES / ${item.boxes} CAJA</small></span>`}</div><div class="offer-copy"><h3>${item.id === 'familiar' ? 'Pack Familiar' : item.name}</h3><div class="offer-meta">${item.id === 'familiar' ? `<p>${item.boxes} cajas.</p><p>${item.sachets} sobres en total.</p>` : `<p>${item.sachets} sobres.</p>`}</div><div class="offer-pricing"><div class="offer-price"><span>${item.id === 'familiar' ? 'Precio especial:' : 'Precio:'}</span> <strong>${money(item.price)}<small> COP.</small></strong>${item.id === 'familiar' ? `<del>${money(item.referencePrice)}</del>` : ''}</div>${item.id === 'familiar' ? `<p class="offer-saving"><strong>Ahorras ${money(item.referencePrice - item.price)} COP</strong> frente a comprar las seis cajas por separado.</p>` : ''}</div><a href="#pedido" class="button button-black" data-order-package="${item.id}">${item.id === 'individual' ? 'QUIERO MI CAJA' : 'QUIERO MI PACK FAMILIAR'} ${icon('arrow')}</a></div></article>`;
+    const photo = item.image;
+    if (!item.comparisonKitId) {
+      return `<article class="final-offer final-offer-individual"><div class="offer-copy"><h3>${item.name}</h3><div class="offer-meta"><p>${item.boxes} cajas · ${item.sachets} sobres · ${item.days} días de ritual</p></div><div class="offer-photo ${photo ? '' : 'without-photo'}">${photo ? `<img ${imageAttributes(photo, '(max-width: 560px) 85vw, 420px')} loading="lazy">` : `<span class="offer-count">${item.sachets}<small>SOBRES / ${item.boxes} CAJA</small></span>`}</div><ul class="benefits"><li>${icon('check')}<span>${item.boxes} cajas de MultyDrink</span></li><li>${icon('check')}<span>5 ingredientes de origen natural</span></li><li>${icon('check')}<span>Guía «Protocolo de 5 minutos para desconectarte de la pantalla»</span></li><li>${icon('check')}<span>Envío prioritario gratis y pago contra entrega</span></li></ul><div class="offer-pricing"><div class="offer-price"><strong>${money(item.price)}<small> COP</small></strong></div><p class="offer-unit-price">${money(Math.round(item.price / item.sachets))} por sobre</p></div><a href="#pedido" class="button button-black" data-order-package="${item.id}">Quiero mi Ritual de Inicio ${icon('arrow')}</a></div></article>`;
+    }
+    const savings = packageSavings(item);
+    return `<article class="final-offer final-offer-family"><span class="offer-badge">RECOMENDADO · MAYOR AHORRO</span><div class="offer-copy"><h3>${item.name}</h3><div class="offer-meta"><p>${item.boxes} cajas · ${item.sachets} sobres · ${item.days} días de ritual</p></div><div class="offer-photo"><img ${imageAttributes(photo, '(max-width: 560px) 85vw, 420px')} loading="lazy"></div><ul class="benefits"><li>${icon('check')}<span>${item.boxes} cajas de MultyDrink</span></li><li>${icon('check')}<span>5 ingredientes de origen natural</span></li><li>${icon('check')}<span>Guía «Protocolo de 5 minutos para desconectarte de la pantalla»</span></li><li>${icon('check')}<span>Acompañamiento por WhatsApp</span></li><li>${icon('check')}<span>Envío prioritario gratis y pago contra entrega</span></li></ul><div class="offer-pricing"><div class="offer-price"><strong>${money(item.price)}<small> COP</small></strong></div><p class="offer-saving">${money(Math.round(item.price / item.sachets))} por sobre · ahorras <strong>${money(savings)}</strong> frente a 3 kits de inicio</p></div><a href="#pedido" class="button button-black" data-order-package="${item.id}">Quiero el Ritual de Transformación ${icon('arrow')}</a></div></article>`;
   }).join('');
 }
 export function renderFaqCategories() {

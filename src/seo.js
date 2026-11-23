@@ -7,7 +7,7 @@ export function productStructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: 'MultyDrink',
-    description: 'Mezcla para preparar bebida con cinco grupos de ingredientes botánicos. Caja de 21 sobres de 10 g o pack familiar de 6 cajas; envío incluido y pago contra entrega.',
+    description: `Mezcla para preparar bebida con cinco grupos de ingredientes botánicos. ${packages.map(item => `${item.name}: ${item.boxes} cajas, ${item.sachets} sobres`).join('; ')}. Envío incluido y pago contra entrega.`,
     brand: { '@type': 'Brand', name: 'MultyDrink' },
     image: [productMedia.individual?.src || 'assets/family.webp', 'assets/family.webp'],
     offers: packages.map(item => ({

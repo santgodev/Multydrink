@@ -1,6 +1,5 @@
 import { packages, ingredients, gallery, faqs, departments } from './config.js';
-import { money } from './order.js';
-import { productMedia } from './media.js';
+import { money, packageSavings } from './order.js';
 import { imageAttributes } from './images.js';
 
 const paths = {
@@ -29,15 +28,15 @@ export const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'
 export function renderPackages(selected) {
   return packages.map(item => {
     return `<article class="package-card ${item.id === selected ? 'is-selected' : ''}">
-    <input id="hero-package-${item.id}" type="radio" name="package" value="${item.id}" aria-label="${item.sachets} sobres, ${item.name}, ${money(item.price)} COP por paquete" ${item.id === selected ? 'checked' : ''}>
-    <label class="package-content" for="hero-package-${item.id}">${item.id === 'familiar' ? '<span class="package-tag">MEJOR VALOR</span>' : ''}
+    <input id="hero-package-${item.id}" type="radio" name="package" value="${item.id}" aria-label="${item.sachets} sobres, ${item.name}, ${money(item.price)} COP por kit" ${item.id === selected ? 'checked' : ''}>
+    <label class="package-content" for="hero-package-${item.id}">${item.comparisonKitId ? '<span class="package-tag">MEJOR VALOR</span>' : ''}
       <span class="package-info">
         <span class="package-title">${escapeHTML(item.name)}</span>
         <span class="package-unit">${item.boxes > 1 ? `${item.boxes} cajas · ` : ''}${item.sachets} sobres</span>
         <span class="package-price"><strong>${money(item.price)}</strong> <small>COP</small></span>
-        ${item.id === 'familiar' ? `<del class="package-reference">${money(item.referencePrice)}</del><span class="package-saving">Ahorras comprando el pack ${money(item.referencePrice - item.price)}</span>` : ''}
+        ${item.comparisonKitId ? `<span class="package-saving">Ahorras ${money(packageSavings(item))} frente a ${item.comparisonQuantity} kits de inicio</span>` : ''}
       </span>
-      <img class="package-thumbnail" ${imageAttributes({ ...(item.id === 'individual' ? productMedia.individual : productMedia.family), alt: '' }, '56px')} loading="lazy">
+      <img class="package-thumbnail" ${imageAttributes({ ...item.image, alt: '' }, '56px')} loading="lazy">
       <span class="package-radio" aria-hidden="true"></span>
     </label>
     <div class="package-actions">

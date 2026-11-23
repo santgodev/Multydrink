@@ -3,12 +3,15 @@ import { UNKNOWN_ORIGIN } from './order-origin.js';
 
 export const money = value => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(value).replace(/\s/g, '');
 export const getPackage = id => packages.find(item => item.id === id);
+export function packageSavings(item) {
+  return item.comparisonKitId ? getPackage(item.comparisonKitId).price * item.comparisonQuantity - item.price : 0;
+}
 export function calculateOrder(id, quantity, shippingFee = commerce.shippingFee) {
   const item = getPackage(id);
   if (!item || !Number.isInteger(quantity) || quantity < 1 || quantity > commerce.maxQuantity) throw new RangeError('Pedido inválido');
   if (shippingFee !== null && (!Number.isInteger(shippingFee) || shippingFee < 0)) throw new RangeError('Envío inválido');
   const subtotal = item.price * quantity;
-  return { subtotal, savings: (item.referencePrice - item.price) * quantity, boxes: item.boxes * quantity, sachets: item.sachets * quantity, shippingFee, total: shippingFee === null ? null : subtotal + shippingFee };
+  return { subtotal, savings: packageSavings(item) * quantity, boxes: item.boxes * quantity, sachets: item.sachets * quantity, shippingFee, total: shippingFee === null ? null : subtotal + shippingFee };
 }
 export function normalizePhone(value) {
   return String(value).replace(/[\s().-]/g, '').replace(/^(\+57|0057)/, '');
@@ -27,7 +30,7 @@ export function validateField(name, value) {
     case 'email': return !text || (text.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) ? '' : 'Escribe un correo electrónico válido o deja el campo vacío.';
     case 'instructions': return text.length <= 300 ? '' : 'Usa máximo 300 caracteres.';
     case 'packageId': return getPackage(text) ? '' : 'Selecciona una presentación.';
-    case 'quantity': return /^\d+$/.test(text) && Number(text) >= 1 && Number(text) <= commerce.maxQuantity ? '' : `Elige entre 1 y ${commerce.maxQuantity} paquetes.`;
+    case 'quantity': return /^\d+$/.test(text) && Number(text) >= 1 && Number(text) <= commerce.maxQuantity ? '' : `Elige entre 1 y ${commerce.maxQuantity} kits.`;
     case 'privacy': return value === true ? '' : 'Debes aceptar la política de privacidad para enviar tu pedido.';
     default: return '';
   }
@@ -55,7 +58,7 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch,
       if (typeof turnstileToken !== 'string' || !turnstileToken.trim()) throw new OrderError('Completa la verificación de seguridad antes de enviar el pedido.', 'TURNSTILE');
       const payload = {
         customer: { fullName: values.fullName.trim(), documentNumber: values.documentNumber.trim(), phone: '+57' + normalizePhone(values.phone), department: values.department, city: values.city.trim(), address: values.address.trim(), neighborhood: values.neighborhood.trim(), unit: (values.unit || '').trim(), instructions: (values.instructions || '').trim(), email: (values.email || '').trim() },
-        items: [{ packageId: values.packageId, quantity: Number(values.quantity) }],
+        items: [{ packageId: getPackage(values.packageId).orderId, quantity: Number(values.quantity) }],
         turnstileToken,
         paymentMethod: 'cash_on_delivery',
         origin,
@@ -76,7 +79,7 @@ export function createOrderClient(config = commerce, fetcher = globalThis.fetch,
         }
         const result = await response.json();
         // Only an explicit persisted order receipt counts as success.
-        if (result.status !== 'received' || typeof result.orderId !== 'string' || !result.orderId.trim() || result.currency !== 'COP' || !Number.isSafeInteger(result.total) || result.total < 0) {
+        if (result.status !== 'received' || typeof result.orderId !== 'string' || !result.orderId.trim() || result.currency !== 'COP' || !Number.isSafeInteger(result.total) || result.total !== calculateOrder(values.packageId, Number(values.quantity), config.shippingFee).total) {
           outcomeUnknown = true;
           throw new OrderError('La respuesta no permite confirmar el pedido. Reintenta con los mismos datos o consulta al vendedor.', 'RECEIPT');
         }

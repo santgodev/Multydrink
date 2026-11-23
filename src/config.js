@@ -1,9 +1,10 @@
 import { productMedia } from './media.js';
 import { approvedPrivacyPolicy } from './legal-config.js';
 // All commercial data lives here. Never put credentials in this public file.
+// Keep UI/analytics IDs stable; orderId identifies the new server-side kit SKU.
 export const packages = Object.freeze([
-  Object.freeze({ id: 'individual', name: 'Caja individual', boxes: 1, sachets: 21, price: 110000, referencePrice: 125000 }),
-  Object.freeze({ id: 'familiar', name: 'Pack familiar', boxes: 6, sachets: 126, price: 425000, referencePrice: 660000 }),
+  Object.freeze({ id: 'individual', orderId: 'ritual-inicio', name: 'Kit Ritual de Inicio', boxes: 2, sachets: 42, days: 30, price: 220000, image: Object.freeze({ src: 'assets/multydrink-kit-ritual-2-cajas.png', width: 1254, height: 1254, alt: 'Dos cajas MultyDrink del Kit Ritual de Inicio' }) }),
+  Object.freeze({ id: 'familiar', orderId: 'ritual-transformacion', name: 'Kit Ritual de Transformación', boxes: 6, sachets: 126, days: 90, price: 425000, comparisonKitId: 'individual', comparisonQuantity: 3, image: Object.freeze({ ...productMedia.family, alt: 'Seis cajas MultyDrink del Kit Ritual de Transformación' }) }),
 ]);
 
 export const commerce = Object.freeze({
@@ -53,7 +54,7 @@ export const faqs = [
   {"id":"diet","category":"seguridad","question":"¿Multydrink reemplaza una alimentación equilibrada?","answer":"No. Es una bebida para complementar tu rutina; no sustituye una alimentación variada ni las recomendaciones de un profesional de salud."},
   { id: 'caffeine', category: 'seguridad', question: '¿Contiene cafeína?', answer: 'La fórmula incluye té negro. No contamos con una cantidad de cafeína verificada por sobre y no lo presentamos como un producto libre de cafeína. Si eres sensible, consulta la etiqueta y a un profesional de salud antes de consumirlo.' },
   { id: 'frequency', category: 'uso', question: '¿Cuándo puedo tomarlo?', answer: 'Puedes incorporarlo a tu rutina siguiendo el modo de uso del empaque. No se establece aquí un horario ni una dosis diaria recomendada.' },
-  { id: 'delivery', category: 'pedidos', question: '¿Dónde realizan envíos y cuánto cuestan?', answer: 'El envío está incluido tanto en la caja individual como en el pack familiar. La cobertura y el plazo deben confirmarse para tu dirección en Colombia. Seleccionar un departamento no garantiza cobertura.' },
+  { id: 'delivery', category: 'pedidos', question: '¿Dónde realizan envíos y cuánto cuestan?', answer: 'El envío está incluido tanto en el Kit Ritual de Inicio como en el Kit Ritual de Transformación. La cobertura y el plazo deben confirmarse para tu dirección en Colombia. Seleccionar un departamento no garantiza cobertura.' },
   { id: 'notification', category: 'seguridad', question: '¿Cuál es su notificación sanitaria?', answer: 'La notificación sanitaria colombiana indicada para MultyDrink es NSA-0019488-2025. Es información sanitaria del alimento; no constituye prueba de eficacia clínica.' },
   { id: 'precautions', category: 'seguridad', question: '¿Qué debo revisar antes de consumirlo?', answer: 'Revisa ingredientes, alérgenos y advertencias del empaque. Si estás en embarazo o lactancia, tomas medicamentos o tienes una condición de salud, consulta a un profesional antes de incorporarlo a tu alimentación. MultyDrink es un alimento, no un medicamento.' },
   { id: 'sugar', category: 'ingredientes', question: '¿Tiene azúcares añadidos?', answer: 'Sí. La etiqueta declara 0,4 g de azúcares totales y 0,2 g de azúcares añadidos por sobre de 10 g. No es un producto anunciado como cero azúcares añadidos.' },
@@ -67,8 +68,8 @@ export const faqCategories = [
 // Product-detail copy is independent of the general FAQ section.
 export const productFaqs = [
   { id: 'includes', icon: 'box', question: 'QUÉ INCLUYE', intro: 'Elige la presentación que mejor se adapte a ti.', stacked: true, items: [
-    { label: 'Caja individual', text: '21 sobres de 10 g cada uno.' },
-    { label: 'Pack familiar', text: '6 cajas con 21 sobres cada una, para un total de 126 sobres.' },
+    { label: packages[0].name, text: `${packages[0].boxes} cajas · ${packages[0].sachets} sobres de 10 g cada uno.` },
+    { label: packages[1].name, text: `${packages[1].boxes} cajas · ${packages[1].sachets} sobres de 10 g cada uno.` },
   ], footer: 'Una presentación práctica para llevar MultyDrink contigo.' },
   { id: 'preparation', icon: 'glass', question: 'CÓMO LO PREPARO', intro: 'Disfruta MultyDrink como más te guste. Su presentación en sobres te permite incorporarlo fácilmente a tu rutina.', items: [
     { icon: 'drop', label: 'Con agua:', text: 'mezcla un sobre de 10 g en 250 mL de agua fría o a temperatura ambiente.' },
